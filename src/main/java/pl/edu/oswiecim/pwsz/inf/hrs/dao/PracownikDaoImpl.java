@@ -9,6 +9,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.Pracownik;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
@@ -18,14 +19,9 @@ public class PracownikDaoImpl implements PracownikDao{
     private EntityManager em;
 
     @Override
+    @Transactional
     public void persist(Pracownik p){
-        em.getTransaction().begin();
-        try {
-            em.persist(p);
-        } catch(HibernateException e){
-            e.printStackTrace();
-        }
-        em.getTransaction().commit();
+        em.persist(p);
     }
 
 }
