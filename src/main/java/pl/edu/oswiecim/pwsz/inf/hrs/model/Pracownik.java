@@ -75,4 +75,16 @@ public class Pracownik {
     public void setPlec(String plec) {
         this.plec = plec;
     }
+
+    @Override
+    public String toString() {
+        return "Pracownik{" +
+                "id=" + id +
+                ", imie='" + imie + '\'' +
+                ", nazwisko='" + nazwisko + '\'' +
+                ", wiek=" + wiek +
+                ", pensja=" + pensja +
+                ", plec='" + plec + '\'' +
+                '}';
+    }
 }

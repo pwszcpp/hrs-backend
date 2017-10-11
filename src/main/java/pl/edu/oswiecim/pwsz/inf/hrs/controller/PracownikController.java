@@ -31,9 +31,13 @@ public class PracownikController {
     }
     @RequestMapping("/list")
     @ResponseBody
-    public void list(){
+    public String list(){
         List<Pracownik> listPracownik = pracownikService.listPracownik();
-        listPracownik.forEach(System.out::println);
+        String list = "";
+        for(Pracownik p : listPracownik){
+            list.concat(p.toString());
+        }
+        return list;
     }
 
 }
