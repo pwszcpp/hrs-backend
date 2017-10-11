@@ -1,6 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,19 +14,18 @@ import java.util.List;
 @Component
 public class PracownikDaoImpl implements PracownikDao{
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public void persist(Pracownik p){
-        sessionFactory.openSession().save(p);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Pracownik> listPracownik() {
-        Criteria criteria = sessionFactory.openSession().createCriteria(Pracownik.class);
-        return criteria.list();
+        em.getTransaction().begin();
+        try {
+            em.persist(p);
+        } catch(HibernateException e){
+            e.printStackTrace();
+        }
+        em.getTransaction().commit();
     }
 
 }

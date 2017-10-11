@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface PracownikDao {
     void persist(Pracownik p);
-    List<Pracownik> listPracownik();
 }

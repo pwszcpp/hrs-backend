@@ -26,6 +26,8 @@ public class Pracownik {
     @Column
     private String plec;
 
+    public Pracownik(){}
+
     public Integer getId() {
         return id;
     }
