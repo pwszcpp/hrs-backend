@@ -1,0 +1,1 @@
+INSERT INTO Pracownik (imie, nazwisko, wiek, pensja, plec) VALUES ('Janusz', 'Tracz', 64, 4500, 'mezczyzna');

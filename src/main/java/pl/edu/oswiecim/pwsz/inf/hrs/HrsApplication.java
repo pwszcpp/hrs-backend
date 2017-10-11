@@ -3,7 +3,9 @@ package pl.edu.oswiecim.pwsz.inf.hrs;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Pracownik;
-import pl.edu.oswiecim.pwsz.inf.hrs.service.PracownikService;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.PracownikServiceImpl;
+
+import java.util.List;
 
 @SpringBootApplication
 public class HrsApplication {
@@ -17,10 +19,12 @@ public class HrsApplication {
 		p.setPensja(5000);
 		p.setPlec("mezczyzna");
 		p.setWiek(43);
-		
-		PracownikService pracownikService = new PracownikService();
 
-		pracownikService.add(p);
+		PracownikServiceImpl pracownikServiceImpl = new PracownikServiceImpl();
+
+		pracownikServiceImpl.addPracownik(p);
+
+		List<Pracownik> pracownikList = pracownikServiceImpl.listPracownik();
 
 	}
 }

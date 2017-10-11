@@ -1,20 +1,10 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import pl.edu.oswiecim.pwsz.inf.hrs.dao.PracownikDao;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Pracownik;
 
-@Component
-public class PracownikService {
+import java.util.List;
 
-    @Autowired
-    private PracownikDao pracownikDao;
-
-    @Transactional
-    public void add(Pracownik p){
-        pracownikDao.persist(p);
-    }
-
+public interface PracownikService {
+    void addPracownik(Pracownik p);
+    List<Pracownik> listPracownik();
 }

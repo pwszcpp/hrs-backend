@@ -3,9 +3,11 @@ package pl.edu.oswiecim.pwsz.inf.hrs.model;
 import javax.persistence.*;
 
 @Entity
+@Table
 public class Pracownik {
 
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
