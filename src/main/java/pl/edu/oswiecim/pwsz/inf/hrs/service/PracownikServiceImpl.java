@@ -18,4 +18,9 @@ public class PracownikServiceImpl implements PracownikService{
         pracownikDao.persist(p);
     }
 
+    @Override
+    public List<Pracownik> listPracownik() {
+        return pracownikDao.list();
+    }
+
 }

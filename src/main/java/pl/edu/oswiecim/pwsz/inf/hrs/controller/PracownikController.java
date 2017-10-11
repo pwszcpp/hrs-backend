@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Pracownik;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.PracownikService;
 
+import java.util.List;
+
 @Controller
 public class PracownikController {
 
@@ -26,6 +28,12 @@ public class PracownikController {
         p.setWiek(43);
         pracownikService.addPracownik(p);
 
+    }
+    @RequestMapping("/list")
+    @ResponseBody
+    public void list(){
+        List<Pracownik> listPracownik = pracownikService.listPracownik();
+        listPracownik.forEach(System.out::println);
     }
 
 }

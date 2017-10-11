@@ -21,7 +21,4 @@ public class HrsApplication{
 
 	}
 
-//	public void run(String... args) throws Exception {
-//		System.out.println("DATASOURCE: " + dataSource);
-//	}
 }
