@@ -12,5 +12,4 @@ public class HrsApplication{
 		SpringApplication.run(HrsApplication.class, args);
 
 	}
-
 }
