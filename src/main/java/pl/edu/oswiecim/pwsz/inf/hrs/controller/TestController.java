@@ -1,16 +1,13 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -32,7 +29,7 @@ public class TestController {
     }
 
     @RequestMapping("/list")
-    public Iterable<User> get() {
-        return userService.findAll();
+    public User get() {
+        return userService.findByUsername("kuba");
     }
 }

@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 
-import java.util.List;
-
 @Service("userService")
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
