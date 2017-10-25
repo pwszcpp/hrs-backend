@@ -3,21 +3,13 @@ package pl.edu.oswiecim.pwsz.inf.hrs.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
-import pl.edu.oswiecim.pwsz.inf.hrs.service.UserDetailsServiceImpl;
-import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 
 @Configuration
@@ -36,9 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/add/**", "/security/get-session").hasAuthority("USER")
-                    .antMatchers("/","/security/*").permitAll()
-                    .antMatchers("/list").permitAll()
+                    .antMatchers( "/security/get-session").hasAuthority("USER")
+                    .antMatchers( "/role").hasAuthority("ADMIN")
+                    .antMatchers("/","/security/*","/logout","/add/**","/list","/logout","/trainings/*").permitAll()
                     .anyRequest().authenticated();
                     /*
                     .and().formLogin().loginPage("/login").defaultSuccessUrl("/welcome").failureUrl("/login?error=true").permitAll()
@@ -47,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-   @Autowired
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
