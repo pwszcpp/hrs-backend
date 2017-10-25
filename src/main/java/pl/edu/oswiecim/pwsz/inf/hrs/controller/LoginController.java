@@ -59,25 +59,25 @@ public class LoginController {
     @PostMapping("/{username}")
     public void login(@RequestBody String password,
         @PathVariable("username") String username) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         LOGGER.info("Username: " + username +", password: " + password);
-        UserDetails user = userDetailsService.loadUserByUsername(username);
 
-        if(user.getUsername().equals(username)){
-            LOGGER.info("Username is valid");
-            if(bCryptPasswordEncoder.matches(password, user.getPassword())){
-                LOGGER.info("Correct username and password");
 
-                SecurityContextHolder.getContext().setAuthentication
-                        (new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities()));
+        if(auth != null) {
+            if (userService.findByUsername(username) != null) {
+                UserDetails user = userDetailsService.loadUserByUsername(username);
+                LOGGER.info("Username is valid");
 
-                LOGGER.info("Roles:" + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-            }else{
-                LOGGER.info("invalid password");
-            }
-        }
-        else{
-            LOGGER.info("invalid username or password");
-        }
+                if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
+                    LOGGER.info("Correct username and password");
+
+                    SecurityContextHolder.getContext().setAuthentication
+                            (new UsernamePasswordAuthenticationToken(username, password));
+
+                } else { LOGGER.info("invalid password"); }
+            } else { LOGGER.info("invalid username or password"); }
+        }else{LOGGER.info("s");}
 
     }
 
@@ -86,6 +86,13 @@ public class LoginController {
     //@PreAuthorize("hasAnyAuthority('USER')")
     public String session(){
         return UUID.randomUUID().toString();
+    }
+
+    @ResponseBody
+    @GetMapping("/get-role")
+    //@PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String role(){
+        return "roles: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
 
 
