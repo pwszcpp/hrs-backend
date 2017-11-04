@@ -29,8 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                     .antMatchers( "/security/get-session").hasAuthority("USER")
-                    .antMatchers( "/role").hasAuthority("ADMIN")
-                    .antMatchers("/","/security/*","/logout","/add/**","/list","/logout","/trainings/*").permitAll()
+                    .antMatchers( "/security/get-role").hasAuthority("ADMIN")
+                    .antMatchers("/","/security/*","/security/logout","/add/**","/list","/trainings/*").permitAll()
                     .anyRequest().authenticated();
                     /*
                     .and().formLogin().loginPage("/login").defaultSuccessUrl("/welcome").failureUrl("/login?error=true").permitAll()
