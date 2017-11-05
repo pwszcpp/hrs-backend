@@ -3,14 +3,11 @@ package pl.edu.oswiecim.pwsz.inf.hrs.controller;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
@@ -19,8 +16,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
-
-
+import java.util.Set;
 
 
 @Controller
@@ -71,5 +67,14 @@ public class TrainingController {
     @RequestMapping("/list")
     public @ResponseBody Iterable <Training> get() {
         return trainingService.findAll();
+    }
+
+    @RequestMapping("/list/{trainingName}")
+    public @ResponseBody
+    Set<User> get(@PathVariable("trainingName") String trainingName) {
+        LOGGER.info("TrainingName: " + trainingName );
+
+       return trainingService.findTrainingByName(trainingName).getUsers();
+
     }
 }

@@ -9,4 +9,5 @@ public interface TrainingService {
     Training convertToEntity(TrainingDto trainingDto) throws ParseException;
     void saveTraining(Training training);
     Iterable<Training> findAll();
+    Training findTrainingByName(String name);
 }

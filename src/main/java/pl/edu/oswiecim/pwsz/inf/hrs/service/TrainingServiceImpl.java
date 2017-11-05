@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.TrainingRepo;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 
 import java.text.ParseException;
 
@@ -19,6 +20,9 @@ public class TrainingServiceImpl implements TrainingService{
 
     @Autowired
     private TrainingRepo trainingRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Override
     public Training convertToEntity(TrainingDto trainingDto) throws ParseException {
@@ -35,4 +39,10 @@ public class TrainingServiceImpl implements TrainingService{
     public Iterable<Training> findAll() {
         return trainingRepo.findAll();
     }
+
+    @Override
+    public Training findTrainingByName(String name) {
+        return trainingRepo.findTrainingByName(name);
+    }
+
 }
