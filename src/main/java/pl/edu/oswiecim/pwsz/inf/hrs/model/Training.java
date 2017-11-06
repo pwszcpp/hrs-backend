@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "training")
@@ -36,6 +38,10 @@ public class Training {
 
     @Column(name = "location")
     private String location;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "training_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
 
 
     public Integer getId() {
@@ -100,5 +106,13 @@ public class Training {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
