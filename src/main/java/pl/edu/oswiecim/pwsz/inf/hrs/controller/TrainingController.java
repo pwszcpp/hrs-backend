@@ -74,8 +74,8 @@ public class TrainingController {
     public @ResponseBody List<TrainingDto> getAll() {
         List<TrainingDto> allTrainings = trainingService.findAllDTO();
         for(TrainingDto trainingDto : allTrainings){
-            LOGGER.info("Training id: " + trainingDto.getId());
-            Link selfLink = ControllerLinkBuilder.linkTo(TrainingController.class).slash(trainingDto.getId()).withSelfRel();
+            LOGGER.info("Training id: " + trainingDto.getTrainingId());
+            Link selfLink = ControllerLinkBuilder.linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
             trainingDto.add(selfLink);
         }
         return allTrainings;

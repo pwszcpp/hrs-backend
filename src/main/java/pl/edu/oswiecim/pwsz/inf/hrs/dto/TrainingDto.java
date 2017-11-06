@@ -12,6 +12,7 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+        "id",
         "name",
         "owner",
         "startDate",
@@ -37,8 +38,8 @@ public class TrainingDto extends ResourceSupport {
     private Boolean permission;
     @JsonProperty("location")
     private String location;
-
-    private Integer id;
+    @JsonProperty("id")
+    private String id;
 
 
 
@@ -103,7 +104,12 @@ public class TrainingDto extends ResourceSupport {
         this.location = location;
     }
 
-    public void setId(Integer id) {
+    @JsonProperty("id")
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTrainingId(){
+        return id;
     }
 }
