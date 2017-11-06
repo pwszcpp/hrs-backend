@@ -3,6 +3,8 @@ package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.hateoas.Identifiable;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.annotation.Generated;
 import java.util.Date;
@@ -18,7 +20,7 @@ import java.util.Date;
         "permission",
         "location"
 })
-public class TrainingDto {
+public class TrainingDto extends ResourceSupport {
 
 
     @JsonProperty("name")
@@ -35,6 +37,8 @@ public class TrainingDto {
     private Boolean permission;
     @JsonProperty("location")
     private String location;
+
+    private Integer id;
 
 
 
@@ -97,5 +101,9 @@ public class TrainingDto {
     @JsonProperty("location")
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

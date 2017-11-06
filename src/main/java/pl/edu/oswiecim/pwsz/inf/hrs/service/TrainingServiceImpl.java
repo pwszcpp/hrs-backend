@@ -9,6 +9,8 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.TrainingRepo;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("trainingService")
 @Transactional(readOnly = true)
@@ -25,6 +27,11 @@ public class TrainingServiceImpl implements TrainingService{
         return modelMapper.map(trainingDto, Training.class);
     }
 
+    @Override
+    public TrainingDto convertToDTO(Training training) {
+        return modelMapper.map(training, TrainingDto.class);
+    }
+
     @Transactional
     @Override
     public void saveTraining(Training training) {
@@ -34,5 +41,15 @@ public class TrainingServiceImpl implements TrainingService{
     @Override
     public Iterable<Training> findAll() {
         return trainingRepo.findAll();
+    }
+
+    @Override
+    public List findAllDTO() {
+        List trainingsDTOs = new ArrayList();
+        Iterable<Training> trainings = trainingRepo.findAll();
+        for(Training training : trainings){
+            trainingsDTOs.add(convertToDTO(training));
+        }
+        return trainingsDTOs;
     }
 }

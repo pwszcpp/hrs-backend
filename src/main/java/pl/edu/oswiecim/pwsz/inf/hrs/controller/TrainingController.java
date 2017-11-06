@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
@@ -19,8 +22,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
-
-
+import java.util.List;
 
 
 @Controller
@@ -68,8 +70,14 @@ public class TrainingController {
 
     }
 
-    @RequestMapping("/list")
-    public @ResponseBody Iterable <Training> get() {
-        return trainingService.findAll();
+    @RequestMapping(method = RequestMethod.GET)
+    public @ResponseBody List<TrainingDto> getAll() {
+        List<TrainingDto> allTrainings = trainingService.findAllDTO();
+        for(TrainingDto trainingDto : allTrainings){
+            LOGGER.info("Training id: " + trainingDto.getId());
+            Link selfLink = ControllerLinkBuilder.linkTo(TrainingController.class).slash(trainingDto.getId()).withSelfRel();
+            trainingDto.add(selfLink);
+        }
+        return allTrainings;
     }
 }
