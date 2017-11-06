@@ -109,6 +109,7 @@ public class TrainingDto extends ResourceSupport {
         this.id = id;
     }
 
+    @JsonProperty("id")
     public String getTrainingId(){
         return id;
     }

@@ -52,4 +52,9 @@ public class TrainingServiceImpl implements TrainingService{
         }
         return trainingsDTOs;
     }
+
+    @Override
+    public Training findById(Integer id) {
+        return trainingRepo.findOne(id);
+    }
 }

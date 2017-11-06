@@ -12,4 +12,5 @@ public interface TrainingService {
     void saveTraining(Training training);
     Iterable<Training> findAll();
     List findAllDTO();
+    Training findById(Integer id);
 }

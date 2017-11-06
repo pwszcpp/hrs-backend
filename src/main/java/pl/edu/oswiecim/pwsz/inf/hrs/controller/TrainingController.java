@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
@@ -79,5 +76,13 @@ public class TrainingController {
             trainingDto.add(selfLink);
         }
         return allTrainings;
+    }
+
+    @RequestMapping("/{id}")
+    public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) {
+        TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
+        Link selfLink = ControllerLinkBuilder.linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
+        trainingDto.add(selfLink);
+        return trainingDto;
     }
 }
