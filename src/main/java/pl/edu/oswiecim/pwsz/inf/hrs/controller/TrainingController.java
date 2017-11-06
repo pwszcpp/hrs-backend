@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -84,5 +85,13 @@ public class TrainingController {
         Link selfLink = ControllerLinkBuilder.linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
         trainingDto.add(selfLink);
         return trainingDto;
+    }
+
+    @RequestMapping("/{id}/users")
+    public @ResponseBody
+    Set<User> get(@PathVariable("id") Integer id) {
+        LOGGER.info("Training Id: " + id );
+        return trainingService.findById(id).getUsers();
+
     }
 }

@@ -9,6 +9,7 @@ INSERT INTO training (training_id, training_name, owner, start_date,end_date,cos
 
 INSERT INTO user_role(user_id, role_id) VALUES (1,1);
 INSERT INTO user_role(user_id, role_id) VALUES (2,2);
+INSERT INTO user_role(user_id, role_id) VALUES (3,1);
 INSERT INTO training_user(user_id, training_id) VALUES (1,1);
 INSERT INTO training_user(user_id, training_id) VALUES (2,2);
 INSERT INTO training_user(user_id, training_id) VALUES (3,2);
