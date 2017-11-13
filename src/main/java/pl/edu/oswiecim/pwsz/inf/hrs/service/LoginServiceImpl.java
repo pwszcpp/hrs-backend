@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginServiceImpl implements LoginService {
 
     private static final Logger LOGGER =
-            LoggerFactory.getLogger(LoginController.class);
+            LoggerFactory.getLogger(LoginServiceImpl.class);
 
     @Autowired
     private UserService userService;

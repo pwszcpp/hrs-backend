@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.EmployeeDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Employee;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.EmployeeRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.EmployeeService;
 
 import java.io.IOException;
@@ -30,11 +31,13 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @RequestMapping("/add")
-    public void addEmployee(@RequestBody String jsonInString){
+    @Autowired
+    EmployeeRepo employeeRepo;
 
-//         String jsonInString2 = "{\"firstName\":\"lastName\",\"sex\":\"M\",\"hireDare\":\"2017-12-12\"," +
-//
+    @RequestMapping(method = RequestMethod.POST)
+    public void addEmployee(@RequestBody String jsonInString) {
+
+
 
         EmployeeDto employeeDto = null;
         ObjectMapper mapper = new ObjectMapper();
@@ -43,9 +46,9 @@ public class EmployeeController {
         try {
             employeeDto = mapper.readValue(reader, EmployeeDto.class);
 
-            LOGGER.info(employeeDto.getFirstName()+" "+employeeDto.getLastName()+" "+employeeDto.getJob()+
-                    " "+employeeDto.getSex()+" "+employeeDto.getHireDate() +
-                    " "+employeeDto.getSalary());
+            LOGGER.info(employeeDto.getFirstName() + " " + employeeDto.getLastName() + " " + employeeDto.getJob() +
+                    " " + employeeDto.getSex() + " " + employeeDto.getHireDate() +
+                    " " + employeeDto.getSalary());
 
             Employee employee = employeeService.convertToEntity(employeeDto);
             employeeService.saveEmployee(employee);
@@ -58,10 +61,43 @@ public class EmployeeController {
 
     }
 
+    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    public void deleteEmployee(@PathVariable("id") Integer id) {
+        employeeService.deleteEmployee(id);
+        LOGGER.info("Delted employee " + id);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public void updEmployee(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
+
+        EmployeeDto employeeDto = null;
+        ObjectMapper mapper = new ObjectMapper();
+        StringReader reader = new StringReader(jsonInString);
+
+        try {
+            employeeDto = mapper.readValue(reader, EmployeeDto.class);
+
+            LOGGER.info(employeeDto.getFirstName() + " " + employeeDto.getLastName() + " " + employeeDto.getJob() +
+                    " " + employeeDto.getSex() + " " + employeeDto.getHireDate() +
+                    " " + employeeDto.getSalary());
+
+            Employee employee = employeeService.convertToEntity(employeeDto);
+            employeeService.updateEmployee(id, employee);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<EmployeeDto> getAll() {
+    public @ResponseBody
+    List<EmployeeDto> getAll() {
         List<EmployeeDto> allEmployees = employeeService.findAllDTO();
-        for(EmployeeDto employeeDto : allEmployees){
+        for (EmployeeDto employeeDto : allEmployees) {
             LOGGER.info("Employee id " + employeeDto.getEmployeeId());
             Link selfLink = linkTo(EmployeeController.class).slash(employeeDto.getEmployeeId()).withSelfRel();
             employeeDto.add(selfLink);
@@ -71,7 +107,8 @@ public class EmployeeController {
     }
 
     @RequestMapping("/{id}")
-    public @ResponseBody EmployeeDto getEmployee(@PathVariable("id") Integer id) {
+    public @ResponseBody
+    EmployeeDto getEmployee(@PathVariable("id") Integer id) {
         EmployeeDto employeeDto = employeeService.convertToDTO(employeeService.findById(id));
         Link selfLink = linkTo(EmployeeController.class).slash(employeeDto.getEmployeeId()).withSelfRel();
         employeeDto.add(selfLink);

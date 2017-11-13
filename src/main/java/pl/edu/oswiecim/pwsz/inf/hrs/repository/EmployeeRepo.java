@@ -8,4 +8,5 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.Employee;
 @Repository("employeeRepository")
 public interface EmployeeRepo extends CrudRepository<Employee, Integer> {
 
+
 }

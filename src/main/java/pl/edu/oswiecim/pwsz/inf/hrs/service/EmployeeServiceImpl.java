@@ -1,6 +1,8 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private ModelMapper modelMapper;
 
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(EmployeeServiceImpl.class);
+
     @Override
     public Employee convertToEntity(EmployeeDto employeeDto) throws ParseException {
         return modelMapper.map(employeeDto, Employee.class);
@@ -39,6 +44,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void saveEmployee(Employee employee) {
         employeeRepo.save(employee);
 
+    }
+
+    @Override
+    public void deleteEmployee(Integer id) {
+        employeeRepo.delete(id);
+    }
+
+    @Override
+    public void updateEmployee(Integer id, Employee employee) {
+        Employee existingEmp = employeeRepo.findOne(id);
+        existingEmp.setFirstName(employee.getFirstName());
+        existingEmp.setLastName(employee.getLastName());
+        existingEmp.setJob(employee.getJob());
+        existingEmp.setSex(employee.getSex());
+        existingEmp.setSalary(employee.getSalary());
+
+        employeeRepo.save(existingEmp);
     }
 
     @Override
@@ -60,4 +82,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findById(Integer id) {
         return employeeRepo.findOne(id);
     }
+
+
+
+
 }

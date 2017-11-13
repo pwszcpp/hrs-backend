@@ -6,10 +6,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.annotation.Generated;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
 
 
@@ -27,7 +23,7 @@ import java.util.Date;
 public class EmployeeDto  extends ResourceSupport{
 
     @JsonProperty("id")
-    private String id;
+    private Integer id;
 
     @JsonProperty("firstName")
     private String firstName;
@@ -48,12 +44,12 @@ public class EmployeeDto  extends ResourceSupport{
     private double salary;
 
     @JsonProperty("id")
-    public String getEmployeeId() {
+    public Integer getEmployeeId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     @JsonProperty("firstName")
