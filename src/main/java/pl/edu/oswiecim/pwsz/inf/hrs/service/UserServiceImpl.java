@@ -8,7 +8,6 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 
 @Service("userService")
-@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     @Autowired

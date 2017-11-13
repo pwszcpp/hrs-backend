@@ -41,17 +41,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public void saveEmployee(Employee employee) {
         employeeRepo.save(employee);
 
     }
 
     @Override
+    @Transactional
     public void deleteEmployee(Integer id) {
         employeeRepo.delete(id);
     }
 
     @Override
+    @Transactional
     public void updateEmployee(Integer id, Employee employee) {
         Employee existingEmp = employeeRepo.findOne(id);
         existingEmp.setFirstName(employee.getFirstName());
