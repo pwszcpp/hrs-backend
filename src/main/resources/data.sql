@@ -4,8 +4,16 @@ INSERT INTO role (role_name) VALUES ('ADMIN');
 INSERT INTO user (user_id, username, password) VALUES (1, 'janusz', '$2a$10$bpNMKeaQXKpJ4JVxOHWvu.tZdmCLT9nKcZreJ/ELfCgmTCyhC7GPy');
 INSERT INTO user (user_id, username, password) VALUES (2, 'jan', '$2a$10$bpNMKeaQXKpJ4JVxOHWvu.tZdmCLT9nKcZreJ/ELfCgmTCyhC7GPy');
 INSERT INTO user (user_id, username, password) VALUES (3, 'kuba', '$2a$10$bpNMKeaQXKpJ4JVxOHWvu.tZdmCLT9nKcZreJ/ELfCgmTCyhC7GPy');
-INSERT INTO training (training_id, training_name, owner, start_date,end_date,cost,permission,location) VALUES (1, 'training', 'Me', '2017-02-09','2018-02-09','15000.0','1','NY');
-INSERT INTO training (training_id, training_name, owner, start_date,end_date,cost,permission,location) VALUES (2, 'java', 'java', '2017-02-09','2018-02-09','15000.0','1','NY');
+
+INSERT INTO training (training_id, training_name, owner, start_date,end_date,cost,permission,location)
+VALUES (1, 'training', 'Me', '2017-02-09','2018-02-09','15000.0','1','NY');
+INSERT INTO training (training_id, training_name, owner, start_date,end_date,cost,permission,location)
+VALUES (2, 'java', 'java', '2017-02-09','2018-02-09','15000.0','1','NY');
+
+INSERT INTO employee (employee_id, first_name, last_name, sex, job,hire_date,salary)
+VALUES (1, 'mateusz', 'W', 'M','manager','2017-02-09',15000.0);
+INSERT INTO employee (employee_id, first_name, last_name, sex, job,hire_date,salary)
+VALUES (2, 'kuba', 'k', 'M','manager', '2017-03-09',10000.0);
 
 INSERT INTO user_role(user_id, role_id) VALUES (1,1);
 INSERT INTO user_role(user_id, role_id) VALUES (2,2);

@@ -77,6 +77,8 @@ public class TrainingController {
             Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
             trainingDto.add(selfLink);
             trainingDto.add(usersLink);
+
+
         }
         return allTrainings;
     }
