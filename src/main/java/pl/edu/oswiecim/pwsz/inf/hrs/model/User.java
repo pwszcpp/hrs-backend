@@ -16,6 +16,9 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "password")
     private String password;
 
@@ -61,13 +64,23 @@ public class User {
         this.roles = roles;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
+                ", trainings=" + trainings +
                 '}';
     }
 }

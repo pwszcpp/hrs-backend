@@ -44,7 +44,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void saveEmployee(Employee employee) {
         employeeRepo.save(employee);
-
     }
 
     @Override
