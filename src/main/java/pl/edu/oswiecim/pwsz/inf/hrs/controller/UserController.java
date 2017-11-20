@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
@@ -31,6 +32,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @RequestMapping(value = "/{email:.+}", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:4200")
+    public @ResponseBody
+    UserDto getUser(@PathVariable("email") String email) {
+        LOGGER.info(email);
+        UserDto userDto = userService.convertToDTO(userService.findByEmail(email));
+        LOGGER.info("działa");
+        return userDto;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")

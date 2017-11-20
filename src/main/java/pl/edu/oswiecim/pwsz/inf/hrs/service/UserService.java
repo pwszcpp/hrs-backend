@@ -16,4 +16,5 @@ public interface UserService {
     List findAllDTO();
     void deleteUser(Integer id);
     User findByEmail(String email);
+    User findById(Integer id);
 }

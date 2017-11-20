@@ -69,6 +69,7 @@ public class TrainingController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:4200")
     public @ResponseBody List<TrainingDto> getAll() {
         List<TrainingDto> allTrainings = trainingService.findAllDTO();
         for(TrainingDto trainingDto : allTrainings){
