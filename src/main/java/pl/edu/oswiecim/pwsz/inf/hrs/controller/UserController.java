@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -36,23 +37,28 @@ public class UserController {
     public @ResponseBody
     List<UserDto> getAll() {
         List<UserDto> allUsers = userService.findAllDTO();
-        LOGGER.info("dupa");
+        LOGGER.info("działa");
         return allUsers;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addEmployee(@RequestBody String jsonInString) {
+    public void addUser(@RequestBody String jsonInString) {
 
-        UserDto employeeDto = null;
+        UserDto userDto = null;
         ObjectMapper mapper = new ObjectMapper();
         StringReader reader = new StringReader(jsonInString);
 
         try {
-            employeeDto = mapper.readValue(reader, UserDto.class);
+            userDto = mapper.readValue(reader, UserDto.class);
 
-            LOGGER.info(employeeDto.getUsername() + " " + employeeDto.getEmail());
+            LOGGER.info(userDto.getUsername() + " " + userDto.getEmail());
 
-            User user = userService.convertToEntity(employeeDto);
+            User user = userService.convertToEntity(userDto);
+            Role role = new Role();
+            role.setRole("USER");
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            user.setRoles(roles);
             userService.saveUser(user);
 
         } catch (IOException e) {
@@ -61,5 +67,11 @@ public class UserController {
             e.printStackTrace();
         }
 
+    }
+
+    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable("id") Integer id) {
+        userService.deleteUser(id);
+        LOGGER.info("Delted user " + id);
     }
 }

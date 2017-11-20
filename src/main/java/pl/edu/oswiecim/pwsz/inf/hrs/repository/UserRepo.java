@@ -7,4 +7,5 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 @Repository("userRepository")
 public interface UserRepo extends CrudRepository<User, Integer>{
     User findByUsername(String username);
+    User findByEmail(String email);
 }

@@ -14,4 +14,6 @@ public interface UserService {
     User findByUsername(String username);
     Iterable<User> findAll();
     List findAllDTO();
+    void deleteUser(Integer id);
+    User findByEmail(String email);
 }

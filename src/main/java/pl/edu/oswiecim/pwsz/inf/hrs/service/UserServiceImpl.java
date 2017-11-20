@@ -60,4 +60,15 @@ public class UserServiceImpl implements UserService {
         }
         return usersDTOs;
     }
+
+    @Override
+    @Transactional
+    public void deleteUser(Integer id) {
+        userRepo.delete(id);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
 }

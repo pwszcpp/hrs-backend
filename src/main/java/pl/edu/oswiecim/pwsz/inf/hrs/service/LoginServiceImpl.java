@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pl.edu.oswiecim.pwsz.inf.hrs.controller.LoginController;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,26 +35,34 @@ public class LoginServiceImpl implements LoginService {
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 
-    public void logIn(String username, String password){
+    public Boolean logIn(User user){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(auth != null) {
-            if (userService.findByUsername(username) != null) {
-                UserDetails user = userDetailsService.loadUserByUsername(username);
+            if (userService.findByEmail(user.getEmail()) != null) {
+                User existingUser = userService.findByEmail(user.getEmail());
                 LOGGER.info("Username is valid");
 
-                if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
+                if (bCryptPasswordEncoder.matches(user.getPassword(),existingUser.getPassword())) {
                     LOGGER.info("Correct username and password");
 
                     SecurityContextHolder.getContext().setAuthentication
-                            (new UsernamePasswordAuthenticationToken(username, password));
+                            (new UsernamePasswordAuthenticationToken(existingUser.getUsername(), existingUser.getPassword()));
+                    return true;
 
-                } else { LOGGER.info("invalid password"); }
-            } else { LOGGER.info("invalid username or password"); }
-        }else{LOGGER.info("some user is logged in");}
-
-
+                } else {
+                    LOGGER.info("invalid password");
+                    return false;
+                }
+            } else {
+                LOGGER.info("invalid username or password");
+                return false;
+            }
+        } else {
+            LOGGER.info("some user is logged in");
+            return false;
+        }
     }
 
     @Override

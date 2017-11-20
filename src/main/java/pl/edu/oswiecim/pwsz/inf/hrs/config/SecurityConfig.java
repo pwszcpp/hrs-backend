@@ -30,12 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers( "/security/get-session").hasAuthority("USER")
                     .antMatchers( "/role").hasAuthority("ADMIN")
-                    .antMatchers("/","/security/**","/logout","/add/**", "/list","/logout","/trainings/**", "/trainings","/employees/**", "/users").permitAll()
-                    .anyRequest().authenticated();
-                    /*
-                    .and().formLogin().loginPage("/login").defaultSuccessUrl("/welcome").failureUrl("/login?error=true").permitAll()
-                    .and().logout().deleteCookies("JSESSIONID").logoutUrl("/logout").logoutSuccessUrl("/login");
-                    */
+                    .antMatchers("/","/security/**","/logout","/add/**", "/list","/logout","/trainings/**", "/trainings","/employees/**", "/users", "/users/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and().formLogin().loginPage("/login").failureUrl("/login?error=true").permitAll();
     }
 
 
