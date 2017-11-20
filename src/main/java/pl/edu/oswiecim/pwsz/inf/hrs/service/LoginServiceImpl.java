@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +20,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 @Service("loginAuthorizationService")
@@ -42,13 +44,16 @@ public class LoginServiceImpl implements LoginService {
         if(auth != null) {
             if (userService.findByEmail(user.getEmail()) != null) {
                 User existingUser = userService.findByEmail(user.getEmail());
+                UserDetails existingUserDetails = userDetailsService.loadUserByUsername(existingUser.getUsername());
                 LOGGER.info("Username is valid");
 
-                if (bCryptPasswordEncoder.matches(user.getPassword(),existingUser.getPassword())) {
+                if (bCryptPasswordEncoder.matches(user.getPassword(),existingUserDetails.getPassword())) {
                     LOGGER.info("Correct username and password");
 
                     SecurityContextHolder.getContext().setAuthentication
-                            (new UsernamePasswordAuthenticationToken(existingUser.getUsername(), existingUser.getPassword()));
+                            (new UsernamePasswordAuthenticationToken(existingUserDetails.getUsername(), existingUserDetails.getPassword(), existingUserDetails.getAuthorities()));
+                    LOGGER.info(SecurityContextHolder.getContext().getAuthentication().getName()+"");
+                    LOGGER.info(SecurityContextHolder.getContext().getAuthentication().getAuthorities()+"");
                     return true;
 
                 } else {

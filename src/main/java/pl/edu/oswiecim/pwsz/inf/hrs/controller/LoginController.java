@@ -57,7 +57,7 @@ public class LoginController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping("/get-session")
     @CrossOrigin(origins = "http://localhost:4200")
     //@PreAuthorize("hasAnyAuthority('USER')")
     public String session(){

@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 
 
@@ -31,8 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers( "/security/get-session").hasAuthority("USER")
                     .antMatchers( "/role").hasAuthority("ADMIN")
                     .antMatchers("/","/security/**","/logout","/add/**", "/list","/logout","/trainings/**", "/trainings","/employees/**", "/users", "/users/**").permitAll()
-                    .anyRequest().authenticated()
-                    .and().formLogin().loginPage("/login").failureUrl("/login?error=true").permitAll();
+                    .anyRequest().authenticated();
+                    //.and().formLogin().loginPage("/login").failureUrl("/login?error=true").permitAll();
     }
 
 
