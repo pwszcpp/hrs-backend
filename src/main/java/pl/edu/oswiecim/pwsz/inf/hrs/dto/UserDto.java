@@ -15,7 +15,9 @@ import java.util.Set;
         "id",
         "username",
         "email",
-        "password"
+        "password",
+        "name",
+        "surname"
  //       "roles"
 })
 public class UserDto {
@@ -30,6 +32,10 @@ public class UserDto {
 
     @JsonProperty("password")
     private String password;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("surname")
+    private String surname;
 
 /*    @JsonProperty("roles")
     private Set<Role> roles = new HashSet<>();*/

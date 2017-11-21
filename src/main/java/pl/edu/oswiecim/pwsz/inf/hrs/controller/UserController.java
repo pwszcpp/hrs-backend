@@ -28,7 +28,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class UserController {
 
     private static final Logger LOGGER =
-            LoggerFactory.getLogger(EmployeeController.class);
+            LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -48,11 +48,12 @@ public class UserController {
     public @ResponseBody
     List<UserDto> getAll() {
         List<UserDto> allUsers = userService.findAllDTO();
-        LOGGER.info("działa");
+        LOGGER.info("działa get");
         return allUsers;
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:4200")
     public void addUser(@RequestBody String jsonInString) {
 
         UserDto userDto = null;

@@ -33,8 +33,8 @@ public class TrainingController {
     @Autowired
     TrainingService trainingService;
 
-
-    @RequestMapping("/add")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(method = RequestMethod.POST)
     public void createTraning(@RequestBody String jsonInString){
        // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
          //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
