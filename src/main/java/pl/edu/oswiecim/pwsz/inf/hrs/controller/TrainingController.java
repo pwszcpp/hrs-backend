@@ -67,6 +67,40 @@ public class TrainingController {
 
 
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public void updateTraning(@PathVariable("id") Integer id, @RequestBody String jsonInString){
+       // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
+         //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
+
+        TrainingDto trainingDto = null;
+
+        ObjectMapper mapper = new ObjectMapper();
+        StringReader reader = new StringReader(jsonInString);
+
+
+        try {
+            trainingDto = mapper.readValue(reader, TrainingDto.class);
+
+            LOGGER.info(trainingDto.getName()+" "+trainingDto.getLocation()+" "+trainingDto.getOwner()+
+                    " "+trainingDto.getCost()+" "+trainingDto.getEndDate() +
+                    " "+trainingDto.getStartDate()+" "+trainingDto.getPermission());
+
+            Training training = trainingService.convertToEntity(trainingDto);
+            trainingService.updateTraining(id,training);
+
+        } catch (JsonGenerationException e) {
+        e.printStackTrace();
+        } catch (JsonMappingException e) {
+        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")

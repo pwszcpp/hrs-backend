@@ -57,4 +57,19 @@ public class TrainingServiceImpl implements TrainingService{
     public Training findById(Integer id) {
         return trainingRepo.findOne(id);
     }
+
+    @Transactional
+    @Override
+    public void updateTraining(Integer id, Training training) {
+
+        Training existingTrai = trainingRepo.findOne(id);
+        existingTrai.setName(training.getName());
+        existingTrai.setLocation(training.getLocation());
+        existingTrai.setOwner(training.getOwner());
+        existingTrai.setPermission(training.getPermission());
+        existingTrai.setStartDate(training.getStartDate());
+        existingTrai.setEndDate(training.getEndDate());
+
+        trainingRepo.save(existingTrai);
+    }
 }

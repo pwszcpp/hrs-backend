@@ -13,4 +13,5 @@ public interface TrainingService {
     Iterable<Training> findAll();
     List findAllDTO();
     Training findById(Integer id);
+    void updateTraining(Integer id,Training training);
 }
