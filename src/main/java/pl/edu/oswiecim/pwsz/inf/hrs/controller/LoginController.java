@@ -41,21 +41,21 @@ public class LoginController {
     }
 
 
-    @RequestMapping("/login")
-    @CrossOrigin(origins = "http://localhost:4200")
-    public @ResponseBody Boolean login(@RequestBody String jsonInString) throws IOException, ParseException {
-
-        UserDto userDto = null;
-        ObjectMapper mapper = new ObjectMapper();
-        StringReader reader = new StringReader(jsonInString);
-
-        userDto = mapper.readValue(reader, UserDto.class);
-        User user = userService.convertToEntity(userDto);
-        LOGGER.info("login");
-
-        return loginService.logIn(user);
-
-    }
+//    @RequestMapping("/login")
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    public @ResponseBody Boolean login(@RequestBody String jsonInString) throws IOException, ParseException {
+//
+//        UserDto userDto = null;
+//        ObjectMapper mapper = new ObjectMapper();
+//        StringReader reader = new StringReader(jsonInString);
+//
+//        userDto = mapper.readValue(reader, UserDto.class);
+//        User user = userService.convertToEntity(userDto);
+//        LOGGER.info("login");
+//
+//        return loginService.logIn(user);
+//
+//    }
 
     @RequestMapping("/get-session")
     @CrossOrigin(origins = "http://localhost:4200")

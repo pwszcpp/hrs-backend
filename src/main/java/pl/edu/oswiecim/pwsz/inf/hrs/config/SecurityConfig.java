@@ -9,9 +9,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.UserDetailsServiceImpl;
 
 
 @Configuration
@@ -21,23 +29,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserRepo userRepository;
 
-
     @Autowired
     private UserDetailsService customUserDetailsService;
+
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                    .antMatchers( "/security/get-session").hasAuthority("USER")
-                    .antMatchers( "/role").hasAuthority("ADMIN")
-                    .antMatchers("/","/security/**","/logout","/add/**", "/list","/logout","/trainings/**", "/trainings","/employees/**", "/users", "/users/**").permitAll()
-                    .anyRequest().authenticated();
-                    //.and().formLogin().loginPage("/login").failureUrl("/login?error=true").permitAll();
+        http.cors().and().httpBasic().and().headers().and().
+                csrf().
+                    disable()
+                    .authorizeRequests()
+                        .antMatchers( "/security/get-session", "/trainings/**","/trainings").hasAuthority("USER")
+                        .antMatchers( "/role").hasAuthority("ADMIN")
+                        .antMatchers("/","/security/**","/logout","/add/**", "/list","/logout","/employees/**", "/users", "/users/**").permitAll()
+                    .and().formLogin()
+                        .successHandler(customAuthenticationSuccessHandler)
+                        .failureHandler(customAuthenticationFailureHandler)
+                    .loginPage("/login").permitAll()
+                    .and().logout().permitAll();
+//        http.
+//                httpBasic().and()
+//                .logout().and()
+//                    .authorizeRequests()
+//                    .antMatchers("/login").permitAll()
+//                .anyRequest().authenticated().and()
+//                .csrf().csrfTokenRepository(csrfTokenRepository());
     }
-
-
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
