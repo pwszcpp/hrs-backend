@@ -68,7 +68,12 @@
 			<artifactId>spring-hateoas</artifactId>
 			<version>0.23.0.RELEASE</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20171018</version>
+		</dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

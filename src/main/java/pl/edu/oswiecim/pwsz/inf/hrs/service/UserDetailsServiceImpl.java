@@ -16,7 +16,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("customUserDetailsService")
+@Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final Logger LOGGER =
@@ -29,12 +29,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userService.findByUsername(s);
-        if (user == null) {
-            LOGGER.debug("user not found with the provided username");
-            throw new UsernameNotFoundException("User not found");
+        User userByEmail = userService.findByEmail(s);
+        if (user != null) {
+            LOGGER.debug(" user from username " + user.toString());
+            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
+        } else if(userByEmail != null){
+            LOGGER.debug(" user from email " + userByEmail.toString());
+            return new org.springframework.security.core.userdetails.User(userByEmail.getUsername(), userByEmail.getPassword(), getAuthorities(userByEmail));
+        } else {
+            throw new UsernameNotFoundException("Username not found");
         }
-        LOGGER.debug(" user from username " + user.toString());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
     }
 
     public List<GrantedAuthority> getAuthorities(User user){
