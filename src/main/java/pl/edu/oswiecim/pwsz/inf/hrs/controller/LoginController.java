@@ -28,8 +28,8 @@ public class LoginController {
             LoggerFactory.getLogger(LoginController.class);
 
     @GetMapping("/logout")
-    public String logOut (HttpServletRequest request, HttpServletResponse response){
-        loginService.logOut(request,response);
+    public String logOut(HttpServletRequest request, HttpServletResponse response) {
+        loginService.logOut(request, response);
         return "redirect:/security/login?logout";
     }
 
@@ -53,14 +53,14 @@ public class LoginController {
     @RequestMapping("/get-session")
     @CrossOrigin(origins = "http://localhost:4200")
     //@PreAuthorize("hasAnyAuthority('USER')")
-    public String session(){
+    public String session() {
         return UUID.randomUUID().toString();
     }
 
     @ResponseBody
     @GetMapping("/get-role")
     //@PreAuthorize("hasAnyAuthority('ADMIN')")
-    public String role(){
+    public String role() {
         return "roles: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
 

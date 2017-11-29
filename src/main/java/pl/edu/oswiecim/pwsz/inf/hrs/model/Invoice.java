@@ -11,16 +11,16 @@ import java.util.Date;
 public class Invoice {
 
     @Id
-    @Column(name ="invoice_id")
+    @Column(name = "invoice_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name ="description")
+    @Column(name = "description")
     private String description;
-    @Column(name ="netAmount")
+    @Column(name = "netAmount")
     private double netAmount;
-    @Column(name ="grossAmount")
+    @Column(name = "grossAmount")
     private double grossAmount;
-    @Column(name ="tax")
+    @Column(name = "tax")
     private double tax;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
@@ -67,6 +67,7 @@ public class Invoice {
     public void setTax(double tax) {
         this.tax = tax;
     }
+
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "contractor_id", nullable = false)
     public Contractor getContractor() {

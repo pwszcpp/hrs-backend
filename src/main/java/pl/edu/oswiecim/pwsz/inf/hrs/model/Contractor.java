@@ -49,11 +49,11 @@ public class Contractor {
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", unique = true, nullable = false)
-   public Address getAddress() {
-       return address;
+    public Address getAddress() {
+        return address;
     }
 
-     public void setAddress(Address address) {
+    public void setAddress(Address address) {
         this.address = address;
-   }
+    }
 }

@@ -16,7 +16,7 @@ import javax.persistence.*;
         "id",
         "name",
         "tin",
-       "address"
+        "address"
 })
 public class ContractorDto extends ResourceSupport {
 
@@ -37,26 +37,32 @@ public class ContractorDto extends ResourceSupport {
 
     @JsonProperty("address")
     private Address address;
+
     @JsonProperty("id")
     public Integer getContractorId() {
         return id;
     }
+
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
     }
+
     @JsonProperty("name")
     public String getName() {
         return name;
     }
+
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
+
     @JsonProperty("tin")
     public String getTin() {
         return tin;
     }
+
     @JsonProperty("tin")
     public void setTin(String tin) {
         this.tin = tin;
@@ -64,10 +70,11 @@ public class ContractorDto extends ResourceSupport {
 
     @JsonProperty("address")
     public Address getAddress() {
-      return address;
-   }
-  //  @JsonProperty("address")
-   public void setAddress(Address address) {
-       this.address = address;
+        return address;
+    }
+
+    //  @JsonProperty("address")
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

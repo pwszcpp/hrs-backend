@@ -38,7 +38,6 @@ public class EmployeeController {
     public void addEmployee(@RequestBody String jsonInString) {
 
 
-
         EmployeeDto employeeDto = null;
         ObjectMapper mapper = new ObjectMapper();
         StringReader reader = new StringReader(jsonInString);
@@ -61,7 +60,7 @@ public class EmployeeController {
 
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteEmployee(@PathVariable("id") Integer id) {
         employeeService.deleteEmployee(id);
         LOGGER.info("Delted employee " + id);

@@ -18,7 +18,7 @@ import java.util.Set;
         "password",
         "name",
         "surname"
- //       "roles"
+        //       "roles"
 })
 public class UserDto {
     @JsonProperty("id")

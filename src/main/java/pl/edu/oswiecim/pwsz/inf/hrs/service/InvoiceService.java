@@ -13,11 +13,20 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface InvoiceService {
     Invoice convertToEntity(InvoiceDto invoiceDto) throws ParseException;
+
     InvoiceDto convertToDTO(Invoice invoice);
+
     void saveInvoice(Invoice invoice);
+
     Iterable<Invoice> findAll();
+
     List findAllDTO();
+
     Invoice findById(Integer id);
+
     void deleteInvoice(Integer id);
-    void updateInvoice(Integer invoiceId, Invoice invoice,Integer contractorId) throws ParseException;
+
+    void updateInvoice(Integer invoiceId, Invoice invoice, Integer contractorId) throws ParseException;
+
+    String[] divideJson(String jsonInString);
 }

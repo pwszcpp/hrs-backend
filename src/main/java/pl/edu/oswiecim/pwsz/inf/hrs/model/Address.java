@@ -23,7 +23,6 @@ public class Address {
     private String addressLine;
 
 
-
     public Integer getId() {
         return id;
     }

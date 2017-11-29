@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service("trainingService")
 @Transactional(readOnly = true)
-public class TrainingServiceImpl implements TrainingService{
+public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -47,7 +47,7 @@ public class TrainingServiceImpl implements TrainingService{
     public List findAllDTO() {
         List trainingsDTOs = new ArrayList();
         Iterable<Training> trainings = trainingRepo.findAll();
-        for(Training training : trainings){
+        for (Training training : trainings) {
             trainingsDTOs.add(convertToDTO(training));
         }
         return trainingsDTOs;

@@ -8,11 +8,18 @@ import java.util.List;
 
 public interface EmployeeService {
     Employee convertToEntity(EmployeeDto userDto) throws ParseException;
+
     EmployeeDto convertToDTO(Employee employee);
+
     void saveEmployee(Employee employee);
+
     Iterable<Employee> findAll();
+
     List findAllDTO();
+
     Employee findById(Integer id);
+
     void deleteEmployee(Integer id);
+
     void updateEmployee(Integer id, Employee employee) throws ParseException;
 }

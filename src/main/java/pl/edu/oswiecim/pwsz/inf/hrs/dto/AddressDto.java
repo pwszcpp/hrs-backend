@@ -38,6 +38,7 @@ public class AddressDto extends ResourceSupport {
     public String getAddressId() {
         return id;
     }
+
     @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
@@ -47,38 +48,47 @@ public class AddressDto extends ResourceSupport {
     public String getCountry() {
         return country;
     }
+
     @JsonProperty("country")
     public void setCountry(String country) {
         this.country = country;
     }
+
     @JsonProperty("addressLine")
     public String getAddressLine() {
         return addressLine;
     }
+
     @JsonProperty("addressLine")
     public void setAddressLine(String addressLine) {
         this.addressLine = addressLine;
     }
+
     @JsonProperty("city")
     public String getCity() {
         return city;
     }
+
     @JsonProperty("city")
     public void setCity(String city) {
         this.city = city;
     }
+
     @JsonProperty("street")
     public String getStreet() {
         return street;
     }
+
     @JsonProperty("street")
     public void setStreet(String street) {
         this.street = street;
     }
+
     @JsonProperty("postalCode")
     public String getPostalCode() {
         return postalCode;
     }
+
     @JsonProperty("postalCode")
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;

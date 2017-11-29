@@ -1,5 +1,6 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Service("invoiceService")
 @Transactional(readOnly = true)
-public class InvoiceServiceImpl implements InvoiceService{
+public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     InvoiceRepo invoiceRepo;
@@ -51,7 +52,7 @@ public class InvoiceServiceImpl implements InvoiceService{
     public List findAllDTO() {
         List invoicesDTOs = new ArrayList();
         Iterable<Invoice> invoices = invoiceRepo.findAll();
-        for(Invoice invoice : invoices){
+        for (Invoice invoice : invoices) {
             invoicesDTOs.add(convertToDTO(invoice));
         }
         return invoicesDTOs;
@@ -80,5 +81,21 @@ public class InvoiceServiceImpl implements InvoiceService{
 
         invoiceRepo.save(existingIn);
 
+    }
+
+    @Override
+    public String[] divideJson(String jsonInString) {
+        JSONObject jsonObject = new JSONObject(jsonInString);
+        JSONObject jsonInvoice = new JSONObject();
+
+        Integer contractorId = jsonObject.getInt("contractor_id");
+
+        jsonInvoice.put("description", jsonObject.get("description"));
+        jsonInvoice.put("netAmount", jsonObject.get("netAmount"));
+        jsonInvoice.put("grossAmount", jsonObject.get("grossAmount"));
+        jsonInvoice.put("tax", jsonObject.get("tax"));
+
+        String invoiceReader = jsonInvoice.toString();
+        return new String[]{contractorId.toString(), invoiceReader};
     }
 }

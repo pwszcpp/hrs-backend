@@ -42,7 +42,6 @@ public class TrainingDto extends ResourceSupport {
     private String id;
 
 
-
     @JsonProperty("name")
     public String getName() {
         return name;
@@ -53,6 +52,7 @@ public class TrainingDto extends ResourceSupport {
     public void setName(String name) {
         this.name = name;
     }
+
     @JsonProperty("owner")
     public String getOwner() {
         return owner;
@@ -67,38 +67,47 @@ public class TrainingDto extends ResourceSupport {
     public Date getStartDate() {
         return startDate;
     }
+
     @JsonProperty("startDate")
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
+
     @JsonProperty("endDate")
     public Date getEndDate() {
         return endDate;
     }
+
     @JsonProperty("endDate")
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
     @JsonProperty("cost")
     public Float getCost() {
         return cost;
     }
+
     @JsonProperty("cost")
     public void setCost(Float cost) {
         this.cost = cost;
     }
+
     @JsonProperty("permission")
     public Boolean getPermission() {
         return permission;
     }
+
     @JsonProperty("permission")
     public void setPermission(Boolean permission) {
         this.permission = permission;
     }
+
     @JsonProperty("location")
     public String getLocation() {
         return location;
     }
+
     @JsonProperty("location")
     public void setLocation(String location) {
         this.location = location;
@@ -110,7 +119,7 @@ public class TrainingDto extends ResourceSupport {
     }
 
     @JsonProperty("id")
-    public String getTrainingId(){
+    public String getTrainingId() {
         return id;
     }
 }

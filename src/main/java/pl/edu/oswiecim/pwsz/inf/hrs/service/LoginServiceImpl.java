@@ -31,23 +31,23 @@ public class LoginServiceImpl implements LoginService {
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 
-    public Boolean logIn(User user){
+    public Boolean logIn(User user) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if(auth != null) {
+        if (auth != null) {
             if (userService.findByEmail(user.getEmail()) != null) {
                 User existingUser = userService.findByEmail(user.getEmail());
                 UserDetails existingUserDetails = userDetailsService.loadUserByUsername(existingUser.getUsername());
                 LOGGER.info("Username is valid");
 
-                if (bCryptPasswordEncoder.matches(user.getPassword(),existingUserDetails.getPassword())) {
+                if (bCryptPasswordEncoder.matches(user.getPassword(), existingUserDetails.getPassword())) {
                     LOGGER.info("Correct username and password");
 
                     SecurityContextHolder.getContext().setAuthentication
                             (new UsernamePasswordAuthenticationToken(existingUserDetails.getUsername(), existingUserDetails.getPassword(), existingUserDetails.getAuthorities()));
-                    LOGGER.info(SecurityContextHolder.getContext().getAuthentication().getName()+"");
-                    LOGGER.info(SecurityContextHolder.getContext().getAuthentication().getAuthorities()+"");
+                    LOGGER.info(SecurityContextHolder.getContext().getAuthentication().getName() + "");
+                    LOGGER.info(SecurityContextHolder.getContext().getAuthentication().getAuthorities() + "");
                     return true;
 
                 } else {
@@ -66,9 +66,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void logOut(HttpServletRequest request, HttpServletResponse response) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null){
-                new SecurityContextLogoutHandler().logout(request, response, auth);
-            }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
     }
 }

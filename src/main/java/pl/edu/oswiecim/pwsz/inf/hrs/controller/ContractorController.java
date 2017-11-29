@@ -67,7 +67,6 @@ public class ContractorController {
             contractorDto = mapper.readValue(contractorReader, ContractorDto.class);
             addressDto = mapper.readValue(addressReader, AddressDto.class);
 
-
             LOGGER.info(contractorDto.getName() + " " + contractorDto.getTin());
 
             Contractor contractor = contractorService.convertToEntity(contractorDto);
@@ -78,7 +77,6 @@ public class ContractorController {
 
             LOGGER.info("adres kontrahenta " + contractor.getAddress().getCity());
 
-
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -88,7 +86,6 @@ public class ContractorController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -99,7 +96,6 @@ public class ContractorController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public void updContractor(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
-
 
         ContractorDto contractorDto = null;
         AddressDto addressDto = null;
@@ -114,8 +110,6 @@ public class ContractorController {
         LOGGER.info("Z json addres " + addressReader);
 
         try {
-
-
             contractorDto = mapper.readValue(contractorReader, ContractorDto.class);
             addressDto = mapper.readValue(addressReader, AddressDto.class);
 
@@ -146,9 +140,10 @@ public class ContractorController {
         for (ContractorDto contractorDto : allContractors) {
             LOGGER.info("Contractor id: " + contractorDto.getContractorId());
             Link selfLink = linkTo(ContractorController.class).slash(contractorDto.getContractorId()).withSelfRel();
-            //Link addressLink = linkTo(methodOn(ContractorController.class).getAddress(contractorDto.getContractorId())).withRel("addresses");
+            Link addressLink = linkTo(methodOn(AddressController.class).getAddress(contractorDto.getAddress().getId()))
+                    .withRel("address");
             contractorDto.add(selfLink);
-            //contractorDto.add(addressLink);
+            contractorDto.add(addressLink);
         }
         return allContractors;
     }
@@ -158,7 +153,10 @@ public class ContractorController {
     ContractorDto getContractor(@PathVariable("id") Integer id) {
         ContractorDto contractorDto = contractorService.convertToDTO(contractorService.findById(id));
         Link selfLink = linkTo(ContractorController.class).slash(contractorDto.getContractorId()).withSelfRel();
+        Link addressLink = linkTo(methodOn(AddressController.class).getAddress(id))
+                .withRel("address");
         contractorDto.add(selfLink);
+        contractorDto.add(addressLink);
         return contractorDto;
     }
 

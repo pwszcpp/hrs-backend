@@ -20,7 +20,7 @@ import java.util.Date;
         "hireDate",
         "salary"
 })
-public class EmployeeDto  extends ResourceSupport{
+public class EmployeeDto extends ResourceSupport {
 
     @JsonProperty("id")
     private Integer id;
@@ -52,50 +52,62 @@ public class EmployeeDto  extends ResourceSupport{
     public void setId(Integer id) {
         this.id = id;
     }
+
     @JsonProperty("firstName")
     public String getFirstName() {
         return firstName;
     }
+
     @JsonProperty("firstName")
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     @JsonProperty("lastName")
     public String getLastName() {
         return lastName;
     }
+
     @JsonProperty("lastName")
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     @JsonProperty("sex")
     public String getSex() {
         return sex;
     }
+
     @JsonProperty("sex")
     public void setSex(String sex) {
         this.sex = sex;
     }
+
     @JsonProperty("job")
     public String getJob() {
         return job;
     }
+
     @JsonProperty("job")
     public void setJob(String job) {
         this.job = job;
     }
+
     @JsonProperty("hireDate")
     public Date getHireDate() {
         return hireDate;
     }
+
     @JsonProperty("hireDate")
     public void setHireDate(Date hireDate) {
         this.hireDate = hireDate;
     }
+
     @JsonProperty("salary")
     public double getSalary() {
         return salary;
     }
+
     @JsonProperty("salary")
     public void setSalary(double salary) {
         this.salary = salary;

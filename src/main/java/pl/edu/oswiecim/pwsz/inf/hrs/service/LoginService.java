@@ -7,5 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface LoginService {
     Boolean logIn(User u);
+
     void logOut(HttpServletRequest request, HttpServletResponse response);
 }

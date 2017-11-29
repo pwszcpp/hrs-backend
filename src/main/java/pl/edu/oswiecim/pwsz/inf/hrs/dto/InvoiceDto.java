@@ -39,46 +39,57 @@ public class InvoiceDto extends ResourceSupport {
     public String getInvoiceId() {
         return id;
     }
+
     @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
     }
+
     @JsonProperty("description")
     public String getDescription() {
         return description;
     }
+
     @JsonProperty("description")
     public void setDescription(String description) {
         this.description = description;
     }
+
     @JsonProperty("netAmount")
     public double getNetAmount() {
         return netAmount;
     }
+
     @JsonProperty("netAmount")
     public void setNetAmount(double netAmount) {
         this.netAmount = netAmount;
     }
+
     @JsonProperty("grossAmount")
     public double getGrossAmount() {
         return grossAmount;
     }
+
     @JsonProperty("grossAmount")
     public void setGrossAmount(double grossAmount) {
         this.grossAmount = grossAmount;
     }
+
     @JsonProperty("tax")
     public double getTax() {
         return tax;
     }
+
     @JsonProperty("tax")
     public void setTax(double tax) {
         this.tax = tax;
     }
+
     @JsonProperty("contractor")
     public Contractor getContractor() {
         return contractor;
     }
+
     @JsonProperty("contractor")
     public void setContractor(Contractor contractor) {
         this.contractor = contractor;

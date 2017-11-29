@@ -24,6 +24,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/invoices")
@@ -38,7 +39,6 @@ public class InvoiceController {
     @Autowired
     InvoiceService invoiceService;
 
-
     @Autowired
     ContractorRepo contractorRepo;
 
@@ -52,38 +52,22 @@ public class InvoiceController {
         InvoiceDto invoiceDto = null;
         ObjectMapper mapper = new ObjectMapper();
 
-        JSONObject jsonObject = new JSONObject(jsonInString);
-        JSONObject jsonInvoice = new JSONObject();
+        String[] dividedJson = invoiceService.divideJson(jsonInString);
 
+        Integer contractorId = Integer.parseInt(dividedJson[0]);
+        String invoiceReader = dividedJson[1];
 
-        Integer contractorId =  jsonObject.getInt("contractor_id");
-
-        jsonInvoice.put("description",jsonObject.get("description"));
-        jsonInvoice.put("netAmount",jsonObject.get("netAmount"));
-        jsonInvoice.put("grossAmount",jsonObject.get("grossAmount"));
-        jsonInvoice.put("tax",jsonObject.get("tax"));
-        LOGGER.info("Z contractor " + contractorId);
-
-        //String contractorReader = jsonContractor.toString();
-        String invoiceReader = jsonInvoice.toString();
-
-        //LOGGER.info("Z json kontrahent " + contractorReader);
         LOGGER.info("Z json faktura " + invoiceReader);
 
         try {
             invoiceDto = mapper.readValue(invoiceReader, InvoiceDto.class);
 
-
-
-
-            //Contractor contractor = contractorService.convertToEntity(contractorDto);
             Invoice invoice = invoiceService.convertToEntity(invoiceDto);
             invoice.setContractor(contractorRepo.findOne(contractorId));
             invoiceService.saveInvoice(invoice);
 
 
             LOGGER.info("Faktura " + invoice.getDescription() + "dla kontrahenta " + contractorId);
-
 
 
         } catch (JsonGenerationException e) {
@@ -98,7 +82,7 @@ public class InvoiceController {
 
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteInvoice(@PathVariable("id") Integer id) {
         invoiceService.deleteInvoice(id);
         LOGGER.info("Delted invoice " + id);
@@ -110,19 +94,10 @@ public class InvoiceController {
         InvoiceDto invoiceDto = null;
         ObjectMapper mapper = new ObjectMapper();
 
-        JSONObject jsonObject = new JSONObject(jsonInString);
-        JSONObject jsonInvoiceUp = new JSONObject();
+        String[] dividedJson = invoiceService.divideJson(jsonInString);
 
-
-        Integer contractorId =  jsonObject.getInt("contractor_id");
-
-        jsonInvoiceUp.put("description",jsonObject.get("description"));
-        jsonInvoiceUp.put("netAmount",jsonObject.get("netAmount"));
-        jsonInvoiceUp.put("grossAmount",jsonObject.get("grossAmount"));
-        jsonInvoiceUp.put("tax",jsonObject.get("tax"));
-        LOGGER.info("Z contractor " + contractorId);
-
-        String invoiceReader = jsonInvoiceUp.toString();
+        Integer contractorId = Integer.parseInt(dividedJson[0]);
+        String invoiceReader = dividedJson[1];
 
         LOGGER.info("Z json faktura " + invoiceReader);
 
@@ -131,7 +106,7 @@ public class InvoiceController {
 
             Invoice invoice = invoiceService.convertToEntity(invoiceDto);
 
-            invoiceService.updateInvoice(id,invoice, contractorId);
+            invoiceService.updateInvoice(id, invoice, contractorId);
 
             LOGGER.info("Faktura " + invoice.getDescription() + "dla kontrahenta " + contractorId);
 
@@ -146,6 +121,7 @@ public class InvoiceController {
         }
 
     }
+
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
     List<InvoiceDto> getAll() {
@@ -153,9 +129,10 @@ public class InvoiceController {
         for (InvoiceDto invoiceDto : allInvoices) {
             LOGGER.info("Invoice id: " + invoiceDto.getInvoiceId());
             Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
-            //Link addressLink = linkTo(methodOn(ContractorController.class).getAddress(contractorDto.getContractorId())).withRel("addresses");
+            Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(invoiceDto.getContractor().getId())).
+                    withRel("contractor");
             invoiceDto.add(selfLink);
-            //contractorDto.add(addressLink);
+            invoiceDto.add(contractorLink);
         }
         return allInvoices;
     }
@@ -165,8 +142,11 @@ public class InvoiceController {
     InvoiceDto getInvoice(@PathVariable("id") Integer id) {
         InvoiceDto invoiceDto = invoiceService.convertToDTO(invoiceService.findById(id));
         Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
+        Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(id)).withRel("contractor");
         invoiceDto.add(selfLink);
+        invoiceDto.add(contractorLink);
         return invoiceDto;
     }
+
 
 }

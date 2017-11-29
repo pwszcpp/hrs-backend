@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user != null) {
             LOGGER.debug(" user from username " + user.toString());
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
-        } else if(userByEmail != null){
+        } else if (userByEmail != null) {
             LOGGER.debug(" user from email " + userByEmail.toString());
             return new org.springframework.security.core.userdetails.User(userByEmail.getUsername(), userByEmail.getPassword(), getAuthorities(userByEmail));
         } else {
@@ -41,9 +41,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
-    public List<GrantedAuthority> getAuthorities(User user){
+    public List<GrantedAuthority> getAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        for(Role role : user.getRoles()) {
+        for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getRole()));
         }
         LOGGER.debug("user authorities are " + authorities.toString());

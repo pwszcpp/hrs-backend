@@ -1,7 +1,6 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.model;
 
 
-
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.xml.crypto.Data;

@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List findAllDTO() {
         List employeesDTOs = new ArrayList();
         Iterable<Employee> employees = employeeRepo.findAll();
-        for(Employee employee : employees){
+        for (Employee employee : employees) {
             employeesDTOs.add(convertToDTO(employee));
         }
         return employeesDTOs;
@@ -84,8 +84,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findById(Integer id) {
         return employeeRepo.findOne(id);
     }
-
-
 
 
 }

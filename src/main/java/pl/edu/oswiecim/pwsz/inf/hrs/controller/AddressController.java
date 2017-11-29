@@ -38,8 +38,6 @@ public class AddressController {
     @RequestMapping(method = RequestMethod.POST)
     public void addAddress(@RequestBody String jsonInString) {
 
-
-
         AddressDto addressDto = null;
         ObjectMapper mapper = new ObjectMapper();
         StringReader reader = new StringReader(jsonInString);
@@ -62,7 +60,7 @@ public class AddressController {
 
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteAddress(@PathVariable("id") Integer id) {
         addressService.deleteAddress(id);
         LOGGER.info("Delted address " + id);
@@ -84,7 +82,7 @@ public class AddressController {
                     " " + addressDto.getCountry());
 
             Address address = addressService.convertToEntity(addressDto);
-            addressService.updateAddress(id,address);
+            addressService.updateAddress(id, address);
 
 
         } catch (IOException e) {

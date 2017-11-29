@@ -53,7 +53,7 @@ public class AddressServiceImpl implements AddressService {
     public List findAllDTO() {
         List addressesDTOs = new ArrayList();
         Iterable<Address> addresses = addressRepo.findAll();
-        for(Address address : addresses){
+        for (Address address : addresses) {
             addressesDTOs.add(convertToDTO(address));
         }
 
@@ -86,4 +86,3 @@ public class AddressServiceImpl implements AddressService {
 
 
 }
-

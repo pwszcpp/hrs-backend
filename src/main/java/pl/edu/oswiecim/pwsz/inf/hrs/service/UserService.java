@@ -8,13 +8,21 @@ import java.util.List;
 
 public interface UserService {
     User convertToEntity(UserDto userDto) throws ParseException;
+
     UserDto convertToDTO(User employee);
+
     void saveUser(User p);
+
     //User findByUsername(String username);
     User findByUsername(String username);
+
     Iterable<User> findAll();
+
     List findAllDTO();
+
     void deleteUser(Integer id);
+
     User findByEmail(String email);
+
     User findById(Integer id);
 }

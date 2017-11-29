@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public List findAllDTO() {
         List usersDTOs = new ArrayList();
         Iterable<User> users = userRepo.findAll();
-        for(User user : users){
+        for (User user : users) {
             usersDTOs.add(convertToDTO(user));
         }
         return usersDTOs;

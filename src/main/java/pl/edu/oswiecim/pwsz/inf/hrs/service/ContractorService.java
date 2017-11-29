@@ -17,5 +17,6 @@ public interface ContractorService {
     Contractor findById(Integer id);
     void deleteContractor(Integer id);
     void updateContractor(Integer id, Contractor Contractor, Address address) throws ParseException;
+
     String[] divideJson(String jsonInString);
 }

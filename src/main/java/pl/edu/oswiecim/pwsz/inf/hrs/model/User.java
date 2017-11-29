@@ -33,7 +33,8 @@ public class User {
     @JoinTable(name = "user_training", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "training_id"))
     private Set<Training> trainings = new HashSet<>();
 
-    public User(){}
+    public User() {
+    }
 
     public Integer getId() {
         return id;
