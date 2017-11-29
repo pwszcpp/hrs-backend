@@ -107,7 +107,7 @@ public class TrainingController {
     public @ResponseBody List<TrainingDto> getAll() {
         List<TrainingDto> allTrainings = trainingService.findAllDTO();
         for(TrainingDto trainingDto : allTrainings){
-            LOGGER.info("Training id: " + trainingDto.getTrainingId());
+            //LOGGER.info("Training id: " + trainingDto.getTrainingId());
             Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
             Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
             trainingDto.add(selfLink);

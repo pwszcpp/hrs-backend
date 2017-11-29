@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   constructor(private loginService: LoginService, private http: Http, private router: Router, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // if (!localStorage.getItem('Session')) {
+    // if (!this.loginService.isLoggedIn()) {
     //   this.router.navigate(['/login']);
     // }
 

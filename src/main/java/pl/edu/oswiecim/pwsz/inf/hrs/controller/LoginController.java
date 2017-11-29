@@ -27,11 +27,11 @@ public class LoginController {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(LoginController.class);
 
-    @GetMapping("/logout")
-    public String logOut (HttpServletRequest request, HttpServletResponse response){
-        loginService.logOut(request,response);
-        return "redirect:/security/login?logout";
-    }
+//    @GetMapping("/logout")
+//    public String logOut (HttpServletRequest request, HttpServletResponse response){
+//        loginService.logOut(request,response);
+//        return "redirect:/security/login?logout";
+//    }
 
 
 //    @RequestMapping("/login")

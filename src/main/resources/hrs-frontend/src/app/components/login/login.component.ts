@@ -34,13 +34,13 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     }
     this.createForms();
-    this.getUsers();
-    this.session = this.getCookie("Session");
+    // this.getUsers();
+    //this.session = this.getCookie("Session");
   }
 
-  getCookie(key: string){
-    return this._cookieService.get(key);
-  }
+  // getCookie(key: string){
+  //   return this._cookieService.get(key);
+  // }
 
   createForms(): void {
     this.loginForm = this.fb.group({
@@ -56,15 +56,15 @@ export class LoginComponent implements OnInit {
 
   onReset(): void {
     this.loginForm.reset();
-    this.loggedIn = false;
+    this.loggedIn = null;
   }// onReset()
 
-  getUsers(): void {
-    this.http.get(this.url + '/users').subscribe(
-      res => this.users = res.json(),
-      err => console.log(err)
-    );
-  }// getUsers()
+  // getUsers(): void {
+  //   this.http.get(this.url + '/users').subscribe(
+  //     res => this.users = res.json(),
+  //     err => console.log(err)
+  //   );
+  // }// getUsers()
 
   // getUser(){
   //   return this.http.get(this.url+"/users/"+this.loginForm.get('email').value).map(
@@ -75,33 +75,33 @@ export class LoginComponent implements OnInit {
   //   );
   // }
 
-  checkUser(){
-    // for (let i = 0; i < this.users.length; i++) {
-    //   if (this.loginForm.get('email').value === this.users[i].email && this.loginForm.get('password').value === this.users[i].password) {
-    //     return true;
-    //   }
-    // }// for
-    // return false;
-    let body = new FormData();
-    body.append('username', this.loginForm.get('email').value);
-    body.append('password', this.loginForm.get('password').value);
-    // return this.http.post(this.url+'/login', body).subscribe(
-    //   res => {
-    //     this.http.get(this.url+"/users/"+this.loginForm.get('email').value).subscribe(
-    //       res => {
-    //         this.user = res.json();
-    //         localStorage.setItem('user', this.user['id']);
-    //       }
-    //     );
-    //     console.log(this.loggedIn);
-    //     this.loggedIn = true;
-    //     //this.router.navigate(['/dashboard']);
-    //   },
-    //   //err => this.loggedIn = false,
-    // );
-    return this.http.post(this.url+'/login', body, new RequestOptions({withCredentials: true}));
+  // checkUser(){
+  //   // for (let i = 0; i < this.users.length; i++) {
+  //   //   if (this.loginForm.get('email').value === this.users[i].email && this.loginForm.get('password').value === this.users[i].password) {
+  //   //     return true;
+  //   //   }
+  //   // }// for
+  //   // return false;
+  //   let body = new FormData();
+  //   body.append('username', this.loginForm.get('email').value);
+  //   body.append('password', this.loginForm.get('password').value);
+  //   // return this.http.post(this.url+'/login', body).subscribe(
+  //   //   res => {
+  //   //     this.http.get(this.url+"/users/"+this.loginForm.get('email').value).subscribe(
+  //   //       res => {
+  //   //         this.user = res.json();
+  //   //         localStorage.setItem('user', this.user['id']);
+  //   //       }
+  //   //     );
+  //   //     console.log(this.loggedIn);
+  //   //     this.loggedIn = true;
+  //   //     //this.router.navigate(['/dashboard']);
+  //   //   },
+  //   //   //err => this.loggedIn = false,
+  //   // );
+  //   return this.http.post(this.url+'/login', body, new RequestOptions({withCredentials: true}));
 
-  }// checkUser()
+  // }// checkUser()
 
   onSubmit(){
     this.loggedIn = this.loginService.login(this.loginForm.get('email').value,
