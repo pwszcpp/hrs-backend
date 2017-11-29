@@ -1,5 +1,6 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class ContractorServiceImpl implements ContractorService {
     public List findAllDTO() {
         List contractorsDTOs = new ArrayList();
         Iterable<Contractor> contractors = contractorRepo.findAll();
-        for(Contractor contractor : contractors){
+        for (Contractor contractor : contractors) {
             contractorsDTOs.add(convertToDTO(contractor));
         }
         return contractorsDTOs;
@@ -72,7 +73,6 @@ public class ContractorServiceImpl implements ContractorService {
     @Transactional
     public void deleteContractor(Integer id) {
         contractorRepo.delete(id);
-
     }
 
     @Override
@@ -90,5 +90,25 @@ public class ContractorServiceImpl implements ContractorService {
         existingAdd.setAddressLine(address.getAddressLine());
         addressRepo.save(existingAdd);
         contractorRepo.save(existingCont);
+    }
+
+    @Override
+    public String[] divideJson(String jsonInString) {
+
+        JSONObject jsonObject = new JSONObject(jsonInString);
+        JSONObject jsonAddressUp = new JSONObject();
+        JSONObject jsonContractorUp = new JSONObject();
+
+        jsonContractorUp.put("name", jsonObject.get("name"));
+        jsonContractorUp.put("tin", jsonObject.get("tin"));
+        jsonAddressUp.put("city", jsonObject.get("city"));
+        jsonAddressUp.put("street", jsonObject.get("street"));
+        jsonAddressUp.put("postalCode", jsonObject.get("postalCode"));
+        jsonAddressUp.put("country", jsonObject.get("country"));
+        jsonAddressUp.put("addressLine", jsonObject.get("addressLine"));
+
+        String contractorReader = jsonContractorUp.toString();
+        String addressReader = jsonAddressUp.toString();
+        return new String[]{contractorReader, addressReader};
     }
 }

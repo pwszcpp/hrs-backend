@@ -53,21 +53,10 @@ public class ContractorController {
         AddressDto addressDto = null;
         ObjectMapper mapper = new ObjectMapper();
 
-        JSONObject jsonObject = new JSONObject(jsonInString);
-        JSONObject jsonAddress = new JSONObject();
-        JSONObject jsonContractor = new JSONObject();
+        String[] dividedJson = contractorService.divideJson(jsonInString);
 
-
-        jsonContractor.put("name",jsonObject.get("name"));
-        jsonContractor.put("tin",jsonObject.get("tin"));
-        jsonAddress.put("city",jsonObject.get("city"));
-        jsonAddress.put("street",jsonObject.get("street"));
-        jsonAddress.put("postalCode",jsonObject.get("postalCode"));
-        jsonAddress.put("country",jsonObject.get("country"));
-        jsonAddress.put("addressLine",jsonObject.get("addressLine"));
-
-        String contractorReader = jsonContractor.toString();
-        String addressReader = jsonAddress.toString();
+        String contractorReader = dividedJson[0];
+        String addressReader = dividedJson[1];
 
         LOGGER.info("Z json kontrahent " + contractorReader);
         LOGGER.info("Z json addres " + addressReader);
@@ -87,8 +76,7 @@ public class ContractorController {
             contractor.setAddress(address);
             contractorService.saveContractor(contractor);
 
-            LOGGER.info("adres kontrahenta "  + contractor.getAddress().getCity() );
-
+            LOGGER.info("adres kontrahenta " + contractor.getAddress().getCity());
 
 
         } catch (JsonGenerationException e) {
@@ -103,7 +91,7 @@ public class ContractorController {
 
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteContractor(@PathVariable("id") Integer id) {
         contractorService.deleteContractor(id);
         LOGGER.info("Delted contractor " + id);
@@ -117,21 +105,10 @@ public class ContractorController {
         AddressDto addressDto = null;
         ObjectMapper mapper = new ObjectMapper();
 
-        JSONObject jsonObject = new JSONObject(jsonInString);
-        JSONObject jsonAddressUp = new JSONObject();
-        JSONObject jsonContractorUp = new JSONObject();
+        String[] dividedJson = contractorService.divideJson(jsonInString);
 
-
-        jsonContractorUp.put("name",jsonObject.get("name"));
-        jsonContractorUp.put("tin",jsonObject.get("tin"));
-        jsonAddressUp.put("city",jsonObject.get("city"));
-        jsonAddressUp.put("street",jsonObject.get("street"));
-        jsonAddressUp.put("postalCode",jsonObject.get("postalCode"));
-        jsonAddressUp.put("country",jsonObject.get("country"));
-        jsonAddressUp.put("addressLine",jsonObject.get("addressLine"));
-
-        String contractorReader = jsonContractorUp.toString();
-        String addressReader = jsonAddressUp.toString();
+        String contractorReader = dividedJson[0];
+        String addressReader = dividedJson[1];
 
         LOGGER.info("Z json kontrahent " + contractorReader);
         LOGGER.info("Z json addres " + addressReader);
@@ -147,9 +124,7 @@ public class ContractorController {
 
             Contractor contractor = contractorService.convertToEntity(contractorDto);
             Address address = addressService.convertToEntity(addressDto);
-            contractorService.updateContractor(id,contractor,address);
-
-
+            contractorService.updateContractor(id, contractor, address);
 
 
         } catch (JsonGenerationException e) {
@@ -168,7 +143,7 @@ public class ContractorController {
     public @ResponseBody
     List<ContractorDto> getAll() {
         List<ContractorDto> allContractors = contractorService.findAllDTO();
-        for(ContractorDto contractorDto : allContractors){
+        for (ContractorDto contractorDto : allContractors) {
             LOGGER.info("Contractor id: " + contractorDto.getContractorId());
             Link selfLink = linkTo(ContractorController.class).slash(contractorDto.getContractorId()).withSelfRel();
             //Link addressLink = linkTo(methodOn(ContractorController.class).getAddress(contractorDto.getContractorId())).withRel("addresses");
