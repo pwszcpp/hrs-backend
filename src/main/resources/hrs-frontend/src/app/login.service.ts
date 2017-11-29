@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 @Injectable()
 export class LoginService {
 
-  isLogged : boolean;
-
   constructor(private http: Http, private _cookieService:CookieService, private router: Router) { }
 
   getCookie(key: string){
@@ -15,7 +13,10 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean{
-    return this.isLogged;
+    if(localStorage.getItem('Session')){
+      return true;
+    }
+    return false;
   }
 
   public login(username, password): boolean{
@@ -26,12 +27,11 @@ export class LoginService {
     this.http.post('http://localhost:8081/login', body, new RequestOptions({withCredentials: true})).subscribe(
       res => {
         localStorage.setItem('Session', this.getCookie('Session'));
-        this.isLogged = true;
         this.router.navigate(['/dashboard']);
         loginSuccess = true;
+        console.log(res);
       },
       err => {
-        this.isLogged = false;
         loginSuccess = false;
       }
     );
@@ -40,7 +40,10 @@ export class LoginService {
 
   public logout(){
     localStorage.removeItem('Session');
-    this.isLogged = false;
+    this._cookieService.delete('Session');
+    this.http.get('http://localhost:8081/logout').subscribe(
+      res => console.log(res)
+    );
     this.router.navigate(['/login']);
   }
 

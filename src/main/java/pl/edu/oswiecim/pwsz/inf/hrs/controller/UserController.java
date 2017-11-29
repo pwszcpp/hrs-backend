@@ -39,7 +39,7 @@ public class UserController {
     UserDto getUser(@PathVariable("email") String email) {
         LOGGER.info(email);
         UserDto userDto = userService.convertToDTO(userService.findByEmail(email));
-        LOGGER.info("działa");
+        //LOGGER.info("działa");
         return userDto;
     }
 
@@ -48,7 +48,7 @@ public class UserController {
     public @ResponseBody
     List<UserDto> getAll() {
         List<UserDto> allUsers = userService.findAllDTO();
-        LOGGER.info("działa get");
+        //LOGGER.info("działa get");
         return allUsers;
     }
 

@@ -35,9 +35,9 @@ public class TrainingController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
-    public void createTraning(@RequestBody String jsonInString) {
-        // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
-        //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
+    public void createTraning(@RequestBody String jsonInString){
+       // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
+         //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
 
         TrainingDto trainingDto = null;
 
@@ -48,17 +48,17 @@ public class TrainingController {
         try {
             trainingDto = mapper.readValue(reader, TrainingDto.class);
 
-            LOGGER.info(trainingDto.getName() + " " + trainingDto.getLocation() + " " + trainingDto.getOwner() +
-                    " " + trainingDto.getCost() + " " + trainingDto.getEndDate() +
-                    " " + trainingDto.getStartDate() + " " + trainingDto.getPermission());
+            LOGGER.info(trainingDto.getName()+" "+trainingDto.getLocation()+" "+trainingDto.getOwner()+
+                    " "+trainingDto.getCost()+" "+trainingDto.getEndDate() +
+                    " "+trainingDto.getStartDate()+" "+trainingDto.getPermission());
 
             Training training = trainingService.convertToEntity(trainingDto);
             trainingService.saveTraining(training);
 
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
+        e.printStackTrace();
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+        e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -67,12 +67,11 @@ public class TrainingController {
 
 
     }
-
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public void updateTraning(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
-        // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
-        //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
+    public void updateTraning(@PathVariable("id") Integer id, @RequestBody String jsonInString){
+       // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
+         //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
 
         TrainingDto trainingDto = null;
 
@@ -83,17 +82,17 @@ public class TrainingController {
         try {
             trainingDto = mapper.readValue(reader, TrainingDto.class);
 
-            LOGGER.info(trainingDto.getName() + " " + trainingDto.getLocation() + " " + trainingDto.getOwner() +
-                    " " + trainingDto.getCost() + " " + trainingDto.getEndDate() +
-                    " " + trainingDto.getStartDate() + " " + trainingDto.getPermission());
+            LOGGER.info(trainingDto.getName()+" "+trainingDto.getLocation()+" "+trainingDto.getOwner()+
+                    " "+trainingDto.getCost()+" "+trainingDto.getEndDate() +
+                    " "+trainingDto.getStartDate()+" "+trainingDto.getPermission());
 
             Training training = trainingService.convertToEntity(trainingDto);
-            trainingService.updateTraining(id, training);
+            trainingService.updateTraining(id,training);
 
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
+        e.printStackTrace();
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+        e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -105,11 +104,10 @@ public class TrainingController {
 
     @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
-    public @ResponseBody
-    List<TrainingDto> getAll() {
+    public @ResponseBody List<TrainingDto> getAll() {
         List<TrainingDto> allTrainings = trainingService.findAllDTO();
-        for (TrainingDto trainingDto : allTrainings) {
-            LOGGER.info("Training id: " + trainingDto.getTrainingId());
+        for(TrainingDto trainingDto : allTrainings){
+            //LOGGER.info("Training id: " + trainingDto.getTrainingId());
             Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
             Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
             trainingDto.add(selfLink);
@@ -121,8 +119,7 @@ public class TrainingController {
     }
 
     @RequestMapping("/{id}")
-    public @ResponseBody
-    TrainingDto getTraining(@PathVariable("id") Integer id) {
+    public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) {
         TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
         Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
         Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(id)).withRel("users");
@@ -134,7 +131,8 @@ public class TrainingController {
     @RequestMapping("/{id}/users")
     public @ResponseBody
     Set<User> getUsers(@PathVariable("id") Integer id) {
-        LOGGER.info("Training Id: " + id);
+        LOGGER.info("Training Id: " + id );
         return trainingService.findById(id).getUsers();
+
     }
 }
