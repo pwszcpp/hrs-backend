@@ -1,5 +1,6 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,14 +89,19 @@ public class InvoiceServiceImpl implements InvoiceService {
         JSONObject jsonObject = new JSONObject(jsonInString);
         JSONObject jsonInvoice = new JSONObject();
 
-        Integer contractorId = jsonObject.getInt("contractor_id");
+        try {
+            Integer contractorId = jsonObject.getInt("contractor_id");
 
-        jsonInvoice.put("description", jsonObject.get("description"));
-        jsonInvoice.put("netAmount", jsonObject.get("netAmount"));
-        jsonInvoice.put("grossAmount", jsonObject.get("grossAmount"));
-        jsonInvoice.put("tax", jsonObject.get("tax"));
+            jsonInvoice.put("description", jsonObject.get("description"));
+            jsonInvoice.put("netAmount", jsonObject.get("netAmount"));
+            jsonInvoice.put("grossAmount", jsonObject.get("grossAmount"));
+            jsonInvoice.put("tax", jsonObject.get("tax"));
+            String invoiceReader = jsonInvoice.toString();
+            return new String[]{contractorId.toString(), invoiceReader};
 
-        String invoiceReader = jsonInvoice.toString();
-        return new String[]{contractorId.toString(), invoiceReader};
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new String[]{"",""};
     }
 }

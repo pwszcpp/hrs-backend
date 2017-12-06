@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.ResourceSupport;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 
 import javax.annotation.Generated;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -40,6 +43,10 @@ public class TrainingDto extends ResourceSupport {
     private String location;
     @JsonProperty("id")
     private String id;
+    @JsonProperty("enrolledUsers")
+    private Set<User> enrolledUsers = new HashSet<>();
+    @JsonProperty("users")
+    private Set<User> users = new HashSet<>();
 
 
     @JsonProperty("name")
@@ -121,5 +128,23 @@ public class TrainingDto extends ResourceSupport {
     @JsonProperty("id")
     public String getTrainingId() {
         return id;
+    }
+
+    @JsonProperty("users")
+    public Set<User> getUsers() {
+        return users;
+    }
+    @JsonProperty("users")
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    @JsonProperty("entolledUsers")
+    public Set<User> getEnrolledUsers() {
+        return enrolledUsers;
+    }
+    @JsonProperty("entolledUsers")
+    public void setEnrolledUsers(Set<User> users) {
+        this.users = enrolledUsers;
     }
 }

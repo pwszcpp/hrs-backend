@@ -12,6 +12,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -32,6 +33,9 @@ public class TrainingController {
 
     @Autowired
     TrainingService trainingService;
+
+    @Autowired
+    UserService userService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
@@ -128,11 +132,46 @@ public class TrainingController {
         return trainingDto;
     }
 
-    @RequestMapping("/{id}/users")
+    @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
+    public void enrollTraining(@PathVariable("trainingId") Integer trainingId,
+                                              @RequestBody Integer userId) {
+
+        LOGGER.info("Training Id: " + trainingId+ "user id" + userId );
+
+        Training tr = trainingService.findById(trainingId);
+        Set<User>  users = tr.getEnrolledUsers();
+        users.add(userService.findById(userId));
+        tr.setEnrolledUsers(users);
+        trainingService.saveTraining(tr);
+    }
+
+    @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET)
     public @ResponseBody
-    Set<User> getUsers(@PathVariable("id") Integer id) {
+    Set<User> getEnrolledUsers(@PathVariable("id") Integer id) {
+        LOGGER.info("Training Id: " + id );
+        return trainingService.findById(id).getEnrolledUsers();
+    }
+
+    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.POST)
+    public void permitUser(@PathVariable("trainingId") Integer trainingId,
+                                              @RequestBody Integer userId) {
+
+        LOGGER.info("Accepted enrollment - Training Id: " + trainingId+ " user id" + userId );
+        Training tr = trainingService.findById(trainingId);
+        Set<User>  enrolledUsers = tr.getEnrolledUsers();
+        Set<User>  acceptedUsers = tr.getUsers();
+        User user = userService.findById(userId);
+        enrolledUsers.remove(user);
+        acceptedUsers.add(user);
+        trainingService.saveTraining(tr);
+    }
+
+    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.GET)
+    public @ResponseBody
+    Set<User> getUsers(@PathVariable("trainingId") Integer id) {
         LOGGER.info("Training Id: " + id );
         return trainingService.findById(id).getUsers();
-
     }
+
+
 }
