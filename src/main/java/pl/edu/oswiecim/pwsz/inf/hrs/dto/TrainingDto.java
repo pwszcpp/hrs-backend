@@ -22,7 +22,9 @@ import java.util.Set;
         "endDate",
         "cost",
         "permission",
-        "location"
+        "location",
+        "enrolledUsers",
+        "users"
 })
 public class TrainingDto extends ResourceSupport {
 
