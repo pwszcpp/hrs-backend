@@ -139,12 +139,12 @@ public class TrainingDto extends ResourceSupport {
         this.users = users;
     }
 
-    @JsonProperty("entolledUsers")
+    @JsonProperty("enrolledUsers")
     public Set<User> getEnrolledUsers() {
         return enrolledUsers;
     }
-    @JsonProperty("entolledUsers")
-    public void setEnrolledUsers(Set<User> users) {
-        this.users = enrolledUsers;
+    @JsonProperty("enrolledUsers")
+    public void setEnrolledUsers(Set<User> enrolledUsers) {
+        this.enrolledUsers = enrolledUsers;
     }
 }
