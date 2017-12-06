@@ -14,6 +14,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
@@ -114,9 +115,11 @@ public class TrainingController {
             //LOGGER.info("Training id: " + trainingDto.getTrainingId());
             Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
             Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
+            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
+                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
             trainingDto.add(selfLink);
             trainingDto.add(usersLink);
-
+            trainingDto.add(enrolledUsersLink);
 
         }
         return allTrainings;
@@ -127,8 +130,11 @@ public class TrainingController {
         TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
         Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
         Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(id)).withRel("users");
+        Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
+                .getEnrolledUsers(id)).withRel("enrolledUsers");
         trainingDto.add(selfLink);
         trainingDto.add(usersLink);
+        trainingDto.add(enrolledUsersLink);
         return trainingDto;
     }
 
@@ -139,10 +145,15 @@ public class TrainingController {
         LOGGER.info("Training Id: " + trainingId+ "user id" + userId );
 
         Training tr = trainingService.findById(trainingId);
-        Set<User>  users = tr.getEnrolledUsers();
-        users.add(userService.findById(userId));
-        tr.setEnrolledUsers(users);
-        trainingService.saveTraining(tr);
+
+        if(!tr.getUsers().contains(userService.findById(userId))) {
+            Set<User> enrolledUsers = tr.getEnrolledUsers();
+            enrolledUsers.add(userService.findById(userId));
+            tr.setEnrolledUsers(enrolledUsers);
+            trainingService.saveTraining(tr);
+        } else {
+            LOGGER.info("This user already has permission for this training");
+        }
     }
 
     @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET)

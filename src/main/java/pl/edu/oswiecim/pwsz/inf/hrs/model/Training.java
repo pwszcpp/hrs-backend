@@ -42,6 +42,10 @@ public class Training {
     @JoinTable(name = "training_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "enrolled_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> enrolledUsers = new HashSet<>();
+
     public Set<User> getEnrolledUsers() {
         return enrolledUsers;
     }
@@ -49,12 +53,6 @@ public class Training {
     public void setEnrolledUsers(Set<User> enrolledUsers) {
         this.enrolledUsers = enrolledUsers;
     }
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "enrolled_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-
-    private Set<User> enrolledUsers = new HashSet<>();
-
 
     public Integer getId() {
         return id;
