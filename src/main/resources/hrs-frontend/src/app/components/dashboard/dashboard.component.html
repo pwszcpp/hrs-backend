@@ -1,0 +1,57 @@
+<div class="container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource" class="table table-striped table-responsive">
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> Lp. </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="topic">
+      <mat-header-cell *matHeaderCellDef> Temat szkolenia </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="company">
+      <mat-header-cell *matHeaderCellDef> Nazwa firmy prowadzącej </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.owner}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+      <mat-header-cell *matHeaderCellDef> Miejsce szkolenia </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.location}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateFrom">
+      <mat-header-cell *matHeaderCellDef> Data rozpoczęcia </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.startDate}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateTo">
+      <mat-header-cell *matHeaderCellDef> Data zakonczenia </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.endDate}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cost">
+      <mat-header-cell *matHeaderCellDef> Koszt od osoby </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.cost}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="manager">
+      <mat-header-cell *matHeaderCellDef> Zgoda menedżera </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="openDialog(element.id)"> {{element.manager}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+    [length]="instDatabase.data.length"
+    [pageIndex]="0"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+</div>
+<br>
+<button class="btn btn-danger" type="button" (click)="onLogout()">Wyloguj</button>
+<button class="btn btn-primary" type="button" (click)="addInstructions()">Załaduj szkolenia</button>
