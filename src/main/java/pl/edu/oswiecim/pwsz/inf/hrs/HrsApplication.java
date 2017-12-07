@@ -2,7 +2,6 @@ package pl.edu.oswiecim.pwsz.inf.hrs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-<<<<<<< HEAD
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,13 +32,5 @@ public class HrsApplication{
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
-=======
-
-@SpringBootApplication
-public class HrsApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(HrsApplication.class, args);
->>>>>>> master
 	}
 }
