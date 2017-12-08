@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "training")
+@Table(name = "Training")
 public class Training {
 
     @Id
@@ -42,17 +42,17 @@ public class Training {
     @JoinTable(name = "training_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "enrolled_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> enrolledUsers = new HashSet<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "enrolled_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+//    private Set<User> enrolledUsers = new HashSet<>();
 
-    public Set<User> getEnrolledUsers() {
-        return enrolledUsers;
-    }
-
-    public void setEnrolledUsers(Set<User> enrolledUsers) {
-        this.enrolledUsers = enrolledUsers;
-    }
+//    public Set<User> getEnrolledUsers() {
+//        return enrolledUsers;
+//    }
+//
+//    public void setEnrolledUsers(Set<User> enrolledUsers) {
+//        this.enrolledUsers = enrolledUsers;
+//    }
 
     public Integer getId() {
         return id;

@@ -8,25 +8,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "Users", schema = "HRS_SCH")
 public class User {
 
     @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.USERS_SEQ", initialValue = 1, allocationSize = 99999)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
     @Column(name = "username")
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "`e-mail`")
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "pass")
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -33,10 +33,10 @@ public class TrainingController {
             LoggerFactory.getLogger(TrainingController.class);
 
     @Autowired
-    TrainingService trainingService;
+    private TrainingService trainingService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
@@ -44,7 +44,7 @@ public class TrainingController {
        // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
          //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
 
-        TrainingDto trainingDto = null;
+        TrainingDto trainingDto;
 
         ObjectMapper mapper = new ObjectMapper();
         StringReader reader = new StringReader(jsonInString);
@@ -115,11 +115,11 @@ public class TrainingController {
             //LOGGER.info("Training id: " + trainingDto.getTrainingId());
             Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
             Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
-            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
-                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
+//            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
+//                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
             trainingDto.add(selfLink);
             trainingDto.add(usersLink);
-            trainingDto.add(enrolledUsersLink);
+//            trainingDto.add(enrolledUsersLink);
 
         }
         return allTrainings;
@@ -130,38 +130,38 @@ public class TrainingController {
         TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
         Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
         Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(id)).withRel("users");
-        Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
-                .getEnrolledUsers(id)).withRel("enrolledUsers");
+//        Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
+//                .getEnrolledUsers(id)).withRel("enrolledUsers");
         trainingDto.add(selfLink);
         trainingDto.add(usersLink);
-        trainingDto.add(enrolledUsersLink);
+//        trainingDto.add(enrolledUsersLink);
         return trainingDto;
     }
 
-    @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
-    public void enrollTraining(@PathVariable("trainingId") Integer trainingId,
-                                              @RequestBody Integer userId) {
-
-        LOGGER.info("Training Id: " + trainingId+ "user id" + userId );
-
-        Training tr = trainingService.findById(trainingId);
-
-        if(!tr.getUsers().contains(userService.findById(userId))) {
-            Set<User> enrolledUsers = tr.getEnrolledUsers();
-            enrolledUsers.add(userService.findById(userId));
-            tr.setEnrolledUsers(enrolledUsers);
-            trainingService.saveTraining(tr);
-        } else {
-            LOGGER.info("This user already has permission for this training");
-        }
-    }
-
-    @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET)
-    public @ResponseBody
-    Set<User> getEnrolledUsers(@PathVariable("id") Integer id) {
-        LOGGER.info("Training Id: " + id );
-        return trainingService.findById(id).getEnrolledUsers();
-    }
+//    @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
+//    public void enrollTraining(@PathVariable("trainingId") Integer trainingId,
+//                                              @RequestBody Integer userId) {
+//
+//        LOGGER.info("Training Id: " + trainingId+ "user id" + userId );
+//
+//        Training tr = trainingService.findById(trainingId);
+//
+//        if(!tr.getUsers().contains(userService.findById(userId))) {
+//            Set<User> enrolledUsers = tr.getEnrolledUsers();
+//            enrolledUsers.add(userService.findById(userId));
+//            tr.setEnrolledUsers(enrolledUsers);
+//            trainingService.saveTraining(tr);
+//        } else {
+//            LOGGER.info("This user already has permission for this training");
+//        }
+//    }
+//
+//    @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET)
+//    public @ResponseBody
+//    Set<User> getEnrolledUsers(@PathVariable("id") Integer id) {
+//        LOGGER.info("Training Id: " + id );
+//        return trainingService.findById(id).getEnrolledUsers();
+//    }
 
     @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.POST)
     public void permitUser(@PathVariable("trainingId") Integer trainingId,
@@ -169,10 +169,10 @@ public class TrainingController {
 
         LOGGER.info("Accepted enrollment - Training Id: " + trainingId+ " user id" + userId );
         Training tr = trainingService.findById(trainingId);
-        Set<User>  enrolledUsers = tr.getEnrolledUsers();
+//        Set<User>  enrolledUsers = tr.getEnrolledUsers();
         Set<User>  acceptedUsers = tr.getUsers();
         User user = userService.findById(userId);
-        enrolledUsers.remove(user);
+//        enrolledUsers.remove(user);
         acceptedUsers.add(user);
         trainingService.saveTraining(tr);
     }

@@ -8,11 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.Address;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
-import pl.edu.oswiecim.pwsz.inf.hrs.repository.AddressRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.ContractorRepo;
-import pl.edu.oswiecim.pwsz.inf.hrs.repository.EmployeeRepo;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -23,9 +20,7 @@ import java.util.List;
 public class ContractorServiceImpl implements ContractorService {
 
     @Autowired
-    ContractorRepo contractorRepo;
-    @Autowired
-    AddressRepo addressRepo;
+    private ContractorRepo contractorRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -77,18 +72,15 @@ public class ContractorServiceImpl implements ContractorService {
 
     @Override
     @Transactional
-    public void updateContractor(Integer contractor_id, Contractor contractor, Address address) throws ParseException {
+    public void updateContractor(Integer contractor_id, Contractor contractor) throws ParseException {
         Contractor existingCont = contractorRepo.findOne(contractor_id);
-        Integer address_id = existingCont.getAddress().getId();
-        Address existingAdd = addressRepo.findOne(address_id);
         existingCont.setName(contractor.getName());
-        existingCont.setTin(contractor.getTin());
-        existingAdd.setPostalCode(address.getPostalCode());
-        existingAdd.setStreet(address.getStreet());
-        existingAdd.setCountry(address.getCountry());
-        existingAdd.setCity(address.getCity());
-        existingAdd.setAddressLine(address.getAddressLine());
-        addressRepo.save(existingAdd);
+        existingCont.setNip(contractor.getNip());
+        existingCont.setAddress(contractor.getAddress());
+        existingCont.setRegon(contractor.getRegon());
+        existingCont.setAccountNumber(contractor.getAccountNumber());
+        existingCont.setActiveTaxpayerVATTax(contractor.getActiveTaxpayerVATTax());
+        existingCont.setPaymentForm(contractor.getPaymentForm());
         contractorRepo.save(existingCont);
     }
 

@@ -8,20 +8,30 @@ public class Contractor {
 
 
     @Id
-    @Column(name = "contractor_id")
+    @Column(name = "Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "contractor_name")
+    @Column(name = "Name")
     private String name;
 
-    @Column(name = "tin")
-    private String tin;
+    @Column(name = "NIP_Number")
+    private Long nip;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", unique = true, nullable = false)
-    //@NotNull
-    private Address address;
+    @Column(name = "Address")
+    private String address;
+
+    @Column(name = "REGON_Number")
+    private String regon;
+
+    @Column(name = "Bank_Account_Number")
+    private Long accountNumber;
+
+    @Column(name = "Payment_Form")
+    private String paymentForm;
+
+    @Column(name = "Active_Taxpayer_VAT_Tax")
+    private Boolean activeTaxpayerVATTax;
 
     public Integer getId() {
         return id;
@@ -39,21 +49,65 @@ public class Contractor {
         this.name = name;
     }
 
-    public String getTin() {
-        return tin;
+    public Long getNip() {
+        return nip;
     }
 
-    public void setTin(String tin) {
-        this.tin = tin;
+    public void setNip(Long nip) {
+        this.nip = nip;
     }
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", unique = true, nullable = false)
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getRegon() {
+        return regon;
+    }
+
+    public void setRegon(String regon) {
+        this.regon = regon;
+    }
+
+    public Long getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getPaymentForm() {
+        return paymentForm;
+    }
+
+    public void setPaymentForm(String paymentForm) {
+        this.paymentForm = paymentForm;
+    }
+
+    public Boolean getActiveTaxpayerVATTax() {
+        return activeTaxpayerVATTax;
+    }
+
+    public void setActiveTaxpayerVATTax(Boolean activeTaxpayerVATTax) {
+        this.activeTaxpayerVATTax = activeTaxpayerVATTax;
+    }
+
+    @Override
+    public String toString() {
+        return "Contractor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nip=" + nip +
+                ", address='" + address + '\'' +
+                ", regon='" + regon + '\'' +
+                ", accountNumber=" + accountNumber +
+                ", paymentForm='" + paymentForm + '\'' +
+                ", activeTaxpayerVATTax=" + activeTaxpayerVATTax +
+                '}';
     }
 }

@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().httpBasic().and().headers().and().
+        http.headers().frameOptions().disable().and()
+                .cors().and().httpBasic().and().headers().and().
                 csrf().
                     disable()
                     .authorizeRequests()

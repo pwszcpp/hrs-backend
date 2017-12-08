@@ -1,8 +1,6 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
-import pl.edu.oswiecim.pwsz.inf.hrs.dto.AddressDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.Address;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
 
 import java.text.ParseException;
@@ -16,7 +14,7 @@ public interface ContractorService {
     List findAllDTO();
     Contractor findById(Integer id);
     void deleteContractor(Integer id);
-    void updateContractor(Integer id, Contractor Contractor, Address address) throws ParseException;
+    void updateContractor(Integer id, Contractor Contractor) throws ParseException;
 
     String[] divideJson(String jsonInString);
 }

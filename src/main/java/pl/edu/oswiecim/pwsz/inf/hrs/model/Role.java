@@ -3,7 +3,7 @@ package pl.edu.oswiecim.pwsz.inf.hrs.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = "Roles")
 public class Role {
 
     @Id
