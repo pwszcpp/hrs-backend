@@ -3,13 +3,14 @@ package pl.edu.oswiecim.pwsz.inf.hrs.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "contractor")
+@Table(name = "contractor", schema = "HRS_SCH")
 public class Contractor {
 
 
     @Id
     @Column(name = "Id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.CONTRACTOR_SEQ", initialValue = 1, allocationSize = 99999)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
     @Column(name = "Name")

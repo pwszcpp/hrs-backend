@@ -17,7 +17,8 @@ import java.util.Set;
         "email",
         "password",
         "name",
-        "surname"
+        "surname",
+        "role"
         //       "roles"
 })
 public class UserDto {
@@ -37,8 +38,8 @@ public class UserDto {
     @JsonProperty("surname")
     private String surname;
 
-/*    @JsonProperty("roles")
-    private Set<Role> roles = new HashSet<>();*/
+    @JsonProperty("role")
+    private Set<Role> roles = new HashSet<>();
 
     @JsonProperty("id")
     public Integer getUserId() {
@@ -80,13 +81,13 @@ public class UserDto {
         this.password = password;
     }
 
-/*    @JsonProperty("roles")
+    @JsonProperty("role")
     public Set<Role> getRoles() {
         return roles;
     }
 
-    @JsonProperty("roles")
+    @JsonProperty("role")
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }*/
+    }
 }

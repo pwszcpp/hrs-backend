@@ -28,7 +28,8 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @Column(name = "role")
+    private Set<Role> role = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_training", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "training_id"))
@@ -62,11 +63,11 @@ public class User {
     }
 
     public Set<Role> getRoles() {
-        return roles;
+        return role;
     }
 
     public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+        this.role = roles;
     }
 
     public String getEmail() {
@@ -84,7 +85,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles +
+                ", roles=" + role +
                 ", trainings=" + trainings +
                 '}';
     }
