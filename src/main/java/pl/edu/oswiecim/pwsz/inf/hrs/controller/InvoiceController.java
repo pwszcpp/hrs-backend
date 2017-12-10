@@ -33,8 +33,8 @@ public class InvoiceController {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(InvoiceController.class);
 
-    @Autowired
-    ContractorService contractorService;
+//    @Autowired
+//    ContractorService contractorService;
 
     @Autowired
     InvoiceService invoiceService;
@@ -48,26 +48,26 @@ public class InvoiceController {
     @RequestMapping(method = RequestMethod.POST)
     public void addInvoice(@RequestBody String jsonInString) {
 
-        ContractorDto contractorDto = null;
+//        ContractorDto contractorDto = null;
         InvoiceDto invoiceDto = null;
         ObjectMapper mapper = new ObjectMapper();
 
-        String[] dividedJson = invoiceService.divideJson(jsonInString);
+       // String[] dividedJson = invoiceService.divideJson(jsonInString);
 
-        Integer contractorId = Integer.parseInt(dividedJson[0]);
-        String invoiceReader = dividedJson[1];
+//        Integer contractorId = Integer.parseInt(dividedJson[0]);
+//        String invoiceReader = dividedJson[1];
 
-        LOGGER.info("Z json faktura " + invoiceReader);
+        LOGGER.info("Z json faktura " + jsonInString);
 
         try {
-            invoiceDto = mapper.readValue(invoiceReader, InvoiceDto.class);
+            invoiceDto = mapper.readValue(jsonInString, InvoiceDto.class);
 
             Invoice invoice = invoiceService.convertToEntity(invoiceDto);
-            invoice.setContractor(contractorRepo.findOne(contractorId));
+           // invoice.setContractor(contractorRepo.findOne(contractorId));
             invoiceService.saveInvoice(invoice);
 
 
-            LOGGER.info("Faktura " + invoice.getDescription() + "dla kontrahenta " + contractorId);
+            LOGGER.info("Faktura " + invoice.getId()+ "dla kontrahenta " + invoice.getBuyer_name());
 
 
         } catch (JsonGenerationException e) {
@@ -108,7 +108,7 @@ public class InvoiceController {
 
             invoiceService.updateInvoice(id, invoice, contractorId);
 
-            LOGGER.info("Faktura " + invoice.getDescription() + "dla kontrahenta " + contractorId);
+           // LOGGER.info("Faktura " + invoice.getDescription() + "dla kontrahenta " + contractorId);
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();
@@ -129,10 +129,10 @@ public class InvoiceController {
         for (InvoiceDto invoiceDto : allInvoices) {
             LOGGER.info("Invoice id: " + invoiceDto.getInvoiceId());
             Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
-            Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(invoiceDto.getContractor().getId())).
-                    withRel("contractor");
+           // Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(invoiceDto.getContractor().getId())).
+           //         withRel("contractor");
             invoiceDto.add(selfLink);
-            invoiceDto.add(contractorLink);
+           // invoiceDto.add(contractorLink);
         }
         return allInvoices;
     }

@@ -73,14 +73,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     @Transactional
     public void updateInvoice(Integer invoiceId, Invoice invoice, Integer contractorId) throws ParseException {
-        Invoice existingIn = invoiceRepo.findOne(invoiceId);
-        existingIn.setDescription(invoice.getDescription());
-        existingIn.setGrossAmount(invoice.getGrossAmount());
-        existingIn.setNetAmount(invoice.getNetAmount());
-        existingIn.setTax(invoice.getTax());
-        existingIn.setContractor(contractorRepo.findOne(contractorId));
-
-        invoiceRepo.save(existingIn);
+//        Invoice existingIn = invoiceRepo.findOne(invoiceId);
+//        existingIn.setDescription(invoice.getDescription());
+//        existingIn.setGrossAmount(invoice.getGrossAmount());
+//        existingIn.setNetAmount(invoice.getNetAmount());
+//        existingIn.setTax(invoice.getTax());
+//        existingIn.setContractor(contractorRepo.findOne(contractorId));
+//
+//        invoiceRepo.save(existingIn);
 
     }
 
@@ -91,13 +91,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         try {
             Integer contractorId = jsonObject.getInt("contractor_id");
-
-            jsonInvoice.put("description", jsonObject.get("description"));
-            jsonInvoice.put("netAmount", jsonObject.get("netAmount"));
-            jsonInvoice.put("grossAmount", jsonObject.get("grossAmount"));
-            jsonInvoice.put("tax", jsonObject.get("tax"));
-            String invoiceReader = jsonInvoice.toString();
-            return new String[]{contractorId.toString(), invoiceReader};
+//
+//            jsonInvoice.put("description", jsonObject.get("description"));
+//            jsonInvoice.put("netAmount", jsonObject.get("netAmount"));
+//            jsonInvoice.put("grossAmount", jsonObject.get("grossAmount"));
+//            jsonInvoice.put("tax", jsonObject.get("tax"));
+//            String invoiceReader = jsonInvoice.toString();
+//            return new String[]{contractorId.toString(), invoiceReader};
 
         } catch (JSONException e) {
             e.printStackTrace();
