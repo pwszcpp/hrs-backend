@@ -3,15 +3,15 @@ package pl.edu.oswiecim.pwsz.inf.hrs.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 
 @Entity
-@Table(name = "invoice", schema = "HRS_SCH")
+@Table(name = "Invoice",  schema = "HRS_SCH")
 public class Invoice {
 
     @Id
-    @Column(name = "Id")
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.INVOICE_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
     @Column(name = "Seller_Name")
