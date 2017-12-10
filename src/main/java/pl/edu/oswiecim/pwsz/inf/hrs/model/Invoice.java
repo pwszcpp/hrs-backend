@@ -12,7 +12,6 @@ public class Invoice {
 
     @Id
     @Column(name = "Id")
-    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.INVOICE_SEQ", initialValue = 1, allocationSize = 99999)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
     @Column(name = "Seller_Name")

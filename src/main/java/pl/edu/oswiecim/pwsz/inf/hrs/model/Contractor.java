@@ -9,7 +9,7 @@ public class Contractor {
 
     @Id
     @Column(name = "Id")
-    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.CONTRACTOR_SEQ", initialValue = 1, allocationSize = 99999)
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.CONTRACTOR_SEQ")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
