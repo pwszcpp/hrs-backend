@@ -1,4 +1,4 @@
-package pl.edu.oswiecim.pwsz.inf.hrs.service;
+package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public User convertToEntity(UserDto employeeDto) throws ParseException {
-        return modelMapper.map(employeeDto, User.class);
+    public User convertToEntity(UserDto userDto) throws ParseException {
+        return modelMapper.map(userDto, User.class);
     }
 
     @Override

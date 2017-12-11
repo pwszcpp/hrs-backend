@@ -1,6 +1,8 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.xml.crypto.Data;
@@ -9,38 +11,53 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "Training")
+@Table(name = "Training", schema = "HRS_SCH")
 public class Training {
 
     @Id
-    @Column(name = "training_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.TRAINING_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
-    @Column(name = "training_name")
-    private String name;
+    @Column(name = "company")
+    private String company;
 
-    @Column(name = "owner")
-    private String owner;
-
-    @Column(name = "start_date")
+    @Column(name = "from_day")
     private Date startDate;
 
-    @Column(name = "end_date")
+    @Column(name = "until_day")
     private Date endDate;
 
-    @Column(name = "cost")
+    @Column(name = "price")
     private Float cost;
 
-    @Column(name = "permission")
-    private Boolean permission;
+    @Column(name = "consent")
+    private Boolean consent;
 
-    @Column(name = "location")
+    @Column(name = "place")
     private String location;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "training_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> users = new HashSet<>();
+    @Column(name = "theme")
+    private String theme;
+
+    @Column(name = "author_id")
+    private Integer authorId;
+
+    public enum Cancelled {
+        YES,
+        NO
+    };
+
+    @Column(name = "cancelled")
+    @Enumerated(EnumType.ORDINAL)
+    private Cancelled cancelled;
+
+    @Column(name = "no_of_seats")
+    private Integer noOfSeats;
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UserTraining> userTrainings = new HashSet<>();
 
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(name = "enrolled_user", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -54,6 +71,15 @@ public class Training {
 //        this.enrolledUsers = enrolledUsers;
 //    }
 
+    @JsonIgnore
+    public Set<UserTraining> getUserTrainings() {
+        return userTrainings;
+    }
+
+    public void setUserTrainings(Set<UserTraining> trainings) {
+        this.userTrainings = trainings;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -62,20 +88,12 @@ public class Training {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCompany() {
+        return company;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public Date getStartDate() {
@@ -102,12 +120,12 @@ public class Training {
         this.cost = cost;
     }
 
-    public Boolean getPermission() {
-        return permission;
+    public Boolean getConsent() {
+        return consent;
     }
 
-    public void setPermission(Boolean permission) {
-        this.permission = permission;
+    public void setConsent(Boolean consent) {
+        this.consent = consent;
     }
 
     public String getLocation() {
@@ -118,11 +136,36 @@ public class Training {
         this.location = location;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public String getTheme() {
+        return theme;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
+
+    public Cancelled getCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(Cancelled cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public Integer getNoOfSeats() {
+        return noOfSeats;
+    }
+
+    public void setNoOfSeats(Integer noOfSeats) {
+        this.noOfSeats = noOfSeats;
+    }
+
 }

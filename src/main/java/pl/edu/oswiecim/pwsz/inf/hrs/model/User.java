@@ -1,9 +1,11 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ public class User {
 
     @Id
     @Column(name = "id")
-    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.USERS_SEQ", initialValue = 1, allocationSize = 99999)
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.USERS_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
@@ -26,14 +28,35 @@ public class User {
     @Column(name = "pass")
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Column(name = "role")
-    private Set<Role> role = new HashSet<>();
+    private String role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_training", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "training_id"))
-    private Set<Training> trainings = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<UserTraining> userTrainings = new HashSet<>();
+
+    public enum Status {
+        ENABLED,
+        DISABLED
+    };
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Column(name = "pass_expire")
+    private Date passExpire;
+
+    @Column(name = "pass_changed_date")
+    private Date passChangedDate;
+
+    @Column(name = "login_last_success")
+    private Date loginLastSuccess;
+
+    @Column(name = "login_last_failed")
+    private Date loginLastFailed;
+
+    @Column(name = "login_attempts_failed")
+    private Integer loginAttemptsFailed;
 
     public User() {
     }
@@ -62,12 +85,12 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public String getRole() {
         return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.role = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getEmail() {
@@ -78,15 +101,61 @@ public class User {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + role +
-                ", trainings=" + trainings +
-                '}';
+    public Status getStatus() {
+        return status;
     }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Date getPassExpire() {
+        return passExpire;
+    }
+
+    public void setPassExpire(Date passExpire) {
+        this.passExpire = passExpire;
+    }
+
+    public Date getPassChangedDate() {
+        return passChangedDate;
+    }
+
+    public void setPassChangedDate(Date passChangedDate) {
+        this.passChangedDate = passChangedDate;
+    }
+
+    public Date getLoginLastSuccess() {
+        return loginLastSuccess;
+    }
+
+    public void setLoginLastSuccess(Date loginLastSuccess) {
+        this.loginLastSuccess = loginLastSuccess;
+    }
+
+    public Date getLoginLastFailed() {
+        return loginLastFailed;
+    }
+
+    public void setLoginLastFailed(Date loginLastFailed) {
+        this.loginLastFailed = loginLastFailed;
+    }
+
+    public Integer getLoginAttemptsFailed() {
+        return loginAttemptsFailed;
+    }
+
+    public void setLoginAttemptsFailed(Integer loginAttemptsFailed) {
+        this.loginAttemptsFailed = loginAttemptsFailed;
+    }
+
+    @JsonIgnore
+    public Set<UserTraining> getUserTrainings() {
+        return userTrainings;
+    }
+
+    public void setUserTrainings(Set<UserTraining> trainings) {
+        this.userTrainings = trainings;
+    }
+
 }

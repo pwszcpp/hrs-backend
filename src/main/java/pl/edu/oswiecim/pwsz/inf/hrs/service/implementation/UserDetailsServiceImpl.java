@@ -1,4 +1,4 @@
-package pl.edu.oswiecim.pwsz.inf.hrs.service;
+package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public List<GrantedAuthority> getAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        for (Role role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getRole()));
-        }
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
         LOGGER.debug("user authorities are " + authorities.toString());
         return authorities;
     }

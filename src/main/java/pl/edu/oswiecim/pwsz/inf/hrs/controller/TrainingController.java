@@ -7,19 +7,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.UserTraining;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.UserTrainingService;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -38,6 +41,9 @@ public class TrainingController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserTrainingService userTrainingService;
+
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     public void createTraning(@RequestBody String jsonInString){
@@ -53,11 +59,13 @@ public class TrainingController {
         try {
             trainingDto = mapper.readValue(reader, TrainingDto.class);
 
-            LOGGER.info(trainingDto.getName()+" "+trainingDto.getLocation()+" "+trainingDto.getOwner()+
+            LOGGER.info(trainingDto.getName()+" "+trainingDto.getLocation()+" "+trainingDto.getCompany()+
                     " "+trainingDto.getCost()+" "+trainingDto.getEndDate() +
-                    " "+trainingDto.getStartDate()+" "+trainingDto.getPermission());
+                    " "+trainingDto.getStartDate()+" "+trainingDto.getConsent());
 
             Training training = trainingService.convertToEntity(trainingDto);
+            User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            training.setAuthorId(user.getId());
             trainingService.saveTraining(training);
 
         } catch (JsonGenerationException e) {
@@ -87,9 +95,9 @@ public class TrainingController {
         try {
             trainingDto = mapper.readValue(reader, TrainingDto.class);
 
-            LOGGER.info(trainingDto.getName()+" "+trainingDto.getLocation()+" "+trainingDto.getOwner()+
+            LOGGER.info(trainingDto.getName()+" "+trainingDto.getLocation()+" "+trainingDto.getCompany()+
                     " "+trainingDto.getCost()+" "+trainingDto.getEndDate() +
-                    " "+trainingDto.getStartDate()+" "+trainingDto.getPermission());
+                    " "+trainingDto.getStartDate()+" "+trainingDto.getConsent());
 
             Training training = trainingService.convertToEntity(trainingDto);
             trainingService.updateTraining(id,training);
@@ -138,51 +146,65 @@ public class TrainingController {
         return trainingDto;
     }
 
-//    @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
-//    public void enrollTraining(@PathVariable("trainingId") Integer trainingId,
-//                                              @RequestBody Integer userId) {
+    @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
+    public void enrollTraining(@PathVariable("trainingId") Integer trainingId) {
+
+        User user = userService.findByUsername(SecurityContextHolder.getContext()
+                .getAuthentication().getName());
 //
 //        LOGGER.info("Training Id: " + trainingId+ "user id" + userId );
 //
 //        Training tr = trainingService.findById(trainingId);
 //
-//        if(!tr.getUsers().contains(userService.findById(userId))) {
-//            Set<User> enrolledUsers = tr.getEnrolledUsers();
-//            enrolledUsers.add(userService.findById(userId));
-//            tr.setEnrolledUsers(enrolledUsers);
-//            trainingService.saveTraining(tr);
-//        } else {
-//            LOGGER.info("This user already has permission for this training");
-//        }
+//        Set<User> enrolledUsers = tr.getUsers();
+//        enrolledUsers.add(userService.findById(userId));
+//        tr.setUsers(enrolledUsers);
+//        trainingService.saveTraining(tr);
+
+        Training training = trainingService.findById(trainingId);
+
+        UserTraining userTraining = new UserTraining();
+        userTraining.setTraining(training);
+        userTraining.setUser(user);
+        userTraining.setAgreed(false);
+        userTraining.setCancelled(false);
+        userTraining.setSignDate(new Date());
+        userTraining.setNote("elo");
+
+        userTrainingService.saveUserTraining(userTraining);
+
+    }
+
+    @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET)
+    public @ResponseBody
+    Set<UserTraining> getUsers(@PathVariable("id") Integer id) {
+
+        Training training = trainingService.findById(id);
+
+        return training.getUserTrainings();
+    }
+
+//    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.POST)
+//    public void permitUser(@PathVariable("trainingId") Integer trainingId,
+//                                              @RequestBody Integer userId) {
+//
+////        LOGGER.info("Accepted enrollment - Training Id: " + trainingId+ " user id" + userId );
+////        Training tr = trainingService.findById(trainingId);
+//////        Set<User>  enrolledUsers = tr.getEnrolledUsers();
+////        Set<User>  acceptedUsers = tr.getUsers();
+////        User user = userService.findById(userId);
+//////        enrolledUsers.remove(user);
+////        acceptedUsers.add(user);
+////        trainingService.saveTraining(tr);
 //    }
 //
-//    @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET)
+//    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.GET)
 //    public @ResponseBody
-//    Set<User> getEnrolledUsers(@PathVariable("id") Integer id) {
-//        LOGGER.info("Training Id: " + id );
-//        return trainingService.findById(id).getEnrolledUsers();
+//    Set<User> getUsers(@PathVariable("trainingId") Integer id) {
+////        LOGGER.info("Training Id: " + id );
+////        return trainingService.findById(id).getUsers();
+//        return null;
 //    }
-
-    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.POST)
-    public void permitUser(@PathVariable("trainingId") Integer trainingId,
-                                              @RequestBody Integer userId) {
-
-        LOGGER.info("Accepted enrollment - Training Id: " + trainingId+ " user id" + userId );
-        Training tr = trainingService.findById(trainingId);
-//        Set<User>  enrolledUsers = tr.getEnrolledUsers();
-        Set<User>  acceptedUsers = tr.getUsers();
-        User user = userService.findById(userId);
-//        enrolledUsers.remove(user);
-        acceptedUsers.add(user);
-        trainingService.saveTraining(tr);
-    }
-
-    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.GET)
-    public @ResponseBody
-    Set<User> getUsers(@PathVariable("trainingId") Integer id) {
-        LOGGER.info("Training Id: " + id );
-        return trainingService.findById(id).getUsers();
-    }
 
 
 }

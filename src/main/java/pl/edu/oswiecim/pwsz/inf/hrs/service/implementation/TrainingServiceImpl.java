@@ -1,4 +1,4 @@
-package pl.edu.oswiecim.pwsz.inf.hrs.service;
+package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.TrainingRepo;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -63,12 +64,16 @@ public class TrainingServiceImpl implements TrainingService {
     public void updateTraining(Integer id, Training training) {
 
         Training existingTrai = trainingRepo.findOne(id);
-        existingTrai.setName(training.getName());
+        existingTrai.setTheme(training.getTheme());
         existingTrai.setLocation(training.getLocation());
-        existingTrai.setOwner(training.getOwner());
-        existingTrai.setPermission(training.getPermission());
+        existingTrai.setAuthorId(training.getAuthorId());
+        existingTrai.setConsent(training.getConsent());
         existingTrai.setStartDate(training.getStartDate());
         existingTrai.setEndDate(training.getEndDate());
+        existingTrai.setCompany(training.getCompany());
+        existingTrai.setNoOfSeats(training.getNoOfSeats());
+        existingTrai.setCancelled(training.getCancelled());
+        existingTrai.setCost(training.getCost());
 
         trainingRepo.save(existingTrai);
     }

@@ -1,4 +1,4 @@
-package pl.edu.oswiecim.pwsz.inf.hrs.service;
+package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.ContractorRepo;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.ContractorService;
 
 import java.text.ParseException;
 import java.util.ArrayList;

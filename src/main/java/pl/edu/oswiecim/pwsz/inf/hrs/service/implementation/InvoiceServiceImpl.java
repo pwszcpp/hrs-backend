@@ -1,4 +1,4 @@
-package pl.edu.oswiecim.pwsz.inf.hrs.service;
+package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +10,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Invoice;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.ContractorRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.InvoiceRepo;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.InvoiceService;
 
 import java.text.ParseException;
 import java.util.ArrayList;

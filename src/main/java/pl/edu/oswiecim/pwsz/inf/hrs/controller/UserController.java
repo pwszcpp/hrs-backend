@@ -66,11 +66,8 @@ public class UserController {
             LOGGER.info(userDto.getUsername() + " " + userDto.getEmail());
 
             User user = userService.convertToEntity(userDto);
-            Role role = new Role();
-            role.setRole("USER");
-            Set<Role> roles = new HashSet<>();
-            roles.add(role);
-            user.setRoles(roles);
+            user.setRole("USER");
+            user.setStatus(User.Status.ENABLED);
             userService.saveUser(user);
 
         } catch (IOException e) {

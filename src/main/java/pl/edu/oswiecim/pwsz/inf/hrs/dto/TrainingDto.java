@@ -16,60 +16,79 @@ import java.util.Set;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
         "id",
-        "name",
-        "owner",
+        "company",
         "startDate",
         "endDate",
         "cost",
-        "permission",
+        "consent",
         "location",
-        "enrolledUsers",
-        "users"
+        "theme",
+//        "author_id",
+        "cancelled",
+        "no_of_seats"
 })
 public class TrainingDto extends ResourceSupport {
 
 
     @JsonProperty("name")
     private String name;
-    @JsonProperty("owner")
-    private String owner;
+    @JsonProperty("company")
+    private String company;
     @JsonProperty("startDate")
     private Date startDate;
     @JsonProperty("endDate")
     private Date endDate;
     @JsonProperty("cost")
     private Float cost;
-    @JsonProperty("permission")
-    private Boolean permission;
+    @JsonProperty("consent")
+    private Boolean consent;
     @JsonProperty("location")
     private String location;
     @JsonProperty("id")
     private String id;
-    @JsonProperty("enrolledUsers")
-    private Set<User> enrolledUsers = new HashSet<>();
-    @JsonProperty("users")
-    private Set<User> users = new HashSet<>();
+    @JsonProperty("theme")
+    private String theme;
+//    @JsonProperty("author_id")
+//    private Integer authorId;
 
+    public enum Cancelled {
+        YES,
+        NO
+    };
+
+    @JsonProperty("cancelled")
+    private Cancelled cancelled;
+    @JsonProperty("no_of_seats")
+    private Integer noOfSeats;
+
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @JsonProperty("id")
+    public String getTrainingId() {
+        return id;
+    }
 
     @JsonProperty("name")
     public String getName() {
         return name;
     }
 
-
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
-    @JsonProperty("owner")
-    public String getOwner() {
-        return owner;
+    @JsonProperty("company")
+    public String getCompany() {
+        return company;
     }
 
-    @JsonProperty("owner")
-    public void setOwner(String owner) {
-        this.owner = owner;
+    @JsonProperty("company")
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     @JsonProperty("startDate")
@@ -102,14 +121,14 @@ public class TrainingDto extends ResourceSupport {
         this.cost = cost;
     }
 
-    @JsonProperty("permission")
-    public Boolean getPermission() {
-        return permission;
+    @JsonProperty("consent")
+    public Boolean getConsent() {
+        return consent;
     }
 
-    @JsonProperty("permission")
-    public void setPermission(Boolean permission) {
-        this.permission = permission;
+    @JsonProperty("consent")
+    public void setConsent(Boolean consent) {
+        this.consent = consent;
     }
 
     @JsonProperty("location")
@@ -122,31 +141,43 @@ public class TrainingDto extends ResourceSupport {
         this.location = location;
     }
 
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
+    @JsonProperty("theme")
+    public String getTheme() {
+        return theme;
     }
 
-    @JsonProperty("id")
-    public String getTrainingId() {
-        return id;
+    @JsonProperty("theme")
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
-    @JsonProperty("users")
-    public Set<User> getUsers() {
-        return users;
-    }
-    @JsonProperty("users")
-    public void setUsers(Set<User> users) {
-        this.users = users;
+//    @JsonProperty("author_id")
+//    public Integer getAuthorId() {
+//        return authorId;
+//    }
+//
+//    @JsonProperty("author_id")
+//    public void setAuthorId(Integer authorId) {
+//        this.authorId = authorId;
+//    }
+
+    @JsonProperty("cancelled")
+    public Cancelled getCancelled() {
+        return cancelled;
     }
 
-    @JsonProperty("enrolledUsers")
-    public Set<User> getEnrolledUsers() {
-        return enrolledUsers;
+    @JsonProperty("cancelled")
+    public void setCancelled(Cancelled cancelled) {
+        this.cancelled = cancelled;
     }
-    @JsonProperty("enrolledUsers")
-    public void setEnrolledUsers(Set<User> enrolledUsers) {
-        this.enrolledUsers = enrolledUsers;
+
+    @JsonProperty("no_of_seats")
+    public Integer getNoOfSeats() {
+        return noOfSeats;
+    }
+
+    @JsonProperty("no_of_seats")
+    public void setNoOfSeats(Integer noOfSeats) {
+        this.noOfSeats = noOfSeats;
     }
 }

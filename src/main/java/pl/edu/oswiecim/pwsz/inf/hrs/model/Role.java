@@ -7,12 +7,16 @@ import javax.persistence.*;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.ROLES_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "role_name")
+    @Column(name = "name")
     private String role;
+
+    @Column(name = "permission")
+    private String permission;
 
     public Integer getId() {
         return id;
@@ -28,5 +32,13 @@ public class Role {
 
     public void setRole(String name) {
         this.role = name;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 }

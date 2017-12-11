@@ -7,5 +7,5 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 
 @Repository("trainingRepository")
 public interface TrainingRepo extends CrudRepository<Training, Integer>{
-    Training findTrainingByName(String name);
+    Training findTrainingByTheme(String theme);
 }
