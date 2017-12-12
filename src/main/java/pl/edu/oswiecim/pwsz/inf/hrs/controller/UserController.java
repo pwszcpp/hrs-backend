@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
@@ -36,11 +37,12 @@ public class UserController {
     @RequestMapping(value = "/{email:.+}", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     public @ResponseBody
-    UserDto getUser(@PathVariable("email") String email) {
+    Integer getUser(@PathVariable("email") String email) {
         LOGGER.info(email);
         UserDto userDto = userService.convertToDTO(userService.findByEmail(email));
+        Integer id = userDto.getUserId();
         //LOGGER.info("działa");
-        return userDto;
+        return id;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -83,4 +85,18 @@ public class UserController {
         userService.deleteUser(id);
         LOGGER.info("Delted user " + id);
     }
+
+    @RequestMapping(value = "/getID", method = RequestMethod.GET)
+    public Integer getID() {
+        LOGGER.info("USER_ID: " +(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId());
+        return (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
+    }
+
+//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+//    public UserDto getUserById(@PathVariable("id") Integer id) {
+//        UserDto userDto = userService.convertToDTO(userService.findById(id));
+//        //LOGGER.info("działa");
+//        return userDto;
+//    }
 }
+

@@ -2,6 +2,9 @@ package pl.edu.oswiecim.pwsz.inf.hrs.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -56,7 +59,7 @@ public class Training {
     @Column(name = "no_of_seats")
     private Integer noOfSeats;
 
-    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserTraining> userTrainings = new HashSet<>();
 
 //    @ManyToMany(cascade = CascadeType.ALL)

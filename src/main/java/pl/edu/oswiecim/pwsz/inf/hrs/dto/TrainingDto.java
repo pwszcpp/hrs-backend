@@ -3,13 +3,18 @@ package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.ResourceSupport;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.UserTraining;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
 
 import javax.annotation.Generated;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -25,10 +30,17 @@ import java.util.Set;
         "theme",
 //        "author_id",
         "cancelled",
-        "no_of_seats"
+        "no_of_seats",
+        "assign"
 })
 public class TrainingDto extends ResourceSupport {
 
+    @Autowired
+    TrainingService trainingService;
+
+    public TrainingDto(){
+
+    }
 
     @JsonProperty("name")
     private String name;
@@ -48,6 +60,7 @@ public class TrainingDto extends ResourceSupport {
     private String id;
     @JsonProperty("theme")
     private String theme;
+
 //    @JsonProperty("author_id")
 //    private Integer authorId;
 
