@@ -26,7 +26,7 @@ public interface InvoiceService {
 
     void deleteInvoice(Integer id);
 
-    void updateInvoice(Integer invoiceId, Invoice invoice, Integer contractorId) throws ParseException;
+    void updateInvoice(Integer invoiceId, Invoice invoice) throws ParseException;
 
     String[] divideJson(String jsonInString);
 }

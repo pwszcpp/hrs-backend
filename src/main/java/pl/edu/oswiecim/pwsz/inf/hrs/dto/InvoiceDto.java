@@ -82,7 +82,6 @@ public class InvoiceDto extends ResourceSupport {
     public String getInvoiceId() {
         return id;
     }
-
     @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
@@ -96,6 +95,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setSeller_name(String seller_name) {
         this.seller_name = seller_name;
     }
+
     @JsonProperty("seller_address")
     public String getSellerAddress() {
         return sellerAddress;
@@ -104,6 +104,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setSellerAddress(String sellerAddress) {
         this.sellerAddress = sellerAddress;
     }
+
     @JsonProperty("seller_NIP")
     public long getSellerNIP() {
         return sellerNIP;
@@ -112,6 +113,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setSellerNIP(long selllerNIP) {
         this.sellerNIP = selllerNIP;
     }
+
     @JsonProperty("seller_account_number")
     public long getSellerAccountNumber() {
         return sellerAccountNumber;
@@ -120,14 +122,16 @@ public class InvoiceDto extends ResourceSupport {
     public void setSellerAccountNumber(long sellerAccountNumber) {
         this.sellerAccountNumber = sellerAccountNumber;
     }
-    @JsonProperty("buyerName")
+
+    @JsonProperty("buyer_name")
     public String getBuyer_name() {
         return buyer_name;
     }
-    @JsonProperty("buyerName")
+    @JsonProperty("buyer_name")
     public void setBuyer_name(String buyer_name) {
         this.buyer_name = buyer_name;
     }
+
     @JsonProperty("buyer_address")
     public String getBuyerAddress() {
         return buyerAddress;
@@ -136,6 +140,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setBuyerAddress(String buyerAddress) {
         this.buyerAddress = buyerAddress;
     }
+
     @JsonProperty("buyer_NIP")
     public long getBuyerNIP() {
         return buyerNIP;
@@ -144,6 +149,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setBuyerNIP(long buyerNIP) {
         this.buyerNIP = buyerNIP;
     }
+
     @JsonProperty("payment_method")
     public String getPaymentMethod() {
         return paymentMethod;
@@ -152,6 +158,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
+
     @JsonProperty("issue_date")
     public Date getIssueDte() {
         return issueDte;
@@ -160,6 +167,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setIssueDte(Date issueDte) {
         this.issueDte = issueDte;
     }
+
     @JsonProperty("sale_date")
     public Date getSaleDate() {
         return saleDate;
@@ -168,6 +176,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setSaleDate(Date saleDate) {
         this.saleDate = saleDate;
     }
+
     @JsonProperty("payment_date")
     public Date getPaymentDate() {
         return paymentDate;
@@ -185,6 +194,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setGoodsService(String goodsService) {
         this.goodsService = goodsService;
     }
+
     @JsonProperty("quantity")
     public double getQuantity() {
         return quantity;
@@ -193,6 +203,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
+
     @JsonProperty("net_price")
     public double getNetPrice() {
         return netPrice;
@@ -201,6 +212,16 @@ public class InvoiceDto extends ResourceSupport {
     public void setNetPrice(double netPrice) {
         this.netPrice = netPrice;
     }
+
+    @JsonProperty("tax")
+    public int getTax() {
+        return tax;
+    }
+    @JsonProperty("tax")
+    public void setTax(int tax) {
+        this.tax = tax;
+    }
+
     @JsonProperty("gross_price")
     public double getGrossPrice() {
         return grossPrice;
@@ -209,6 +230,7 @@ public class InvoiceDto extends ResourceSupport {
     public void setGrossPrice(double grossPrice) {
         this.grossPrice = grossPrice;
     }
+
     @JsonProperty("document_issued")
     public String getDocumentIssued() {
         return documentIssued;
@@ -218,15 +240,7 @@ public class InvoiceDto extends ResourceSupport {
         this.documentIssued = documentIssued;
     }
 
-    @JsonProperty("tax")
-    public int getTax() {
-        return tax;
-    }
 
-    @JsonProperty("tax")
-    public void setTax(int tax) {
-        this.tax = tax;
-    }
 
 //    @JsonProperty("contractor")
 //    public Contractor getContractor() {

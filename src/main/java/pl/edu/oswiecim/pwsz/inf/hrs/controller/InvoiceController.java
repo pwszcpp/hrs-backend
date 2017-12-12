@@ -90,23 +90,24 @@ public class InvoiceController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public void updInvoice(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
-        ContractorDto contractorDto = null;
+        //ContractorDto contractorDto = null;
         InvoiceDto invoiceDto = null;
         ObjectMapper mapper = new ObjectMapper();
 
-        String[] dividedJson = invoiceService.divideJson(jsonInString);
+        //String[] dividedJson = invoiceService.divideJson(jsonInString);
 
-        Integer contractorId = Integer.parseInt(dividedJson[0]);
-        String invoiceReader = dividedJson[1];
+        //Integer contractorId = Integer.parseInt(dividedJson[0]);
+        //String invoiceReader = dividedJson[1];
 
-        LOGGER.info("Z json faktura " + invoiceReader);
+        LOGGER.info("Z json faktura " + jsonInString +" zmiana dla id " +id);
 
         try {
-            invoiceDto = mapper.readValue(invoiceReader, InvoiceDto.class);
+            invoiceDto = mapper.readValue(jsonInString, InvoiceDto.class);
+            LOGGER.info("Z dto faktura " + invoiceDto.getPaymentMethod()+ " " + invoiceDto.getPaymentDate());
 
             Invoice invoice = invoiceService.convertToEntity(invoiceDto);
 
-            invoiceService.updateInvoice(id, invoice, contractorId);
+            invoiceService.updateInvoice(id, invoice);
 
            // LOGGER.info("Faktura " + invoice.getDescription() + "dla kontrahenta " + contractorId);
 
@@ -142,9 +143,9 @@ public class InvoiceController {
     InvoiceDto getInvoice(@PathVariable("id") Integer id) {
         InvoiceDto invoiceDto = invoiceService.convertToDTO(invoiceService.findById(id));
         Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
-        Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(id)).withRel("contractor");
+       // Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(id)).withRel("contractor");
         invoiceDto.add(selfLink);
-        invoiceDto.add(contractorLink);
+        //invoiceDto.add(contractorLink);
         return invoiceDto;
     }
 

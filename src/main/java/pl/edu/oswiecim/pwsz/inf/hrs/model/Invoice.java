@@ -31,11 +31,11 @@ public class Invoice {
     @Column(name = "Payment_Method")
     private String paymentMethod;
     @Column(name = "Issue_Date")
-    private Date issueDte;
+    private Date issueDate;
     @Column(name = "Sale_Date")
     private Date saleDate;
     @Column(name = "Payment_Date")
-    private String paymentDate;
+    private Date paymentDate;
     @Column(name = "Goods_Service")
     private double goodsService;
     @Column(name = "Quantity")
@@ -113,20 +113,18 @@ public class Invoice {
         this.buyerNIP = buyerNIP;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
+    public String getPaymentMethod() { return paymentMethod; }
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public Date getIssueDte() {
-        return issueDte;
+    public Date getIssueDate() {
+        return issueDate;
     }
 
-    public void setIssueDte(Date issueDte) {
-        this.issueDte = issueDte;
+    public void setIssueDate(Date issueDte) {
+        this.issueDate = issueDate;
     }
 
     public Date getSaleDate() {
@@ -137,11 +135,11 @@ public class Invoice {
         this.saleDate = saleDate;
     }
 
-    public String getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(String paymentDate) {
+    public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -192,6 +190,8 @@ public class Invoice {
     public void setDocumentIssued(String documentIssued) {
         this.documentIssued = documentIssued;
     }
+
+
 
 
     //    @ManyToOne(optional = false, cascade = CascadeType.ALL)

@@ -73,15 +73,30 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     @Transactional
-    public void updateInvoice(Integer invoiceId, Invoice invoice, Integer contractorId) throws ParseException {
-//        Invoice existingIn = invoiceRepo.findOne(invoiceId);
-//        existingIn.setDescription(invoice.getDescription());
-//        existingIn.setGrossAmount(invoice.getGrossAmount());
-//        existingIn.setNetAmount(invoice.getNetAmount());
-//        existingIn.setTax(invoice.getTax());
-//        existingIn.setContractor(contractorRepo.findOne(contractorId));
-//
-//        invoiceRepo.save(existingIn);
+    public void updateInvoice(Integer invoiceId, Invoice invoice) throws ParseException {
+        Invoice existingIn = invoiceRepo.findOne(invoiceId);
+        existingIn.setBuyer_name(invoice.getBuyer_name());
+        existingIn.setBuyerAddress(invoice.getBuyerAddress());
+        existingIn.setBuyerNIP(invoice.getBuyerNIP());
+
+        existingIn.setSellerAccountNumber(invoice.getSellerAccountNumber());
+        existingIn.setSeller_name(invoice.getSeller_name());
+        existingIn.setSellerAddress(invoice.getSellerAddress());
+        existingIn.setSellerNIP(invoice.getSellerNIP());
+        existingIn.setBuyerNIP(invoice.getBuyerNIP());
+
+        existingIn.setPaymentMethod(invoice.getPaymentMethod());
+        existingIn.setIssueDate(invoice.getIssueDate());
+        existingIn.setSaleDate(invoice.getSaleDate());
+        existingIn.setPaymentDate(invoice.getPaymentDate());
+        existingIn.setGoodsService(invoice.getGoodsService());
+        existingIn.setQuantity(invoice.getQuantity());
+        existingIn.setNetPrice(invoice.getNetPrice());
+        existingIn.setTax(invoice.getTax());
+        existingIn.setGrossPrice(invoice.getGrossPrice());
+        existingIn.setDocumentIssued(invoice.getDocumentIssued());
+
+        invoiceRepo.save(existingIn);
 
     }
 
