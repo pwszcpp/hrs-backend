@@ -3,6 +3,7 @@ package pl.edu.oswiecim.pwsz.inf.hrs.controller;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,7 @@ public class TrainingController {
                     " "+trainingDto.getStartDate()+" "+trainingDto.getConsent());
 
             Training training = trainingService.convertToEntity(trainingDto);
+            training.setAuthorId((userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId());
             trainingService.updateTraining(id,training);
 
         } catch (JsonGenerationException e) {
@@ -122,11 +124,11 @@ public class TrainingController {
         for(TrainingDto trainingDto : allTrainings){
             //LOGGER.info("Training id: " + trainingDto.getTrainingId());
             Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
-            Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
+//            Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
 //            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
 //                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
             trainingDto.add(selfLink);
-            trainingDto.add(usersLink);
+            //           trainingDto.add(usersLink);
 //            trainingDto.add(enrolledUsersLink);
 
         }
@@ -137,11 +139,11 @@ public class TrainingController {
     public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) {
         TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
         Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
-        Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(id)).withRel("users");
+//        Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(id)).withRel("users");
 //        Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
 //                .getEnrolledUsers(id)).withRel("enrolledUsers");
         trainingDto.add(selfLink);
-        trainingDto.add(usersLink);
+    //    trainingDto.add(usersLink);
 //        trainingDto.add(enrolledUsersLink);
         return trainingDto;
     }
@@ -175,13 +177,42 @@ public class TrainingController {
 
     }
 
-    @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET)
+    @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.DELETE)
+    public void disenroll(@PathVariable("trainingId") Integer trainingId) {
+
+        Integer userId = (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
+        userTrainingService.deleteUserTraining(userId, trainingId);
+
+    }
+
+    @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
-    Set<UserTraining> getUsers(@PathVariable("id") Integer id) {
+    Boolean isEnrolled(@PathVariable("id") Integer trainingid) {
 
-        Training training = trainingService.findById(id);
+        Training training = trainingService.findById(trainingid);
+        Set<UserTraining> userTrainings = training.getUserTrainings();
 
-        return training.getUserTrainings();
+        Integer userId = (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
+
+        for(UserTraining userTraining : userTrainings){
+            if(userTraining.getUser().getId() == userId){
+                return true;
+            }
+        }
+
+        return false;
+
+//        Training training = trainingService.findById(id);
+////
+//        return training.getUserTrainings();
+////        List<Integer> assign = new ArrayList<>();
+////        Training training = trainingService.findById(id);
+////        Set<UserTraining> userTrainings = training.getUserTrainings();
+////        for(UserTraining userTraining : userTrainings){
+////            assign.add(userTraining.getUser().getId());
+////        }
+////
+////        return assign;
     }
 
 //    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.POST)

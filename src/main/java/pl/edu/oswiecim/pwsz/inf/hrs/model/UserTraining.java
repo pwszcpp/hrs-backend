@@ -1,10 +1,13 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@IdClass(UserTrainingPK.class)
 @Table(name = "User_Training", schema = "HRS_SCH")
 public class UserTraining implements Serializable{
 
@@ -20,7 +23,7 @@ public class UserTraining implements Serializable{
     private Boolean agreed;
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "Users_ID")
     public User getUser() {
         return user;
@@ -31,7 +34,7 @@ public class UserTraining implements Serializable{
     }
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "Training_ID")
     public Training getTraining() {
         return training;
