@@ -33,7 +33,7 @@ public class LeaveController {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(LeaveController.class);
 
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     public void addLeave(@RequestBody String jsonInString ){
 
@@ -60,6 +60,7 @@ public class LeaveController {
         }
 
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
     List<LeaveDto> getAll(){
@@ -71,7 +72,7 @@ public class LeaveController {
 
         return allLeave;
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public void upLeave(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
         LeaveDto leaveDto = null;
@@ -96,13 +97,13 @@ public class LeaveController {
             e.printStackTrace();
         }
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteLeave(@PathVariable("id") Integer id) {
         leaveService.deleteLeave(id);
         LOGGER.info("Delted leave " + id);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
     LeaveDto getLeave(@PathVariable("id") Integer id) {

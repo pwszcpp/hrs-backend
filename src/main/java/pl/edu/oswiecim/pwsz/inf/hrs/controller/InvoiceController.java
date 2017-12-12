@@ -44,7 +44,7 @@ public class InvoiceController {
 
     @Autowired
     InvoiceRepo invoiceRepo;
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     public void addInvoice(@RequestBody String jsonInString) {
 
@@ -81,13 +81,13 @@ public class InvoiceController {
         }
 
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteInvoice(@PathVariable("id") Integer id) {
         invoiceService.deleteInvoice(id);
         LOGGER.info("Delted invoice " + id);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public void updInvoice(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
         //ContractorDto contractorDto = null;
@@ -122,7 +122,7 @@ public class InvoiceController {
         }
 
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
     List<InvoiceDto> getAll() {
@@ -137,7 +137,7 @@ public class InvoiceController {
         }
         return allInvoices;
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/{id}")
     public @ResponseBody
     InvoiceDto getInvoice(@PathVariable("id") Integer id) {
