@@ -34,7 +34,7 @@ public class Salary {
         return id;
     }
 
-    public void setSalaryId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

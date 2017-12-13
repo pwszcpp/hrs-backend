@@ -41,7 +41,7 @@ public class SalaryDto extends ResourceSupport{
 
     @JsonProperty("employment_status")
     private String employmentStatus;
-
+    @JsonProperty("id")
     public Integer getSalaryId() {
         return id;
     }
