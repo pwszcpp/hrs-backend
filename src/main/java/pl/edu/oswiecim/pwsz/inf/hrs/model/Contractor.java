@@ -13,6 +13,7 @@ public class Contractor {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
+
     @Column(name = "Name")
     private String name;
 
