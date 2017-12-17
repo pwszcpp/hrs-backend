@@ -9,7 +9,6 @@ public class Salary {
     @Id
     @SequenceGenerator(name = "mySeqGen", sequenceName = "HRS_SCH.SALARIES_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
-    @Column(name = "id")
     private Integer id;
 
     @Column(name = "Users_Id")
@@ -30,11 +29,11 @@ public class Salary {
     @Column(name = "Employment_status")
     private String employmentStatus;
 
-    public Integer getId() {
+    public Integer getSalaryId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setSalaryId(Integer id) {
         this.id = id;
     }
 

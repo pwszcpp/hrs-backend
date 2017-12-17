@@ -46,7 +46,7 @@ public class SalaryDto extends ResourceSupport{
         return id;
     }
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setSalaryId(Integer id) {
         this.id = id;
     }
 
