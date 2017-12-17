@@ -1,5 +1,6 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -71,7 +72,7 @@ public class UserDto {
         this.email = email;
     }
 
-    @JsonProperty("password")
+    @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return password;
     }
