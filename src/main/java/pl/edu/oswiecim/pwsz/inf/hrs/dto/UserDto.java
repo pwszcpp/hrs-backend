@@ -1,12 +1,12 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 
 import javax.annotation.Generated;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,9 +17,16 @@ import java.util.Set;
         "username",
         "email",
         "password",
-        "name",
-        "surname",
-        "role"
+        "role",
+        "address",
+        "position",
+        "taxOffice",
+        "passExpire",
+        "passChangedDate",
+        "loginLastSuccess",
+        "loginLastFailed ",
+        "loginAttemptsFailed",
+        "employmentStartDate "
         //       "roles"
 })
 public class UserDto {
@@ -34,10 +41,6 @@ public class UserDto {
 
     @JsonProperty("password")
     private String password;
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("surname")
-    private String surname;
 
     @JsonProperty("role")
     private Set<Role> roles = new HashSet<>();
@@ -90,5 +93,113 @@ public class UserDto {
     @JsonProperty("role")
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+
+    @JsonProperty(value="passExpire",access = JsonProperty.Access.READ_WRITE)
+   private Date passExpire = new Date(System.currentTimeMillis()+ (365*24*60*60*1000));
+
+
+
+    @JsonProperty("passChangedDate")
+    private Date passChangedDate= new Date() ;
+
+
+    @JsonProperty("loginLastSuccess")
+    private Date loginLastSuccess= new Date();
+
+
+    @JsonProperty("loginLastFailed")
+    private Date loginLastFailed= new Date() ;
+
+
+    @JsonProperty("loginAttemptsFailed")
+    private Integer loginAttemptsFailed=0;
+
+    @JsonProperty("address")
+    private String address ;
+
+
+    @JsonProperty("employmentStartDate")
+    private Date employmentStartDate;
+
+
+    @JsonProperty("position")
+    private String position="empty";
+
+
+    @JsonProperty("taxOffice")
+    private String taxOffice;
+
+    @JsonProperty(value="passExpire",access = JsonProperty.Access.READ_ONLY)
+    public Date getPassExpire() {
+        return passExpire;
+    }
+    @JsonProperty(value = "passExpire", access = JsonProperty.Access.READ_ONLY)
+    public void setPassExpire(Date passExpire) {
+        this.passExpire = passExpire;
+    }
+    @JsonProperty("passChangedDate")
+    public Date getPassChangedDate() {
+        return passChangedDate;
+    }
+    @JsonProperty(value ="passChangedDate",access = JsonProperty.Access.READ_ONLY)
+    public void setPassChangedDate(Date passChangedDate) {
+        this.passChangedDate = passChangedDate;
+    }
+    @JsonProperty("loginLastSuccess")
+    public Date getLoginLastSuccess() {
+        return loginLastSuccess;
+    }
+    @JsonProperty(value="loginLastSuccess", access = JsonProperty.Access.READ_ONLY)
+    public void setLoginLastSuccess(Date loginLastSuccess) {
+        this.loginLastSuccess = loginLastSuccess;
+    }
+    @JsonProperty("loginLastFailed")
+    public Date getLoginLastFailed() {
+        return loginLastFailed;
+    }
+    @JsonProperty(value = "loginLastFailed",access = JsonProperty.Access.READ_ONLY)
+    public void setLoginLastFailed(Date loginLastFailed) {
+        this.loginLastFailed = loginLastFailed;
+    }
+    @JsonProperty("loginAttemptsFailed")
+    public Integer getLoginAttemptsFailed() {
+        return loginAttemptsFailed; }
+    @JsonProperty(value = "loginAttemptsFailed", access = JsonProperty.Access.READ_ONLY)
+    public void setLoginAttemptsFailed(Integer loginAttemptsFailed) {
+        this.loginAttemptsFailed = loginAttemptsFailed;
+    }
+    @JsonProperty("address")
+    public String getAddress() {
+        return address;
+    }
+    @JsonProperty("address")
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    @JsonProperty(value = "employmentStartDate")
+    public Date getEmploymentStartDate() {
+        return employmentStartDate;
+    }
+    @JsonProperty(value = "employmentStartDate")
+    public void setEmploymentStartDate(Date employmentStartDate) {
+        this.employmentStartDate = employmentStartDate;
+    }
+    @JsonProperty("position")
+    public String getPosition() {
+        return position;
+    }
+    @JsonProperty("position")
+    public void setPosition(String position) {
+        this.position = position;
+    }
+    @JsonProperty("taxOffice")
+    public String getTaxOffice() {
+        return taxOffice;
+    }
+    @JsonProperty("taxOffice")
+    public void setTaxOffice(String taxOffice) {
+        this.taxOffice = taxOffice;
     }
 }

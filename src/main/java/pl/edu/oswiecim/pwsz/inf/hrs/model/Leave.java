@@ -12,8 +12,9 @@ public class Leave {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
-    @Column(name = "Users_Id")
-    private Integer userId;
+    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "Users_Id",  nullable = false)
+    private User user;
 
     @Column(name = "Create_date")
     private Date createDate;
@@ -50,12 +51,15 @@ public class Leave {
         this.createDate = createDate;
     }
 
-    public Integer getUserId() {
-        return userId;
+    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "Users_Id",  nullable = false)
+    public User getUser() {
+        return user;
     }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "Users_Id",  nullable = false)
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getStartDate() {

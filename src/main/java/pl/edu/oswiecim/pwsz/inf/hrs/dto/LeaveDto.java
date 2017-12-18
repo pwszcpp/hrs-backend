@@ -1,9 +1,11 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.hateoas.ResourceSupport;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 
 import javax.annotation.Generated;
 import java.sql.Date;
@@ -12,7 +14,7 @@ import java.sql.Date;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
         "id",
-        "users_id",
+        "users",
         "create_date",
         "start_date",
         "end_date",
@@ -27,8 +29,7 @@ public class LeaveDto extends ResourceSupport {
     @JsonProperty("id")
     private Integer id;
 
-    @JsonProperty("users_id")
-    private Integer userId;
+
     @JsonProperty("create_date")
     private Date createDate;
     @JsonProperty("start_date")
@@ -55,14 +56,22 @@ public class LeaveDto extends ResourceSupport {
       this.id = id;
      }
 
-     @JsonProperty("users_id")
-     public Integer getUserId() {
-      return userId;
-     }
-     @JsonProperty("users_id")
-     public void setUserId(Integer userId) {
-      this.userId = userId;
-     }
+    @JsonProperty(value = "user")
+    @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
+            "loginLastFailed","loginAttemptsFailed" })
+    private User user;
+
+
+    @JsonProperty("user")
+    @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
+            "loginLastFailed","loginAttemptsFailed" })
+    public User getUser() { return user; }
+    @JsonProperty("user")
+    @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
+            "loginLastFailed","loginAttemptsFailed" })
+    public void setUser(User user) { this.user = user;
+    }
+
 
      @JsonProperty("start_date")
      public Date getStartDate() {
@@ -73,11 +82,11 @@ public class LeaveDto extends ResourceSupport {
       this.startDate = startDate;
      }
      @JsonProperty("create_date")
-     public Date getCreatDate() {
+     public Date getCreateDate() {
       return createDate;
      }
      @JsonProperty("create_date")
-     public void setCreatDate(Date creatDate) {
+     public void setCreateDate(Date creatDate) {
       this.createDate = creatDate;
      }
      @JsonProperty("end_date")

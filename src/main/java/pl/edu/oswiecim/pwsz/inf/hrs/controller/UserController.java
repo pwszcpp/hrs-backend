@@ -72,7 +72,7 @@ public class UserController {
 
             User user = userService.convertToEntity(userDto);
             user.setRole("USER");
-            user.setStatus(User.Status.ENABLED);
+            user.setStatus(true);
             userService.saveUser(user);
 
         } catch (IOException e) {

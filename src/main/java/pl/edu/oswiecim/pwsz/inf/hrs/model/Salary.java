@@ -12,7 +12,7 @@ public class Salary {
     private Integer id;
 
     //@Column(name = "Users_Id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "Users_Id",  nullable = false)
     private User user;
 
@@ -39,16 +39,17 @@ public class Salary {
         this.id = id;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "Users_Id",  nullable = false)
     public User getUser() {
         return user;
     }
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "Users_Id",  nullable = false)
     public void setUser(User user) {
         this.user = user;
     }
+
 
     public String getEmploymentArrangement() {
         return employmentArrangement;

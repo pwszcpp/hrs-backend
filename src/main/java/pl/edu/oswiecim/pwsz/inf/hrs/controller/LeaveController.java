@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.LeaveDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Leave;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.LeaveService;
 
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class LeaveController {
     @Autowired
     private LeaveService leaveService;
 
+    @Autowired
+    private UserRepo userRepo;
+
 //    @Autowired
 //    private LeaveRepo leaveRepo;
 
@@ -39,13 +43,17 @@ public class LeaveController {
 
         LeaveDto leaveDto = null;
         ObjectMapper mapper = new ObjectMapper();
-
         LOGGER.info("Urlop string " + jsonInString);
+        String[] dividedJson = leaveService.divideJson(jsonInString);
+
+        Integer userId = Integer.parseInt(dividedJson[0]);
+        String leaveReader = dividedJson[1];
 
         try{
-            leaveDto = mapper.readValue(jsonInString,LeaveDto.class);
-            LOGGER.info("Urlop dto createDate " + leaveDto.getCreatDate());
+            leaveDto = mapper.readValue(leaveReader,LeaveDto.class);
+            LOGGER.info("Urlop dto createDate " + leaveDto.getCreateDate());
             Leave leave = leaveService.convertToEntity(leaveDto);
+            leave.setUser(userRepo.findOne(userId));
             LOGGER.info("Urlop createDate " + leave.getCreateDate());
             leaveService.saveLeave(leave);
 
@@ -76,16 +84,21 @@ public class LeaveController {
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public void upLeave(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
         LeaveDto leaveDto = null;
+
         ObjectMapper mapper = new ObjectMapper();
-        LOGGER.info("Z json urlop " + jsonInString +" zmiana dla id " +id);
+        LOGGER.info("Urlop string " + jsonInString);
+        String[] dividedJson = leaveService.divideJson(jsonInString);
+
+        Integer userId = Integer.parseInt(dividedJson[0]);
+        String leaveReader = dividedJson[1];
 
         try{
-            leaveDto = mapper.readValue(jsonInString, LeaveDto.class);
-            LOGGER.info("Z dto urlop " + jsonInString +" zmiana dla id " + id);
-
+            leaveDto = mapper.readValue(leaveReader,LeaveDto.class);
+            LOGGER.info("Urlop dto createDate " + leaveDto.getCreateDate());
             Leave leave = leaveService.convertToEntity(leaveDto);
 
-            leaveService.updateLeave(id,leave);
+
+            leaveService.updateLeave(id,leave,userId);
 
         } catch (JsonParseException e) {
             e.printStackTrace();

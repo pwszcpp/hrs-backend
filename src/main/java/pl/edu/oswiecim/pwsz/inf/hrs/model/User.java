@@ -1,9 +1,6 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -35,17 +32,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserTraining> userTrainings = new HashSet<>();
 
-    public enum Status {
-        ENABLED,
-        DISABLED
-    };
+//    public enum Status {
+//        ENABLED,
+//        DISABLED
+//    };
 
     @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    //@Enumerated(EnumType.STRING)
+    private Boolean status;
 
-    @Column(name = "pass_expire")
-    private Date passExpire;
+    @Column(name = "pass_Expire")
+    private Date passExpire ;
 
     @Column(name = "pass_changed_date")
     private Date passChangedDate;
@@ -58,6 +55,50 @@ public class User {
 
     @Column(name = "login_attempts_failed")
     private Integer loginAttemptsFailed;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "employment_start_date")
+    private Date employmentStartDate;
+
+    @Column(name = "position")
+    private String position;
+
+    @Column(name = "tax_office")
+    private String taxOffice;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getEmploymentStartDate() {
+        return employmentStartDate;
+    }
+
+    public void setEmploymentStartDate(Date employmentStartDate) {
+        this.employmentStartDate = employmentStartDate;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getTaxOffice() {
+        return taxOffice;
+    }
+
+    public void setTaxOffice(String taxOffice) {
+        this.taxOffice = taxOffice;
+    }
 
     public User() {
     }
@@ -102,11 +143,11 @@ public class User {
         this.email = email;
     }
 
-    public Status getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

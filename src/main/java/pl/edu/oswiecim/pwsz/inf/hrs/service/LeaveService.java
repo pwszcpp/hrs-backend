@@ -26,5 +26,6 @@ public interface LeaveService {
 
     void deleteLeave(Integer id);
 
-    void updateLeave(Integer leaveId, Leave leave) throws ParseException;
+    void updateLeave(Integer leaveId, Leave leave, Integer userId) throws ParseException;
+    String[] divideJson(String jsonInString);
 }
