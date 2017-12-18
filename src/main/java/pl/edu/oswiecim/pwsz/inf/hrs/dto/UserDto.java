@@ -40,9 +40,9 @@ public class UserDto {
     private String surname;
 
     @JsonProperty("role")
-    private Set<Role> roles = new HashSet<>();
+    private String role;
 
-    @JsonProperty("id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     public Integer getUserId() {
         return id;
     }
@@ -83,12 +83,12 @@ public class UserDto {
     }
 
     @JsonProperty("role")
-    public Set<Role> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
     @JsonProperty("role")
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

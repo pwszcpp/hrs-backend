@@ -20,4 +20,6 @@ public interface TrainingService {
     Training findById(Integer id);
 
     void updateTraining(Integer id, Training training);
+
+    void deleteTraining(Integer id);
 }

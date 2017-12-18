@@ -37,15 +37,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/{email:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     public @ResponseBody
-    Integer getUser(@PathVariable("email") String email) {
-        LOGGER.info(email);
-        UserDto userDto = userService.convertToDTO(userService.findByEmail(email));
-        Integer id = userDto.getUserId();
-        //LOGGER.info("działa");
-        return id;
+    UserDto getUser() {
+        UserDto userDto = userService.convertToDTO(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        return userDto;
     }
 
     @RequestMapping(method = RequestMethod.GET)
