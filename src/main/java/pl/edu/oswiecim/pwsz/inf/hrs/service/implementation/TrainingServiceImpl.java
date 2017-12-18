@@ -77,4 +77,10 @@ public class TrainingServiceImpl implements TrainingService {
 
         trainingRepo.save(existingTrai);
     }
+
+    @Override
+    @Transactional
+    public void deleteTraining(Integer id) {
+        trainingRepo.delete(id);
+    }
 }

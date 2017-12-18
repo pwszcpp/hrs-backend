@@ -47,14 +47,8 @@ public class Training {
     @Column(name = "author_id")
     private Integer authorId;
 
-    public enum Cancelled {
-        YES,
-        NO
-    };
-
     @Column(name = "cancelled")
-    @Enumerated(EnumType.ORDINAL)
-    private Cancelled cancelled;
+    private Boolean cancelled;
 
     @Column(name = "no_of_seats")
     private Integer noOfSeats;
@@ -155,11 +149,11 @@ public class Training {
         this.authorId = authorId;
     }
 
-    public Cancelled getCancelled() {
+    public Boolean getCancelled() {
         return cancelled;
     }
 
-    public void setCancelled(Cancelled cancelled) {
+    public void setCancelled(Boolean cancelled) {
         this.cancelled = cancelled;
     }
 

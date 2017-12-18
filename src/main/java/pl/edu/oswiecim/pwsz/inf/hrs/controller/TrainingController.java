@@ -215,6 +215,12 @@ public class TrainingController {
 ////        return assign;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteTraining(@PathVariable("id") Integer id){
+        trainingService.deleteTraining(id);
+    }
+
 //    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.POST)
 //    public void permitUser(@PathVariable("trainingId") Integer trainingId,
 //                                              @RequestBody Integer userId) {
