@@ -26,5 +26,7 @@ public interface SalaryService {
 
     void deleteSalary(Integer id);
 
-    void updateSalary(Integer SalaryId, Salary salary) throws ParseException;
+    void updateSalary(Integer salaryId, Salary salary, Integer userId) throws ParseException;
+
+    String[] divideJson(String jsonInString);
 }

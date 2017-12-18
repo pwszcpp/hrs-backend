@@ -27,18 +27,6 @@ public class LeaveDto extends ResourceSupport {
     @JsonProperty("id")
     private Integer id;
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public boolean isAgreed() {
-        return agreed;
-    }
-
     @JsonProperty("users_id")
     private Integer userId;
     @JsonProperty("create_date")

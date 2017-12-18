@@ -11,8 +11,10 @@ public class Salary {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
     private Integer id;
 
-    @Column(name = "Users_Id")
-    private Integer userId;
+    //@Column(name = "Users_Id")
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Users_Id",  nullable = false)
+    private User user;
 
     @Column(name = "Employment_arrangement")
     private String employmentArrangement;
@@ -37,12 +39,15 @@ public class Salary {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Users_Id",  nullable = false)
+    public User getUser() {
+        return user;
     }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Users_Id",  nullable = false)
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getEmploymentArrangement() {
