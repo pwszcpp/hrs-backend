@@ -1,9 +1,11 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.hateoas.ResourceSupport;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 
 import javax.annotation.Generated;
 
@@ -11,12 +13,12 @@ import javax.annotation.Generated;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
         "id",
-        "users_id",
+        "user",
         "employment_arrangement",
         "base_salary",
         "seniority",
         "salary_supplement",
-        "employment_status"
+        "employment_status",
 })
 
 public class SalaryDto extends ResourceSupport{
@@ -24,8 +26,11 @@ public class SalaryDto extends ResourceSupport{
     @JsonProperty("id")
     private Integer id;
 
-    @JsonProperty("users_id")
-    private Integer userId;
+
+    @JsonProperty(value = "user")
+    @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
+            "loginLastFailed","loginAttemptsFailed" })
+    private User user;
 
     @JsonProperty("employment_arrangement")
     private String employmentArrangement;
@@ -38,25 +43,24 @@ public class SalaryDto extends ResourceSupport{
 
     @JsonProperty("salary_supplement")
     private Double salarySupplement;
-
     @JsonProperty("employment_status")
     private String employmentStatus;
+
     @JsonProperty("id")
     public Integer getSalaryId() {
         return id;
     }
     @JsonProperty("id")
-    public void setSalaryId(Integer id) {
-        this.id = id;
-    }
+    public void setSalaryId(Integer id) { this.id = id; }
 
-    @JsonProperty("users_id")
-    public Integer getUserId() {
-        return userId;
-    }
-    @JsonProperty("users_id")
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    @JsonProperty("user")
+    @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
+            "loginLastFailed","loginAttemptsFailed" })
+    public User getUser() { return user; }
+    @JsonProperty("user")
+    @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
+            "loginLastFailed","loginAttemptsFailed" })
+    public void setUser(User user) { this.user = user;
     }
 
     @JsonProperty("employment_arrangement")
@@ -75,6 +79,7 @@ public class SalaryDto extends ResourceSupport{
     public void setBaseSalary(Double baseSalary) {
         this.baseSalary = baseSalary;
     }
+
     @JsonProperty("seniority")
     public Integer getSeniority() {
         return seniority;
@@ -83,6 +88,7 @@ public class SalaryDto extends ResourceSupport{
     public void setSeniority(Integer seniority) {
         this.seniority = seniority;
     }
+
     @JsonProperty("salary_supplement")
     public Double getSalarySupplement() {
         return salarySupplement;
@@ -91,6 +97,7 @@ public class SalaryDto extends ResourceSupport{
     public void setSalarySupplement(Double salarySupplement) {
         this.salarySupplement = salarySupplement;
     }
+
     @JsonProperty("employment_status")
     public String getEmploymentStatus() {
         return employmentStatus;
@@ -99,4 +106,6 @@ public class SalaryDto extends ResourceSupport{
     public void setEmploymentStatus(String employmentStatus) {
         this.employmentStatus = employmentStatus;
     }
+
+
 }

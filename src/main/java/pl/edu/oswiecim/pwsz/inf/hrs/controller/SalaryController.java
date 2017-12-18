@@ -9,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.SalaryDto;
+import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Salary;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.SalaryService;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -24,6 +28,11 @@ public class SalaryController {
 
     @Autowired
     private SalaryService salaryService;
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepo userRepo;
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(SalaryController.class);
@@ -33,17 +42,22 @@ public class SalaryController {
     public void addSalary(@RequestBody String jsonInString){
 
         SalaryDto salaryDto = null;
+        UserDto userDto= null;
         ObjectMapper mapper = new ObjectMapper();
-
         LOGGER.info("Salary string " + jsonInString);
+        String[] dividedJson = salaryService.divideJson(jsonInString);
+
+        Integer userId = Integer.parseInt(dividedJson[0]);
+        String salaryReader = dividedJson[1];
+
 
         try{
-            salaryDto = mapper.readValue(jsonInString,SalaryDto.class);
-            LOGGER.info("User ID DTO " + salaryDto.getUserId());
-            Salary salary = salaryService.convertToEntity(salaryDto);
-            LOGGER.info("User ID  " + salary.getUserId());
-            salaryService.saveSalary(salary);
+            salaryDto = mapper.readValue(salaryReader,SalaryDto.class);
 
+            Salary salary = salaryService.convertToEntity(salaryDto);
+            salary.setUser(userRepo.findOne(userId));
+            salaryService.saveSalary(salary);
+            LOGGER.info("Zapisano wyplate dla :" + salary.getUser().getUsername() );
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (JsonParseException e) {
@@ -70,16 +84,20 @@ public class SalaryController {
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
     public void upSalary(@PathVariable("id") Integer id, @RequestBody String jsonInString){
         SalaryDto salaryDto = null;
+        // UserDto userDto= null;
         ObjectMapper mapper = new ObjectMapper();
-        LOGGER.info("Z jsona wyplata " + jsonInString + " zmiana dla id " + id);
+        LOGGER.info("Salary string " + jsonInString);
+        String[] dividedJson = salaryService.divideJson(jsonInString);
+
+        Integer userId = Integer.parseInt(dividedJson[0]);
+        String salaryReader = dividedJson[1];
 
         try{
-            salaryDto = mapper.readValue(jsonInString, SalaryDto.class);
-            LOGGER.info("Z dto wyplata " + jsonInString + "zmiana dla id " + id);
+            salaryDto = mapper.readValue(salaryReader, SalaryDto.class);
+            //LOGGER.info("Z dto wyplata " + jsonInString + "zmiana dla id " + id);
 
             Salary salary = salaryService.convertToEntity(salaryDto);
-
-            salaryService.updateSalary(id, salary);
+            salaryService.updateSalary(id, salary, userId);
 
         } catch (ParseException e) {
             e.printStackTrace();
