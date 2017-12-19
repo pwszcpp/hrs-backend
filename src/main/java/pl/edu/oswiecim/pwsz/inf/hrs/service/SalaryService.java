@@ -1,5 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -29,4 +31,7 @@ public interface SalaryService {
     void updateSalary(Integer salaryId, Salary salary, Integer userId) throws ParseException;
 
     String[] divideJson(String jsonInString);
+
+    Page<Salary> listAllByPage(Pageable pageable);
+
 }

@@ -3,15 +3,22 @@ package pl.edu.oswiecim.pwsz.inf.hrs.controller;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.IterableSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.SalaryDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Salary;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.SalaryRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.SalaryService;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
@@ -33,6 +40,8 @@ public class SalaryController {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private SalaryRepo salaryRepo;
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(SalaryController.class);
@@ -68,17 +77,17 @@ public class SalaryController {
             e.printStackTrace();
         }
     }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(method =  RequestMethod.GET)
-    public @ResponseBody
-    List<SalaryDto> getAll(){
-        List<SalaryDto> allSalary = salaryService.findAllDTO();
-        for(SalaryDto salaryDto : allSalary){
-            Link selfLink = linkTo(SalaryController.class).slash(salaryDto.getSalaryId()).withSelfRel();
-            salaryDto.add(selfLink);
-        }
-        return allSalary;
-    }
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(method =  RequestMethod.GET)
+//    public @ResponseBody
+//    List<SalaryDto> getAll(){
+//        List<SalaryDto> allSalary = salaryService.findAllDTO();
+//        for(SalaryDto salaryDto : allSalary){
+//            Link selfLink = linkTo(SalaryController.class).slash(salaryDto.getSalaryId()).withSelfRel();
+//            salaryDto.add(selfLink);
+//        }
+//        return allSalary;
+//    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
@@ -127,4 +136,16 @@ public class SalaryController {
 
         return salaryDto;
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping( method = RequestMethod.GET)
+        Page<SalaryDto> getPage(Pageable pageable) {
+        Page<SalaryDto> salary = salaryService.listAllByPage(pageable).map(new Converter<Salary, SalaryDto>() {
+            @Override
+            public SalaryDto convert(Salary salary) {
+                return salaryService.convertToDTO(salary);
+            }
+        });
+        return salary;
+    }
+
 }

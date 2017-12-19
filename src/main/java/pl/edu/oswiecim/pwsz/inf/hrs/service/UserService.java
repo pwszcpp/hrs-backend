@@ -1,5 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 
@@ -25,4 +27,6 @@ public interface UserService {
     User findByEmail(String email);
 
     User findById(Integer id);
+
+    Page<User> listAllByPage(Pageable pageable);
 }

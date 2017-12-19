@@ -1,5 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
@@ -29,4 +31,6 @@ public interface InvoiceService {
     void updateInvoice(Integer invoiceId, Invoice invoice) throws ParseException;
 
     String[] divideJson(String jsonInString);
+
+    Page<Invoice> listAllByPage(Pageable pageable);
 }

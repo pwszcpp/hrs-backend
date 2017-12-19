@@ -6,7 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
@@ -35,6 +39,7 @@ public class ContractorController {
     ContractorRepo contractorRepo;
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
     public void addContractor(@RequestBody String jsonInString) {
 
         ContractorDto contractorDto;
@@ -64,15 +69,18 @@ public class ContractorController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteContractor(@PathVariable("id") Integer id) {
         contractorService.deleteContractor(id);
         LOGGER.info("Delted contractor " + id);
+
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public void updContractor(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
 
         ContractorDto contractorDto;
@@ -104,16 +112,29 @@ public class ContractorController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody
-    List<ContractorDto> getAll() {
-        List<ContractorDto> allContractors = contractorService.findAllDTO();
-        for (ContractorDto contractorDto : allContractors) {
-            LOGGER.info("Contractor id: " + contractorDto.getContractorId());
-            Link selfLink = linkTo(ContractorController.class).slash(contractorDto.getContractorId()).withSelfRel();
-            contractorDto.add(selfLink);
-        }
-        return allContractors;
+//    @RequestMapping(method = RequestMethod.GET)
+//    public @ResponseBody
+//    List<ContractorDto> getAll() {
+//        List<ContractorDto> allContractors = contractorService.findAllDTO();
+//        for (ContractorDto contractorDto : allContractors) {
+//            LOGGER.info("Contractor id: " + contractorDto.getContractorId());
+//            Link selfLink = linkTo(ContractorController.class).slash(contractorDto.getContractorId()).withSelfRel();
+//            contractorDto.add(selfLink);
+//        }
+//        return allContractors;
+//    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping( method = RequestMethod.GET)
+    Page<ContractorDto> getPage(Pageable pageable) {
+        Page<ContractorDto> contractors = contractorService.listAllByPage(pageable)
+                .map(new Converter<Contractor, ContractorDto>() {
+            @Override
+            public ContractorDto convert(Contractor contractor) {
+                return contractorService.convertToDTO(contractor);
+            }
+        });
+        return contractors;
     }
 
     @RequestMapping("/{id}")

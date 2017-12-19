@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,13 +48,26 @@ public class UserController {
         return userDto;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+//    @RequestMapping(method = RequestMethod.GET)
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    public @ResponseBody
+//    List<UserDto> getAll() {
+//        List<UserDto> allUsers = userService.findAllDTO();
+//        //LOGGER.info("działa get");
+//        return allUsers;
+//    }
+
     @CrossOrigin(origins = "http://localhost:4200")
-    public @ResponseBody
-    List<UserDto> getAll() {
-        List<UserDto> allUsers = userService.findAllDTO();
-        //LOGGER.info("działa get");
-        return allUsers;
+    @RequestMapping( method = RequestMethod.GET)
+    Page<UserDto> getPage(Pageable pageable) {
+        Page<UserDto> users = userService.listAllByPage(pageable)
+                .map(new Converter<User, UserDto>() {
+                    @Override
+                    public UserDto convert(User user) {
+                        return userService.convertToDTO(user);
+                    }
+                });
+        return users;
     }
 
     @RequestMapping(method = RequestMethod.POST)

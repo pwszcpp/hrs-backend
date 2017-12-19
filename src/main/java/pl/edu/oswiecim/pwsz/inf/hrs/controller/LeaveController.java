@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
@@ -68,18 +71,30 @@ public class LeaveController {
         }
 
     }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody
-    List<LeaveDto> getAll(){
-        List <LeaveDto> allLeave = leaveService.findAllDTO();
-        for(LeaveDto leaveDto : allLeave){
-          Link selfLink = linkTo(LeaveController.class).slash(leaveDto.getLeaveId()).withSelfRel();
-           leaveDto.add(selfLink);
-       }
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(method = RequestMethod.GET)
+//    public @ResponseBody
+//    List<LeaveDto> getAll(){
+//        List <LeaveDto> allLeave = leaveService.findAllDTO();
+//        for(LeaveDto leaveDto : allLeave){
+//          Link selfLink = linkTo(LeaveController.class).slash(leaveDto.getLeaveId()).withSelfRel();
+//           leaveDto.add(selfLink);
+//       }
+//
+//        return allLeave;
+//    }
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping( method = RequestMethod.GET)
+Page<LeaveDto> getPage(Pageable pageable) {
+    Page<LeaveDto> leave = leaveService.listAllByPage(pageable).map(new Converter<Leave, LeaveDto>() {
+        @Override
+        public LeaveDto convert(Leave leave) {
+            return leaveService.convertToDTO(leave);
+        }
+    });
+    return leave;
+}
 
-        return allLeave;
-    }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public void upLeave(@PathVariable("id") Integer id, @RequestBody String jsonInString) {

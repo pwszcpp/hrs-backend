@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.SalaryDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Salary;
@@ -106,4 +108,10 @@ public class SalaryServiceImpl implements SalaryService{
         }
         return new String[]{""};
     }
+
+    @Override
+    public Page<Salary> listAllByPage(Pageable pageable) {
+        return salaryRepo.findAll(pageable);
+    }
+
 }

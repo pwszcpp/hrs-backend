@@ -57,6 +57,7 @@ public class SalaryDto extends ResourceSupport{
     @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
             "loginLastFailed","loginAttemptsFailed" })
     public User getUser() { return user; }
+
     @JsonProperty("user")
     @JsonIgnoreProperties({ "password", "role","status","passExpire", "passChangedDate","loginLastSuccess",
             "loginLastFailed","loginAttemptsFailed" })

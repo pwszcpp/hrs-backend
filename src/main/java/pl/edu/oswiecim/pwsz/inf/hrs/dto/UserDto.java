@@ -24,9 +24,9 @@ import java.util.Set;
         "passExpire",
         "passChangedDate",
         "loginLastSuccess",
-        "loginLastFailed ",
+        "loginLastFailed",
         "loginAttemptsFailed",
-        "employmentStartDate "
+        "employmentStartDate"
         //       "roles"
 })
 public class UserDto {

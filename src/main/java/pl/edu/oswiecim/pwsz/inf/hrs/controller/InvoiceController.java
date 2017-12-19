@@ -7,6 +7,9 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
@@ -122,21 +125,34 @@ public class InvoiceController {
         }
 
     }
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(method = RequestMethod.GET)
+//    public @ResponseBody
+//    List<InvoiceDto> getAll() {
+//        List<InvoiceDto> allInvoices = invoiceService.findAllDTO();
+//        for (InvoiceDto invoiceDto : allInvoices) {
+//            LOGGER.info("Invoice id: " + invoiceDto.getInvoiceId());
+//            Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
+//           // Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(invoiceDto.getContractor().getId())).
+//           //         withRel("contractor");
+//            invoiceDto.add(selfLink);
+//           // invoiceDto.add(contractorLink);
+//        }
+//        return allInvoices;
+//    }
+
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody
-    List<InvoiceDto> getAll() {
-        List<InvoiceDto> allInvoices = invoiceService.findAllDTO();
-        for (InvoiceDto invoiceDto : allInvoices) {
-            LOGGER.info("Invoice id: " + invoiceDto.getInvoiceId());
-            Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
-           // Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(invoiceDto.getContractor().getId())).
-           //         withRel("contractor");
-            invoiceDto.add(selfLink);
-           // invoiceDto.add(contractorLink);
-        }
-        return allInvoices;
+    @RequestMapping( method = RequestMethod.GET)
+    Page<InvoiceDto> getPage(Pageable pageable) {
+        Page<InvoiceDto> invoices = invoiceService.listAllByPage(pageable).map(new Converter<Invoice, InvoiceDto>() {
+            @Override
+            public InvoiceDto convert(Invoice invoice) {
+                return invoiceService.convertToDTO(invoice);
+            }
+        });
+        return invoices;
     }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/{id}")
     public @ResponseBody

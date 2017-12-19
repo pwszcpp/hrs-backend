@@ -2,10 +2,13 @@ package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
@@ -76,5 +79,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         return userRepo.findOne(id);
+    }
+
+    @Override
+    public Page<User> listAllByPage(Pageable pageable) {
+        return userRepo.findAll(pageable);
     }
 }

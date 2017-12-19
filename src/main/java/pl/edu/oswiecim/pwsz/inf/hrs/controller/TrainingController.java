@@ -7,6 +7,9 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,22 +120,34 @@ public class TrainingController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public @ResponseBody List<TrainingDto> getAll() {
-        List<TrainingDto> allTrainings = trainingService.findAllDTO();
-        for(TrainingDto trainingDto : allTrainings){
-            //LOGGER.info("Training id: " + trainingDto.getTrainingId());
-            Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
-//            Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
-//            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
-//                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
-            trainingDto.add(selfLink);
-            //           trainingDto.add(usersLink);
-//            trainingDto.add(enrolledUsersLink);
+//    @RequestMapping(method = RequestMethod.GET)
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    public @ResponseBody List<TrainingDto> getAll() {
+//        List<TrainingDto> allTrainings = trainingService.findAllDTO();
+//        for(TrainingDto trainingDto : allTrainings){
+//            //LOGGER.info("Training id: " + trainingDto.getTrainingId());
+//            Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
+////            Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
+////            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
+////                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
+//            trainingDto.add(selfLink);
+//            //           trainingDto.add(usersLink);
+////            trainingDto.add(enrolledUsersLink);
+//
+//        }
+//        return allTrainings;
+//    }
 
-        }
-        return allTrainings;
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping( method = RequestMethod.GET)
+    Page<TrainingDto> getPage(Pageable pageable) {
+        Page<TrainingDto> training = trainingService.listAllByPage(pageable).map(new Converter<Training, TrainingDto>() {
+            @Override
+            public TrainingDto convert(Training training) {
+                return trainingService.convertToDTO(training);
+            }
+        });
+        return training;
     }
 
     @RequestMapping("/{id}")

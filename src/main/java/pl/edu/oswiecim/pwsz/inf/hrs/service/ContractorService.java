@@ -1,5 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
 
@@ -17,4 +19,6 @@ public interface ContractorService {
     void updateContractor(Integer id, Contractor Contractor) throws ParseException;
 
     String[] divideJson(String jsonInString);
+
+    Page<Contractor> listAllByPage(Pageable pageable);
 }

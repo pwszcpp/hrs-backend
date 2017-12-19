@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
@@ -119,5 +121,9 @@ public class InvoiceServiceImpl implements InvoiceService {
             e.printStackTrace();
         }
         return new String[]{"",""};
+    }
+    @Override
+    public Page<Invoice> listAllByPage(Pageable pageable) {
+        return invoiceRepo.findAll(pageable);
     }
 }

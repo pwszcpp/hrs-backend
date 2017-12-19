@@ -1,5 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 
@@ -22,4 +24,5 @@ public interface TrainingService {
     void updateTraining(Integer id, Training training);
 
     void deleteTraining(Integer id);
+    Page<Training> listAllByPage(Pageable pageable);
 }
