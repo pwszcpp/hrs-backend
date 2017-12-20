@@ -1,4 +1,4 @@
-package pl.edu.oswiecim.pwsz.inf.hrs;
+package pl.edu.oswiecim.pwsz.inf.hrs.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Salary;
-import pl.edu.oswiecim.pwsz.inf.hrs.service.SalaryService;
-import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.text.ParseException;
 
