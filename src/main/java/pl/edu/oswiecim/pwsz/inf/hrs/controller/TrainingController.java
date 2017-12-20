@@ -118,6 +118,8 @@ public class TrainingController {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -156,7 +158,7 @@ public class TrainingController {
 
     @RequestMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) {
+    public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) throws Exception {
         TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
         Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
 //        Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(id)).withRel("users");
@@ -170,7 +172,7 @@ public class TrainingController {
 
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK, reason="Enrolled in training")
-        public void enrollTraining(@PathVariable("trainingId") Integer trainingId) {
+        public void enrollTraining(@PathVariable("trainingId") Integer trainingId) throws Exception {
 
         User user = userService.findByUsername(SecurityContextHolder.getContext()
                 .getAuthentication().getName());
@@ -200,7 +202,7 @@ public class TrainingController {
 
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Disenrolled from training")
-    public void disenroll(@PathVariable("trainingId") Integer trainingId) {
+    public void disenroll(@PathVariable("trainingId") Integer trainingId) throws Exception {
 
         Integer userId = (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
         userTrainingService.deleteUserTraining(userId, trainingId);
@@ -210,7 +212,7 @@ public class TrainingController {
     @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
-    Boolean isEnrolled(@PathVariable("id") Integer trainingid) {
+    Boolean isEnrolled(@PathVariable("id") Integer trainingid) throws Exception {
 
         Training training = trainingService.findById(trainingid);
         Set<UserTraining> userTrainings = training.getUserTrainings();
@@ -242,7 +244,7 @@ public class TrainingController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Training deleted")
 
-    public void deleteTraining(@PathVariable("id") Integer id){
+    public void deleteTraining(@PathVariable("id") Integer id) throws Exception {
         trainingService.deleteTraining(id);
     }
 

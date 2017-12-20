@@ -57,33 +57,47 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Training findById(Integer id) {
-        return trainingRepo.findOne(id);
+    public Training findById(Integer id) throws Exception {
+        Training training = trainingRepo.findOne(id);
+        if(training != null){
+            return training;
+        } else {
+            throw new Exception("Training with provided id does not exist");
+        }
     }
 
     @Transactional
     @Override
-    public void updateTraining(Integer id, Training training) {
+    public void updateTraining(Integer id, Training training) throws Exception {
 
-        Training existingTrai = trainingRepo.findOne(id);
-        existingTrai.setTheme(training.getTheme());
-        existingTrai.setLocation(training.getLocation());
-        existingTrai.setAuthorId(training.getAuthorId());
-        existingTrai.setConsent(training.getConsent());
-        existingTrai.setStartDate(training.getStartDate());
-        existingTrai.setEndDate(training.getEndDate());
-        existingTrai.setCompany(training.getCompany());
-        existingTrai.setNoOfSeats(training.getNoOfSeats());
-        existingTrai.setCancelled(training.getCancelled());
-        existingTrai.setCost(training.getCost());
+        if (trainingRepo.findOne(id) != null) {
+            Training existingTrai = trainingRepo.findOne(id);
+            existingTrai.setTheme(training.getTheme());
+            existingTrai.setLocation(training.getLocation());
+            existingTrai.setAuthorId(training.getAuthorId());
+            existingTrai.setConsent(training.getConsent());
+            existingTrai.setStartDate(training.getStartDate());
+            existingTrai.setEndDate(training.getEndDate());
+            existingTrai.setCompany(training.getCompany());
+            existingTrai.setNoOfSeats(training.getNoOfSeats());
+            existingTrai.setCancelled(training.getCancelled());
+            existingTrai.setCost(training.getCost());
 
-        trainingRepo.save(existingTrai);
+            trainingRepo.save(existingTrai);
+        } else {
+            throw new Exception("Training with provided id does not exist");
+        }
     }
 
     @Override
     @Transactional
-    public void deleteTraining(Integer id) {
-        trainingRepo.delete(id);
+    public void deleteTraining(Integer id) throws Exception {
+        if(trainingRepo.findOne(id) != null){
+            trainingRepo.delete(id);
+        } else {
+            throw new Exception("Training with provided id does not exist");
+        }
+
     }
 
     @Override

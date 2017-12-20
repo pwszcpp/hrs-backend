@@ -29,4 +29,6 @@ public interface UserService {
     User findById(Integer id);
 
     Page<User> listAllByPage(Pageable pageable);
+
+    void updateUser(Integer userId, User p);
 }

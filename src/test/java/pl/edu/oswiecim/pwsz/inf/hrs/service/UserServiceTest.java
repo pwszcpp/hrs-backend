@@ -8,10 +8,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@Transactional
 public class UserServiceTest {
 
     @Autowired
@@ -21,9 +23,9 @@ public class UserServiceTest {
     public void saveUser_ThrowsException_IfUsernameOrEmailAlreadyExists() throws Exception {
 
         User user = new User();
-        user.setUsername("user2");
-        user.setEmail("user2@user.pl");
-        user.setPassword("user2");
+        user.setUsername("user4");
+        user.setEmail("user4@user.pl");
+        user.setPassword("user4");
         user.setAddress("dd");
         user.setEmploymentStartDate(new Date(2017,12,6));
         user.setTaxOffice("OSW");

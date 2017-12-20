@@ -13,6 +13,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,5 +92,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> listAllByPage(Pageable pageable) {
         return userRepo.findAll(pageable);
+    }
+
+    @Override
+    public void updateUser(Integer userId, User user) {
+
+        User existingUser = userRepo.findOne(userId);
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setEmploymentStartDate(user.getEmploymentStartDate());
+        existingUser.setTaxOffice(user.getTaxOffice());
+        existingUser.setRole(user.getRole());
+        existingUser.setStatus(user.getStatus());
+        existingUser.setPassExpire(user.getPassExpire());
+        existingUser.setPassChangedDate(user.getPassChangedDate());
+        existingUser.setLoginLastSuccess(user.getLoginLastSuccess());
+        existingUser.setLoginLastFailed(user.getLoginLastFailed());
+        existingUser.setLoginAttemptsFailed(user.getLoginAttemptsFailed());
+        existingUser.setPosition(user.getPosition());
+
+        userRepo.save(existingUser);
     }
 }

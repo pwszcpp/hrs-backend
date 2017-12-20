@@ -36,7 +36,7 @@ public class UserTrainingServiceImpl implements UserTrainingService{
 
     @Override
     @Transactional
-    public void deleteUserTraining(Integer userID, Integer trainingID) {
+    public void deleteUserTraining(Integer userID, Integer trainingID) throws Exception {
         Training training = trainingService.findById(trainingID);
         User user = userService.findById(userID);
 
