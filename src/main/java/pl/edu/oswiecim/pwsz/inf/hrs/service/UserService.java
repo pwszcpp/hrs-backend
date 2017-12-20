@@ -13,7 +13,7 @@ public interface UserService {
 
     UserDto convertToDTO(User employee);
 
-    void saveUser(User p);
+    void saveUser(User p) throws Exception;
 
     //User findByUsername(String username);
     User findByUsername(String username);
@@ -29,4 +29,6 @@ public interface UserService {
     User findById(Integer id);
 
     Page<User> listAllByPage(Pageable pageable);
+
+    void updateUser(Integer userId, User p);
 }

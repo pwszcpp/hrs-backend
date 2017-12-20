@@ -3,6 +3,7 @@ package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.ResourceSupport;
@@ -31,7 +32,6 @@ import java.util.Set;
 //        "author_id",
         "cancelled",
         "no_of_seats",
-        "assign"
 })
 public class TrainingDto extends ResourceSupport {
 
@@ -64,13 +64,8 @@ public class TrainingDto extends ResourceSupport {
 //    @JsonProperty("author_id")
 //    private Integer authorId;
 
-    public enum Cancelled {
-        YES,
-        NO
-    };
-
     @JsonProperty("cancelled")
-    private Cancelled cancelled;
+    private Boolean cancelled;
     @JsonProperty("no_of_seats")
     private Integer noOfSeats;
 
@@ -175,12 +170,12 @@ public class TrainingDto extends ResourceSupport {
 //    }
 
     @JsonProperty("cancelled")
-    public Cancelled getCancelled() {
+    public Boolean getCancelled() {
         return cancelled;
     }
 
     @JsonProperty("cancelled")
-    public void setCancelled(Cancelled cancelled) {
+    public void setCancelled(Boolean cancelled) {
         this.cancelled = cancelled;
     }
 

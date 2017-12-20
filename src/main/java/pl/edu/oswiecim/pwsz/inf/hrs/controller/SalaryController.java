@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.SalaryDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
@@ -48,6 +49,8 @@ public class SalaryController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED, reason="Salary added")
+
     public void addSalary(@RequestBody String jsonInString){
 
         SalaryDto salaryDto = null;
@@ -91,6 +94,7 @@ public class SalaryController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK, reason="Salary updated")
     public void upSalary(@PathVariable("id") Integer id, @RequestBody String jsonInString){
         SalaryDto salaryDto = null;
         // UserDto userDto= null;
@@ -121,6 +125,7 @@ public class SalaryController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK, reason="Salary deleted")
     public void DeleteSalary(@PathVariable("id") Integer id){
         salaryService.deleteSalary(id);
         LOGGER.info("Deleted salary " + id);
@@ -128,6 +133,7 @@ public class SalaryController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
     SalaryDto getSalary(@PathVariable("id") Integer id){
         SalaryDto salaryDto = salaryService.convertToDTO(salaryService.findById(id));
@@ -138,7 +144,8 @@ public class SalaryController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping( method = RequestMethod.GET)
-        Page<SalaryDto> getPage(Pageable pageable) {
+    @ResponseStatus(value = HttpStatus.OK)
+    Page<SalaryDto> getPage(Pageable pageable) {
         Page<SalaryDto> salary = salaryService.listAllByPage(pageable).map(new Converter<Salary, SalaryDto>() {
             @Override
             public SalaryDto convert(Salary salary) {

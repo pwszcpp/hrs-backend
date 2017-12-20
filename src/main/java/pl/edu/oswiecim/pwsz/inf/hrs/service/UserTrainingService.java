@@ -6,5 +6,5 @@ public interface UserTrainingService {
     void saveUserTraining(UserTraining ut);
    // void changeEnrollStatus(Integer id, Boolean agreed);
 
-    void deleteUserTraining(Integer userID, Integer trainingID);
+    void deleteUserTraining(Integer userID, Integer trainingID) throws Exception;
 }

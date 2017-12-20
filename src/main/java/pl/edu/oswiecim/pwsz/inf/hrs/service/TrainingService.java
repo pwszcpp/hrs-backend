@@ -19,10 +19,10 @@ public interface TrainingService {
 
     List findAllDTO();
 
-    Training findById(Integer id);
+    Training findById(Integer id) throws Exception;
 
-    void updateTraining(Integer id, Training training);
+    void updateTraining(Integer id, Training training) throws Exception;
 
-    void deleteTraining(Integer id);
+    void deleteTraining(Integer id) throws Exception;
     Page<Training> listAllByPage(Pageable pageable);
 }

@@ -39,7 +39,7 @@ public class ContractorController {
     ContractorRepo contractorRepo;
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseStatus(value = HttpStatus.CREATED, reason="Contractor added")
     public void addContractor(@RequestBody String jsonInString) {
 
         ContractorDto contractorDto;
@@ -73,6 +73,7 @@ public class ContractorController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK, reason="Contractor deleted")
     public void deleteContractor(@PathVariable("id") Integer id) {
         contractorService.deleteContractor(id);
         LOGGER.info("Delted contractor " + id);
@@ -80,7 +81,7 @@ public class ContractorController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseStatus(value = HttpStatus.OK, reason="Contractor Updated")
     public void updContractor(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
 
         ContractorDto contractorDto;
@@ -126,6 +127,7 @@ public class ContractorController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping( method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
     Page<ContractorDto> getPage(Pageable pageable) {
         Page<ContractorDto> contractors = contractorService.listAllByPage(pageable)
                 .map(new Converter<Contractor, ContractorDto>() {
@@ -138,6 +140,7 @@ public class ContractorController {
     }
 
     @RequestMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
     ContractorDto getContractor(@PathVariable("id") Integer id) {
         ContractorDto contractorDto = contractorService.convertToDTO(contractorService.findById(id));
