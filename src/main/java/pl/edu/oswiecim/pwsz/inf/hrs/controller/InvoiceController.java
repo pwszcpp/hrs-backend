@@ -11,6 +11,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
@@ -49,6 +50,8 @@ public class InvoiceController {
     InvoiceRepo invoiceRepo;
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED, reason="Invoice created")
+
     public void addInvoice(@RequestBody String jsonInString) {
 
 //        ContractorDto contractorDto = null;
@@ -86,12 +89,14 @@ public class InvoiceController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK, reason="Invoice deleted")
     public void deleteInvoice(@PathVariable("id") Integer id) {
         invoiceService.deleteInvoice(id);
         LOGGER.info("Delted invoice " + id);
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK, reason="Invoice updated")
     public void updInvoice(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
         //ContractorDto contractorDto = null;
         InvoiceDto invoiceDto = null;
@@ -143,6 +148,7 @@ public class InvoiceController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping( method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
     Page<InvoiceDto> getPage(Pageable pageable) {
         Page<InvoiceDto> invoices = invoiceService.listAllByPage(pageable).map(new Converter<Invoice, InvoiceDto>() {
             @Override
@@ -155,6 +161,7 @@ public class InvoiceController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
     InvoiceDto getInvoice(@PathVariable("id") Integer id) {
         InvoiceDto invoiceDto = invoiceService.convertToDTO(invoiceService.findById(id));

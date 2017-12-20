@@ -11,6 +11,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,7 @@ public class TrainingController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED, reason="New training created")
     public void createTraning(@RequestBody String jsonInString){
        // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
          //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
@@ -86,6 +88,7 @@ public class TrainingController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK, reason="Training updated")
     public void updateTraning(@PathVariable("id") Integer id, @RequestBody String jsonInString){
        // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
          //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
@@ -140,6 +143,7 @@ public class TrainingController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping( method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
     Page<TrainingDto> getPage(Pageable pageable) {
         Page<TrainingDto> training = trainingService.listAllByPage(pageable).map(new Converter<Training, TrainingDto>() {
             @Override
@@ -151,6 +155,7 @@ public class TrainingController {
     }
 
     @RequestMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) {
         TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
         Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
@@ -164,7 +169,8 @@ public class TrainingController {
     }
 
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
-    public void enrollTraining(@PathVariable("trainingId") Integer trainingId) {
+    @ResponseStatus(value = HttpStatus.OK, reason="Enrolled in training")
+        public void enrollTraining(@PathVariable("trainingId") Integer trainingId) {
 
         User user = userService.findByUsername(SecurityContextHolder.getContext()
                 .getAuthentication().getName());
@@ -193,6 +199,7 @@ public class TrainingController {
     }
 
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK, reason="Disenrolled from training")
     public void disenroll(@PathVariable("trainingId") Integer trainingId) {
 
         Integer userId = (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
@@ -201,6 +208,7 @@ public class TrainingController {
     }
 
     @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET, produces = "application/json")
+    @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
     Boolean isEnrolled(@PathVariable("id") Integer trainingid) {
 
@@ -232,6 +240,8 @@ public class TrainingController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK, reason="Training deleted")
+
     public void deleteTraining(@PathVariable("id") Integer id){
         trainingService.deleteTraining(id);
     }

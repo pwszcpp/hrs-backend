@@ -8,6 +8,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,7 @@ public class UserController {
 
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
+    @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
     UserDto getUser() {
         UserDto userDto = userService.convertToDTO(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
@@ -59,6 +62,7 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping( method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
     Page<UserDto> getPage(Pageable pageable) {
         Page<UserDto> users = userService.listAllByPage(pageable)
                 .map(new Converter<User, UserDto>() {
@@ -72,6 +76,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:4200")
+    @ResponseStatus(value = HttpStatus.CREATED, reason="New User created")
     public void addUser(@RequestBody String jsonInString) {
 
         UserDto userDto = null;
@@ -97,12 +102,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK, reason="User deleted")
     public void deleteUser(@PathVariable("id") Integer id) {
         userService.deleteUser(id);
         LOGGER.info("Delted user " + id);
     }
 
     @RequestMapping(value = "/getTrainings", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
     public List<Integer> getTrainings() {
         Set<UserTraining> userTrainings = (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getUserTrainings();
         List<Integer> ids = userTrainings.stream().map(UserTraining::getTraining).map(Training::getId).collect(Collectors.toList());
@@ -110,6 +117,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getID", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+
     public Integer getID() {
         LOGGER.info("USER_ID: " +(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId());
         return (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
