@@ -40,9 +40,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void saveUser(User u) {
-        u.setPassword(bCryptPasswordEncoder.encode(u.getPassword()));
-        userRepo.save(u);
+    public void saveUser(User u) throws Exception {
+        if(userRepo.findByEmail(u.getEmail()) == null
+                && userRepo.findByUsername(u.getUsername()) == null) {
+
+            u.setPassword(bCryptPasswordEncoder.encode(u.getPassword()));
+            userRepo.save(u);
+
+        } else {
+            throw new Exception("User with provided username or email already exists");
+        }
     }
 
     @Override
