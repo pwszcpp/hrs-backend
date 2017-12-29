@@ -11,15 +11,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.LeaveDto;
+import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Leave;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.LeaveService;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -34,6 +39,8 @@ public class LeaveController {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private UserService userService;
 
 //    @Autowired
 //    private LeaveRepo leaveRepo;
@@ -85,6 +92,23 @@ public class LeaveController {
        }
 
         return allLeave;
+    }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(method = RequestMethod.GET, value = "/my")
+    public @ResponseBody
+    List<LeaveDto> getMyLeave(){
+
+        int userId = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+
+        List <LeaveDto> allLeave = leaveService.findAllDTO();
+        List <LeaveDto> myLeave = new ArrayList<>();
+
+        for(LeaveDto leaveDto : allLeave){
+            if(leaveDto.getUser().getId() == userId){
+                myLeave.add(leaveDto);
+            }
+       }
+        return myLeave;
     }
 
 //    @CrossOrigin(origins = "http://localhost:4200")
