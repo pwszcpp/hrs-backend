@@ -57,7 +57,7 @@ public class LeaveController {
         LeaveDto leaveDto = null;
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info("Urlop string " + jsonInString);
-        String[] dividedJson = leaveService.divideJson(jsonInString);
+       // String[] dividedJson = leaveService.divideJson(jsonInString);
 
         Integer userId = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
         //String leaveReader = dividedJson[1];
