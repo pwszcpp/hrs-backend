@@ -59,7 +59,7 @@ public class LeaveController {
         LOGGER.info("Urlop string " + jsonInString);
         String[] dividedJson = leaveService.divideJson(jsonInString);
 
-        Integer userId = Integer.parseInt(dividedJson[0]);
+        Integer userId = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
         String leaveReader = dividedJson[1];
 
         try{
