@@ -112,32 +112,33 @@ public class ContractorController {
         }
 
     }
-
-//    @RequestMapping(method = RequestMethod.GET)
-//    public @ResponseBody
-//    List<ContractorDto> getAll() {
-//        List<ContractorDto> allContractors = contractorService.findAllDTO();
-//        for (ContractorDto contractorDto : allContractors) {
-//            LOGGER.info("Contractor id: " + contractorDto.getContractorId());
-//            Link selfLink = linkTo(ContractorController.class).slash(contractorDto.getContractorId()).withSelfRel();
-//            contractorDto.add(selfLink);
-//        }
-//        return allContractors;
-//    }
-
+    
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping( method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    Page<ContractorDto> getPage(Pageable pageable) {
-        Page<ContractorDto> contractors = contractorService.listAllByPage(pageable)
-                .map(new Converter<Contractor, ContractorDto>() {
-            @Override
-            public ContractorDto convert(Contractor contractor) {
-                return contractorService.convertToDTO(contractor);
-            }
-        });
-        return contractors;
+    @RequestMapping(method = RequestMethod.GET)
+    public @ResponseBody
+    List<ContractorDto> getAll() {
+        List<ContractorDto> allContractors = contractorService.findAllDTO();
+        for (ContractorDto contractorDto : allContractors) {
+            LOGGER.info("Contractor id: " + contractorDto.getContractorId());
+            Link selfLink = linkTo(ContractorController.class).slash(contractorDto.getContractorId()).withSelfRel();
+            contractorDto.add(selfLink);
+        }
+        return allContractors;
     }
+
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping( method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    Page<ContractorDto> getPage(Pageable pageable) {
+//        Page<ContractorDto> contractors = contractorService.listAllByPage(pageable)
+//                .map(new Converter<Contractor, ContractorDto>() {
+//            @Override
+//            public ContractorDto convert(Contractor contractor) {
+//                return contractorService.convertToDTO(contractor);
+//            }
+//        });
+//        return contractors;
+//    }
 
     @RequestMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)

@@ -51,28 +51,28 @@ public class UserController {
         return userDto;
     }
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    public @ResponseBody
-//    List<UserDto> getAll() {
-//        List<UserDto> allUsers = userService.findAllDTO();
-//        //LOGGER.info("działa get");
-//        return allUsers;
-//    }
-
+    @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping( method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    Page<UserDto> getPage(Pageable pageable) {
-        Page<UserDto> users = userService.listAllByPage(pageable)
-                .map(new Converter<User, UserDto>() {
-                    @Override
-                    public UserDto convert(User user) {
-                        return userService.convertToDTO(user);
-                    }
-                });
-        return users;
+    public @ResponseBody
+    List<UserDto> getAll() {
+        List<UserDto> allUsers = userService.findAllDTO();
+        //LOGGER.info("działa get");
+        return allUsers;
     }
+
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping( method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    Page<UserDto> getPage(Pageable pageable) {
+//        Page<UserDto> users = userService.listAllByPage(pageable)
+//                .map(new Converter<User, UserDto>() {
+//                    @Override
+//                    public UserDto convert(User user) {
+//                        return userService.convertToDTO(user);
+//                    }
+//                });
+//        return users;
+//    }
 
     @RequestMapping(method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:4200")

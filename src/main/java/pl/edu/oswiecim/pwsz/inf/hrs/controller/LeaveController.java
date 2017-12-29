@@ -74,30 +74,31 @@ public class LeaveController {
         }
 
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(method = RequestMethod.GET)
+    public @ResponseBody
+    List<LeaveDto> getAll(){
+        List <LeaveDto> allLeave = leaveService.findAllDTO();
+        for(LeaveDto leaveDto : allLeave){
+          Link selfLink = linkTo(LeaveController.class).slash(leaveDto.getLeaveId()).withSelfRel();
+           leaveDto.add(selfLink);
+       }
+
+        return allLeave;
+    }
+
 //    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping(method = RequestMethod.GET)
-//    public @ResponseBody
-//    List<LeaveDto> getAll(){
-//        List <LeaveDto> allLeave = leaveService.findAllDTO();
-//        for(LeaveDto leaveDto : allLeave){
-//          Link selfLink = linkTo(LeaveController.class).slash(leaveDto.getLeaveId()).withSelfRel();
-//           leaveDto.add(selfLink);
-//       }
-//
-//        return allLeave;
+//    @RequestMapping( method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    Page<LeaveDto> getPage(Pageable pageable) {
+//        Page<LeaveDto> leave = leaveService.listAllByPage(pageable).map(new Converter<Leave, LeaveDto>() {
+//            @Override
+//            public LeaveDto convert(Leave leave) {
+//                return leaveService.convertToDTO(leave);
+//            }
+//        });
+//        return leave;
 //    }
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping( method = RequestMethod.GET)
-@ResponseStatus(value = HttpStatus.OK)
-Page<LeaveDto> getPage(Pageable pageable) {
-    Page<LeaveDto> leave = leaveService.listAllByPage(pageable).map(new Converter<Leave, LeaveDto>() {
-        @Override
-        public LeaveDto convert(Leave leave) {
-            return leaveService.convertToDTO(leave);
-        }
-    });
-    return leave;
-}
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")

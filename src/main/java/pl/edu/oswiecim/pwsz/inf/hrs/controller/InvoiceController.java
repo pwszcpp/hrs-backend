@@ -130,34 +130,34 @@ public class InvoiceController {
         }
 
     }
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping(method = RequestMethod.GET)
-//    public @ResponseBody
-//    List<InvoiceDto> getAll() {
-//        List<InvoiceDto> allInvoices = invoiceService.findAllDTO();
-//        for (InvoiceDto invoiceDto : allInvoices) {
-//            LOGGER.info("Invoice id: " + invoiceDto.getInvoiceId());
-//            Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
-//           // Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(invoiceDto.getContractor().getId())).
-//           //         withRel("contractor");
-//            invoiceDto.add(selfLink);
-//           // invoiceDto.add(contractorLink);
-//        }
-//        return allInvoices;
-//    }
-
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping( method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    Page<InvoiceDto> getPage(Pageable pageable) {
-        Page<InvoiceDto> invoices = invoiceService.listAllByPage(pageable).map(new Converter<Invoice, InvoiceDto>() {
-            @Override
-            public InvoiceDto convert(Invoice invoice) {
-                return invoiceService.convertToDTO(invoice);
-            }
-        });
-        return invoices;
+    @RequestMapping(method = RequestMethod.GET)
+    public @ResponseBody
+    List<InvoiceDto> getAll() {
+        List<InvoiceDto> allInvoices = invoiceService.findAllDTO();
+        for (InvoiceDto invoiceDto : allInvoices) {
+            LOGGER.info("Invoice id: " + invoiceDto.getInvoiceId());
+            Link selfLink = linkTo(InvoiceController.class).slash(invoiceDto.getInvoiceId()).withSelfRel();
+           // Link contractorLink = linkTo(methodOn(ContractorController.class).getContractor(invoiceDto.getContractor().getId())).
+           //         withRel("contractor");
+            invoiceDto.add(selfLink);
+           // invoiceDto.add(contractorLink);
+        }
+        return allInvoices;
     }
+
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping( method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    Page<InvoiceDto> getPage(Pageable pageable) {
+//        Page<InvoiceDto> invoices = invoiceService.listAllByPage(pageable).map(new Converter<Invoice, InvoiceDto>() {
+//            @Override
+//            public InvoiceDto convert(Invoice invoice) {
+//                return invoiceService.convertToDTO(invoice);
+//            }
+//        });
+//        return invoices;
+//    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/{id}")

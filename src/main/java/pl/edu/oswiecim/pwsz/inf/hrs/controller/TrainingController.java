@@ -125,36 +125,36 @@ public class TrainingController {
 
     }
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    public @ResponseBody List<TrainingDto> getAll() {
-//        List<TrainingDto> allTrainings = trainingService.findAllDTO();
-//        for(TrainingDto trainingDto : allTrainings){
-//            //LOGGER.info("Training id: " + trainingDto.getTrainingId());
-//            Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
-////            Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
-////            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
-////                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
-//            trainingDto.add(selfLink);
-//            //           trainingDto.add(usersLink);
-////            trainingDto.add(enrolledUsersLink);
-//
-//        }
-//        return allTrainings;
-//    }
-
+    @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping( method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    Page<TrainingDto> getPage(Pageable pageable) {
-        Page<TrainingDto> training = trainingService.listAllByPage(pageable).map(new Converter<Training, TrainingDto>() {
-            @Override
-            public TrainingDto convert(Training training) {
-                return trainingService.convertToDTO(training);
-            }
-        });
-        return training;
+    public @ResponseBody List<TrainingDto> getAll() {
+        List<TrainingDto> allTrainings = trainingService.findAllDTO();
+        for(TrainingDto trainingDto : allTrainings){
+            //LOGGER.info("Training id: " + trainingDto.getTrainingId());
+            Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
+//            Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
+//            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
+//                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
+            trainingDto.add(selfLink);
+            //           trainingDto.add(usersLink);
+//            trainingDto.add(enrolledUsersLink);
+
+        }
+        return allTrainings;
     }
+
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping( method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    Page<TrainingDto> getPage(Pageable pageable) {
+//        Page<TrainingDto> training = trainingService.listAllByPage(pageable).map(new Converter<Training, TrainingDto>() {
+//            @Override
+//            public TrainingDto convert(Training training) {
+//                return trainingService.convertToDTO(training);
+//            }
+//        });
+//        return training;
+//    }
 
     @RequestMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)

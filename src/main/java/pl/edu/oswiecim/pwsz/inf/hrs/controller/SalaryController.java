@@ -80,16 +80,28 @@ public class SalaryController {
             e.printStackTrace();
         }
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(method =  RequestMethod.GET)
+    public @ResponseBody
+    List<SalaryDto> getAll(){
+        List<SalaryDto> allSalary = salaryService.findAllDTO();
+        for(SalaryDto salaryDto : allSalary){
+            Link selfLink = linkTo(SalaryController.class).slash(salaryDto.getSalaryId()).withSelfRel();
+            salaryDto.add(selfLink);
+        }
+        return allSalary;
+    }
 //    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping(method =  RequestMethod.GET)
-//    public @ResponseBody
-//    List<SalaryDto> getAll(){
-//        List<SalaryDto> allSalary = salaryService.findAllDTO();
-//        for(SalaryDto salaryDto : allSalary){
-//            Link selfLink = linkTo(SalaryController.class).slash(salaryDto.getSalaryId()).withSelfRel();
-//            salaryDto.add(selfLink);
-//        }
-//        return allSalary;
+//    @RequestMapping( method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    Page<SalaryDto> getPage(Pageable pageable) {
+//        Page<SalaryDto> salary = salaryService.listAllByPage(pageable).map(new Converter<Salary, SalaryDto>() {
+//            @Override
+//            public SalaryDto convert(Salary salary) {
+//                return salaryService.convertToDTO(salary);
+//            }
+//        });
+//        return salary;
 //    }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -142,17 +154,6 @@ public class SalaryController {
 
         return salaryDto;
     }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping( method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    Page<SalaryDto> getPage(Pageable pageable) {
-        Page<SalaryDto> salary = salaryService.listAllByPage(pageable).map(new Converter<Salary, SalaryDto>() {
-            @Override
-            public SalaryDto convert(Salary salary) {
-                return salaryService.convertToDTO(salary);
-            }
-        });
-        return salary;
-    }
+
 
 }
