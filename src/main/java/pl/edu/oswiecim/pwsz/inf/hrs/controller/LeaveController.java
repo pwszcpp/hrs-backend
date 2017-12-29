@@ -60,10 +60,10 @@ public class LeaveController {
         String[] dividedJson = leaveService.divideJson(jsonInString);
 
         Integer userId = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
-        String leaveReader = dividedJson[1];
+        //String leaveReader = dividedJson[1];
 
         try{
-            leaveDto = mapper.readValue(leaveReader,LeaveDto.class);
+            leaveDto = mapper.readValue(jsonInString,LeaveDto.class);
             LOGGER.info("Urlop dto createDate " + leaveDto.getCreateDate());
             Leave leave = leaveService.convertToEntity(leaveDto);
             leave.setUser(userRepo.findOne(userId));
