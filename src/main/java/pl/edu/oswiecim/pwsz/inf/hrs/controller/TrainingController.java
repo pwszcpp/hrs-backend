@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
+import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.UserTraining;
@@ -172,7 +173,7 @@ public class TrainingController {
 
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK, reason="Enrolled in training")
-        public void enrollTraining(@PathVariable("trainingId") Integer trainingId) throws Exception {
+        public Boolean enrollTraining(@PathVariable("trainingId") Integer trainingId) throws Exception {
 
         User user = userService.findByUsername(SecurityContextHolder.getContext()
                 .getAuthentication().getName());
@@ -187,16 +188,26 @@ public class TrainingController {
 //        trainingService.saveTraining(tr);
 
         Training training = trainingService.findById(trainingId);
+        if((isEnrolled(trainingId) != true) && (training.getNoOfSeats() != 0)) {
+            UserTraining userTraining = new UserTraining();
+            userTraining.setTraining(training);
+            userTraining.setUser(user);
+            userTraining.setAgreed(false);
+            userTraining.setCancelled(false);
+            userTraining.setSignDate(new Date());
+            userTraining.setNote("elo");
+            LOGGER.info("Zapisano");
 
-        UserTraining userTraining = new UserTraining();
-        userTraining.setTraining(training);
-        userTraining.setUser(user);
-        userTraining.setAgreed(false);
-        userTraining.setCancelled(false);
-        userTraining.setSignDate(new Date());
-        userTraining.setNote("elo");
+            training.setNoOfSeats(training.getNoOfSeats()-1);
+            trainingService.saveTraining(training);
 
-        userTrainingService.saveUserTraining(userTraining);
+            userTrainingService.saveUserTraining(userTraining);
+            return true;
+        }else{
+            LOGGER.info("Uzytkownik znajduje sie na liście lub brak miejsc");
+            return false;
+        }
+
 
     }
 
@@ -239,6 +250,19 @@ public class TrainingController {
 ////
 ////        return assign;
     }
+
+    @RequestMapping(value = "/{id}/enrolled",method = RequestMethod.GET, produces = "application/json")
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody
+    Set<UserTraining> enrolledUsers (@PathVariable("id") Integer trainingid) throws Exception {
+
+        Training training = trainingService.findById(trainingid);
+        Set<UserTraining> userTrainings = training.getUserTrainings();
+
+
+        return userTrainings;
+    }
+
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

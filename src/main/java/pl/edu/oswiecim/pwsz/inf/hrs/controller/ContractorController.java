@@ -112,7 +112,7 @@ public class ContractorController {
         }
 
     }
-    
+
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
