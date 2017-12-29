@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 
 import javax.annotation.Generated;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -102,15 +102,15 @@ public class UserDto {
 
 
     @JsonProperty("passChangedDate")
-    private Date passChangedDate= new Date() ;
+    private Date passChangedDate= new Date(System.currentTimeMillis()) ;
 
 
     @JsonProperty("loginLastSuccess")
-    private Date loginLastSuccess= new Date();
+    private Date loginLastSuccess= new Date(System.currentTimeMillis());
 
 
     @JsonProperty("loginLastFailed")
-    private Date loginLastFailed= new Date() ;
+    private Date loginLastFailed= new Date(System.currentTimeMillis()) ;
 
 
     @JsonProperty("loginAttemptsFailed")
