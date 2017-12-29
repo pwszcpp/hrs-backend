@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.annotation.Generated;
-import java.util.Date;
+import java.sql.Date;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -13,7 +13,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.UserTraining;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.TrainingService;
 
 import javax.annotation.Generated;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
