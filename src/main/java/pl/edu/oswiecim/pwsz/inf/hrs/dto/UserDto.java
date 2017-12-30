@@ -27,7 +27,6 @@ import java.util.Set;
         "loginLastFailed",
         "loginAttemptsFailed",
         "employmentStartDate"
-        //       "roles"
 })
 public class UserDto {
     @JsonProperty("id")

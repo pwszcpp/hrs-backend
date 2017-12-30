@@ -3,20 +3,14 @@ package pl.edu.oswiecim.pwsz.inf.hrs.controller;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
-import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.UserTraining;
@@ -27,11 +21,11 @@ import pl.edu.oswiecim.pwsz.inf.hrs.service.UserTrainingService;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
 @RestController
@@ -54,8 +48,6 @@ public class TrainingController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED, reason="New training created")
     public void createTraning(@RequestBody String jsonInString){
-       // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
-         //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
 
         TrainingDto trainingDto;
 
@@ -91,8 +83,6 @@ public class TrainingController {
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK, reason="Training updated")
     public void updateTraning(@PathVariable("id") Integer id, @RequestBody String jsonInString){
-       // String jsonInString = "{\"name\":\"trai\",\"owner\":\"Me\",\"startDate\":\"2017-12-12\"," +
-         //       "\"endDate\":\"2018-02-09\",\"cost\":\"150000\",\"permission\":\"true\",\"location\":\"NY\"}";
 
         TrainingDto trainingDto = null;
 
@@ -131,43 +121,19 @@ public class TrainingController {
     public @ResponseBody List<TrainingDto> getAll() {
         List<TrainingDto> allTrainings = trainingService.findAllDTO();
         for(TrainingDto trainingDto : allTrainings){
-            //LOGGER.info("Training id: " + trainingDto.getTrainingId());
             Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
-//            Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("users");
-//            Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
-//                    .getEnrolledUsers(Integer.parseInt(trainingDto.getTrainingId()))).withRel("enrolledUsers");
             trainingDto.add(selfLink);
-            //           trainingDto.add(usersLink);
-//            trainingDto.add(enrolledUsersLink);
-
         }
         return allTrainings;
     }
-
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping( method = RequestMethod.GET)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    Page<TrainingDto> getPage(Pageable pageable) {
-//        Page<TrainingDto> training = trainingService.listAllByPage(pageable).map(new Converter<Training, TrainingDto>() {
-//            @Override
-//            public TrainingDto convert(Training training) {
-//                return trainingService.convertToDTO(training);
-//            }
-//        });
-//        return training;
-//    }
 
     @RequestMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) throws Exception {
         TrainingDto trainingDto = trainingService.convertToDTO(trainingService.findById(id));
         Link selfLink = linkTo(TrainingController.class).slash(trainingDto.getTrainingId()).withSelfRel();
-//        Link usersLink = linkTo(methodOn(TrainingController.class).getUsers(id)).withRel("users");
-//        Link enrolledUsersLink = linkTo(methodOn(TrainingController.class)
-//                .getEnrolledUsers(id)).withRel("enrolledUsers");
         trainingDto.add(selfLink);
-    //    trainingDto.add(usersLink);
-//        trainingDto.add(enrolledUsersLink);
+
         return trainingDto;
     }
 
@@ -177,15 +143,6 @@ public class TrainingController {
 
         User user = userService.findByUsername(SecurityContextHolder.getContext()
                 .getAuthentication().getName());
-//
-//        LOGGER.info("Training Id: " + trainingId+ "user id" + userId );
-//
-//        Training tr = trainingService.findById(trainingId);
-//
-//        Set<User> enrolledUsers = tr.getUsers();
-//        enrolledUsers.add(userService.findById(userId));
-//        tr.setUsers(enrolledUsers);
-//        trainingService.saveTraining(tr);
 
         Training training = trainingService.findById(trainingId);
         if((isEnrolled(trainingId) != true) && (training.getNoOfSeats() != 0)) {
@@ -208,7 +165,6 @@ public class TrainingController {
             return false;
         }
 
-
     }
 
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.DELETE)
@@ -216,6 +172,10 @@ public class TrainingController {
     public void disenroll(@PathVariable("trainingId") Integer trainingId) throws Exception {
 
         Integer userId = (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
+        UserTraining userTraining = userTrainingService.findUserTraining(userId, trainingId);
+        Training training = userTraining.getTraining();
+        training.setNoOfSeats(training.getNoOfSeats()+1);
+        trainingService.updateTraining(trainingId, training);
         userTrainingService.deleteUserTraining(userId, trainingId);
 
     }
@@ -237,18 +197,6 @@ public class TrainingController {
         }
 
         return false;
-
-//        Training training = trainingService.findById(id);
-////
-//        return training.getUserTrainings();
-////        List<Integer> assign = new ArrayList<>();
-////        Training training = trainingService.findById(id);
-////        Set<UserTraining> userTrainings = training.getUserTrainings();
-////        for(UserTraining userTraining : userTrainings){
-////            assign.add(userTraining.getUser().getId());
-////        }
-////
-////        return assign;
     }
 
     @RequestMapping(value = "/{id}/enrolled",method = RequestMethod.GET, produces = "application/json")
@@ -271,28 +219,4 @@ public class TrainingController {
     public void deleteTraining(@PathVariable("id") Integer id) throws Exception {
         trainingService.deleteTraining(id);
     }
-
-//    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.POST)
-//    public void permitUser(@PathVariable("trainingId") Integer trainingId,
-//                                              @RequestBody Integer userId) {
-//
-////        LOGGER.info("Accepted enrollment - Training Id: " + trainingId+ " user id" + userId );
-////        Training tr = trainingService.findById(trainingId);
-//////        Set<User>  enrolledUsers = tr.getEnrolledUsers();
-////        Set<User>  acceptedUsers = tr.getUsers();
-////        User user = userService.findById(userId);
-//////        enrolledUsers.remove(user);
-////        acceptedUsers.add(user);
-////        trainingService.saveTraining(tr);
-//    }
-//
-//    @RequestMapping(value = "/{trainingId}/permit",method = RequestMethod.GET)
-//    public @ResponseBody
-//    Set<User> getUsers(@PathVariable("trainingId") Integer id) {
-////        LOGGER.info("Training Id: " + id );
-////        return trainingService.findById(id).getUsers();
-//        return null;
-//    }
-
-
 }

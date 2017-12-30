@@ -40,11 +40,6 @@ public class UserTrainingServiceImpl implements UserTrainingService{
         Training training = trainingService.findById(trainingID);
         User user = userService.findById(userID);
 
-//        UserTraining userTraining = new UserTraining();
-//
-//        userTraining.setUser(user);
-//        userTraining.setTraining(training);
-
         UserTrainingPK userTrainingPK = new UserTrainingPK();
         userTrainingPK.setUser(user);
         userTrainingPK.setTraining(training);
@@ -53,20 +48,14 @@ public class UserTrainingServiceImpl implements UserTrainingService{
         em.remove(userTraining);
     }
 
-//    @Transactional
-//    @Override
-//    public void changeEnrollStatus(Integer id, Boolean agreed) {
-//
-//        Training training = trainingService.findById(id);
-//        Set<UserTraining> userTrainings = training.getUserTrainings();
-//
-//        UserTraining existingUT = em.find(UserTraining.class, training);
-//        if(existingUT != null){
-//
-//            existingUT.setAgreed(agreed);
-//
-//            em.persist(existingUT);
-//        }
-//
-//    }
+    @Override
+    public UserTraining findUserTraining(Integer userId, Integer trainingId) throws Exception {
+
+        UserTrainingPK userTrainingPK = new UserTrainingPK();
+        userTrainingPK.setUser(userService.findById(userId));
+        userTrainingPK.setTraining(trainingService.findById(trainingId));
+
+        return em.find(UserTraining.class, userTrainingPK);
+
+    }
 }
