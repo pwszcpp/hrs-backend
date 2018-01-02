@@ -31,4 +31,6 @@ public interface UserService {
     Page<User> listAllByPage(Pageable pageable);
 
     void updateUser(Integer userId, User p);
+
+    List<String> getRoles(User user);
 }

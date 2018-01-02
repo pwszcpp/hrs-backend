@@ -1,6 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.beans.binding.ObjectExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +26,7 @@ import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -49,6 +49,14 @@ public class UserController {
     UserDto getUser() {
         UserDto userDto = userService.convertToDTO(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         return userDto;
+    }
+
+    @RequestMapping(value = "/getRole", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody List<String> getRole(){
+        User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return userService.getRoles(user);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -77,6 +85,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.CREATED, reason="New User created")
+    @PreAuthorize("hasAuthority('System administrator')")
     public void addUser(@RequestBody String jsonInString) {
 
         UserDto userDto = null;
@@ -117,13 +126,13 @@ public class UserController {
         return ids;
     }
 
-    @RequestMapping(value = "/getID", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-
-    public Integer getID() {
-        LOGGER.info("USER_ID: " +(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId());
-        return (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
-    }
+//    @RequestMapping(value = "/getID", method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//
+//    public Integer getID() {
+//        LOGGER.info("USER_ID: " +(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId());
+//        return (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
+//    }
 
 //    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
 //    public UserDto getUserById(@PathVariable("id") Integer id) {

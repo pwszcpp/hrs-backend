@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.RoleRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private RoleRepo roleRepo;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -113,5 +118,21 @@ public class UserServiceImpl implements UserService {
 //        existingUser.setPosition(user.getPosition());
 
         userRepo.save(existingUser);
+    }
+
+    @Override
+    public List<String> getRoles(User user) {
+        Integer rolesBit = user.getRole();
+        Iterable<Role> stringRoles = roleRepo.findAll();
+        List<String> roles = new ArrayList<>();
+        while(rolesBit > 0) {
+            for(Role role : stringRoles){
+                if(role.getBit() == Integer.highestOneBit(rolesBit)){
+                    roles.add(role.getRole());
+                    rolesBit -= Integer.highestOneBit(rolesBit);
+                }
+            }
+        }
+        return roles;
     }
 }

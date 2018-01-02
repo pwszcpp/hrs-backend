@@ -12,10 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.RoleRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("userDetailsService")
@@ -26,6 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleRepo roleRepo;
 
     @Transactional
     @Override
@@ -45,7 +51,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public List<GrantedAuthority> getAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        //authorities.add(new SimpleGrantedAuthority(user.getRole()));
+        Integer roles = user.getRole();
+        Iterable<Role> stringRoles = roleRepo.findAll();
+        while(roles > 0) {
+            for(Role role : stringRoles){
+                if(role.getBit() == Integer.highestOneBit(roles)){
+                    authorities.add(new SimpleGrantedAuthority(role.getRole()));
+                    roles -= Integer.highestOneBit(roles);
+                }
+            }
+        }
         LOGGER.debug("user authorities are " + authorities.toString());
         return authorities;
     }

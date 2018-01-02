@@ -4805,3 +4805,15 @@ org.h2.jdbc.JdbcSQLException: Tabela "Users" nie istnieje
 Table "Users" not found; SQL statement:
 SELECT * FROM Users
 WHERE BITAND(Role, 2) [42102-196]
+2018-01-02 17:52:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Tabela "Role" nie istnieje
+Table "Role" not found; SQL statement:
+select role0_.bit as bit1_7_, role0_.name as name2_7_ from Role role0_ [42102-196]
+2018-01-02 17:53:33 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Tabela "Role" nie istnieje
+Table "Role" not found; SQL statement:
+select role0_.bit as bit1_7_, role0_.name as name2_7_ from Role role0_ [42102-196]
+2018-01-02 17:53:48 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Tabela "Role" nie istnieje
+Table "Role" not found; SQL statement:
+select role0_.bit as bit1_7_, role0_.name as name2_7_ from Role role0_ [42102-196]
