@@ -14,13 +14,14 @@ import java.util.Set;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
         "id",
+        "forename",
+        "surname",
         "username",
         "email",
         "password",
         "role",
         "address",
-        "position",
-        "taxOffice",
+//        "position",
         "passExpire",
         "passChangedDate",
         "loginLastSuccess",
@@ -35,6 +36,12 @@ public class UserDto {
     @JsonProperty("username")
     private String username;
 
+    @JsonProperty("forename")
+    private String forename;
+
+    @JsonProperty("surname")
+    private String surname;
+
     @JsonProperty("email")
     private String email;
 
@@ -42,7 +49,7 @@ public class UserDto {
     private String password;
 
     @JsonProperty("role")
-    private String role;
+    private Integer role;
 
     @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     public Integer getUserId() {
@@ -85,12 +92,12 @@ public class UserDto {
     }
 
     @JsonProperty("role")
-    public String getRole() {
+    public Integer getRole() {
         return role;
     }
 
     @JsonProperty("role")
-    public void setRole(String role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
@@ -123,12 +130,8 @@ public class UserDto {
     private Date employmentStartDate;
 
 
-    @JsonProperty("position")
-    private String position="empty";
-
-
-    @JsonProperty("taxOffice")
-    private String taxOffice;
+//    @JsonProperty("position")
+//    private String position="empty";
 
     @JsonProperty(value="passExpire",access = JsonProperty.Access.READ_ONLY)
     public Date getPassExpire() {
@@ -185,20 +188,29 @@ public class UserDto {
     public void setEmploymentStartDate(Date employmentStartDate) {
         this.employmentStartDate = employmentStartDate;
     }
-    @JsonProperty("position")
-    public String getPosition() {
-        return position;
+//    @JsonProperty("position")
+//    public String getPosition() {
+//        return position;
+//    }
+//    @JsonProperty("position")
+//    public void setPosition(String position) {
+//        this.position = position;
+//    }
+
+    @JsonProperty("forename")
+    public String getForename() {
+        return forename;
     }
-    @JsonProperty("position")
-    public void setPosition(String position) {
-        this.position = position;
+    @JsonProperty("forename")
+    public void setForename(String forename) {
+        this.forename = forename;
     }
-    @JsonProperty("taxOffice")
-    public String getTaxOffice() {
-        return taxOffice;
+    @JsonProperty("surname")
+    public String getSurname() {
+        return surname;
     }
-    @JsonProperty("taxOffice")
-    public void setTaxOffice(String taxOffice) {
-        this.taxOffice = taxOffice;
+    @JsonProperty("surname")
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

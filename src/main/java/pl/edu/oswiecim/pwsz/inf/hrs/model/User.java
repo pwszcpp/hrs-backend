@@ -27,15 +27,10 @@ public class User {
     private String password;
 
     @Column(name = "role")
-    private String role;
+    private Integer role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserTraining> userTrainings = new HashSet<>();
-
-//    public enum Status {
-//        ENABLED,
-//        DISABLED
-//    };
 
     @Column(name = "status")
     //@Enumerated(EnumType.STRING)
@@ -62,11 +57,14 @@ public class User {
     @Column(name = "employment_start_date")
     private Date employmentStartDate;
 
-    @Column(name = "position")
-    private String position;
+//    @Column(name = "position")
+//    private String position;
 
-    @Column(name = "tax_office")
-    private String taxOffice;
+    @Column(name = "forename")
+    private String forename;
+
+    @Column(name = "surname")
+    private String surname;
 
     public String getAddress() {
         return address;
@@ -84,24 +82,16 @@ public class User {
         this.employmentStartDate = employmentStartDate;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getTaxOffice() {
-        return taxOffice;
-    }
-
-    public void setTaxOffice(String taxOffice) {
-        this.taxOffice = taxOffice;
-    }
-
-    public User() {
-    }
+//    public String getPosition() {
+//        return position;
+//    }
+//
+//    public void setPosition(String position) {
+//        this.position = position;
+//    }
+//
+//    public User() {
+//    }
 
     public Integer getId() {
         return id;
@@ -127,11 +117,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
@@ -200,4 +190,19 @@ public class User {
         this.userTrainings = trainings;
     }
 
+    public String getForename() {
+        return forename;
+    }
+
+    public void setForename(String forename) {
+        this.forename = forename;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 }

@@ -103,7 +103,6 @@ public class UserServiceImpl implements UserService {
         existingUser.setPassword(user.getPassword());
         existingUser.setAddress(user.getAddress());
         existingUser.setEmploymentStartDate(user.getEmploymentStartDate());
-        existingUser.setTaxOffice(user.getTaxOffice());
         existingUser.setRole(user.getRole());
         existingUser.setStatus(user.getStatus());
         existingUser.setPassExpire(user.getPassExpire());
@@ -111,7 +110,7 @@ public class UserServiceImpl implements UserService {
         existingUser.setLoginLastSuccess(user.getLoginLastSuccess());
         existingUser.setLoginLastFailed(user.getLoginLastFailed());
         existingUser.setLoginAttemptsFailed(user.getLoginAttemptsFailed());
-        existingUser.setPosition(user.getPosition());
+//        existingUser.setPosition(user.getPosition());
 
         userRepo.save(existingUser);
     }

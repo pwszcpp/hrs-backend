@@ -8,5 +8,4 @@ import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 @Repository("roleRepository")
 public interface RoleRepo extends CrudRepository<Role, Integer>,PagingAndSortingRepository<Role,Integer> {
     Role findByRole(String role);
-
 }

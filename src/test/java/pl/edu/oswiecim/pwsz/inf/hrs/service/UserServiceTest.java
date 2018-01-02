@@ -28,15 +28,14 @@ public class UserServiceTest {
         user.setPassword("user4");
         user.setAddress("dd");
         user.setEmploymentStartDate(new Date(2017,12,6));
-        user.setTaxOffice("OSW");
-        user.setRole("USER");
+        user.setRole(2);
         user.setStatus(true);
         user.setPassExpire(new Date(2017,12,12));
         user.setPassChangedDate(new Date(2017,12,12));
         user.setLoginLastSuccess(new Date(2017,12,12));
         user.setLoginLastFailed(new Date(2017,12,12));
         user.setLoginAttemptsFailed(0);
-        user.setPosition("ddd");
+//        user.setPosition("ddd");
 
         userService.saveUser(user);
         userService.saveUser(user);

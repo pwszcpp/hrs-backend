@@ -89,7 +89,6 @@ public class UserController {
             LOGGER.info(userDto.getUsername() + " " + userDto.getEmail());
 
             User user = userService.convertToEntity(userDto);
-            user.setRole("USER");
             user.setStatus(true);
             userService.saveUser(user);
 
