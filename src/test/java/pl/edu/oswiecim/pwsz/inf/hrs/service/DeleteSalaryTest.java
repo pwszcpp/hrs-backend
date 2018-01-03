@@ -57,9 +57,11 @@ public class DeleteSalaryTest {
         salaryService.saveSalary(salary);
         LOGGER.info("Salary before"+ salary.getBaseSalary()+" "+ " for " + salary.getUser().getUsername());
 
-        userService.deleteUser(user.getId());
-        Assert.assertNotNull(salary);
+//        userService.deleteUser(user.getId());
+//        Assert.assertNotNull(salary);
 
+        salaryService.deleteSalary(salary.getSalaryId());
+        Assert.assertNotNull(user);
     }
 
 }
