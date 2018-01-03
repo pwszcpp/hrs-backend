@@ -39,6 +39,7 @@ public class SalaryServiceTest {
         salary2.setUser(userService.findById(897));
         salary2.setSalarySupplement(120.0);
 
+
         try {
             salaryService.updateSalary(193, salary2, 897);
         }catch
