@@ -152,7 +152,7 @@ public class TrainingController {
             userTraining.setAgreed(false);
             userTraining.setCancelled(false);
             userTraining.setSignDate(new Date());
-            userTraining.setNote("elo");
+//            userTraining.setNote("elo");
             LOGGER.info("Zapisano");
 
             training.setNoOfSeats(training.getNoOfSeats()-1);

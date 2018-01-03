@@ -1,5 +1,7 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,20 +13,27 @@ import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.Position;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.PositionRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.RoleRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private PositionRepo positionRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -100,7 +109,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Integer userId, User user) {
+    public void updateUser(Integer userId, User user, Set<Position> newPositions) {
+
 
         User existingUser = userRepo.findOne(userId);
         existingUser.setUsername(user.getUsername());
@@ -115,7 +125,7 @@ public class UserServiceImpl implements UserService {
         existingUser.setLoginLastSuccess(user.getLoginLastSuccess());
         existingUser.setLoginLastFailed(user.getLoginLastFailed());
         existingUser.setLoginAttemptsFailed(user.getLoginAttemptsFailed());
-//        existingUser.setPosition(user.getPosition());
+        existingUser.setPositions(newPositions);
 
         userRepo.save(existingUser);
     }
@@ -134,5 +144,29 @@ public class UserServiceImpl implements UserService {
             }
         }
         return roles;
+    }
+
+    @Override
+    public String[] divideJson(String jsonInString) {
+        JSONObject jsonObject = new JSONObject(jsonInString);
+        JSONObject jsonUser = new JSONObject();
+        try {
+            Integer positionId = jsonObject.getInt("position_id");
+
+            jsonUser.put("forename", jsonObject.get("forename"));
+            jsonUser.put("surname", jsonObject.get("surname"));
+            jsonUser.put("username", jsonObject.get("username"));
+            jsonUser.put("email", jsonObject.get("email"));
+            jsonUser.put("password", jsonObject.get("password"));
+            jsonUser.put("role", jsonObject.get("role"));
+            jsonUser.put("address", jsonObject.get("address"));
+            jsonUser.put("employmentStartDate", jsonObject.get("employmentStartDate"));
+            String invoiceReader = jsonUser.toString();
+            return new String[]{positionId.toString(), invoiceReader};
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new String[]{""};
     }
 }

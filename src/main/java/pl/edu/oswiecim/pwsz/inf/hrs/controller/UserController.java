@@ -17,10 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.Training;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
-import pl.edu.oswiecim.pwsz.inf.hrs.model.UserTraining;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.*;
+import pl.edu.oswiecim.pwsz.inf.hrs.repository.PositionRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.io.IOException;
@@ -41,6 +39,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PositionRepo positionRepo;
 
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
@@ -92,15 +93,65 @@ public class UserController {
         ObjectMapper mapper = new ObjectMapper();
         StringReader reader = new StringReader(jsonInString);
 
+        String[] dividedJson = userService.divideJson(jsonInString);
+        Integer position_Id  = Integer.parseInt(dividedJson[0]);
+        String userReader = dividedJson[1];
+
         try {
-            userDto = mapper.readValue(reader, UserDto.class);
+            userDto = mapper.readValue(userReader, UserDto.class);
 
             LOGGER.info(userDto.getUsername() + " " + userDto.getEmail());
 
             User user = userService.convertToEntity(userDto);
             user.setStatus(true);
+            Position position = positionRepo.findOne(position_Id);
+            Set<Position> positions = new HashSet<>();
+            positions.add(position);
+            user.setPositions(positions);
+//            LOGGER.info(user.getPositions().get(0).getName());
+//            UserDto usr = userService.convertToDTO(user);
+//            LOGGER.info(usr.getPositions().get(0).getName());
             userService.saveUser(user);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @ResponseStatus(value = HttpStatus.CREATED, reason="New User created")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('System administrator')")
+    public void upUser(@PathVariable("id") Integer id,@RequestBody String jsonInString) {
+
+        UserDto userDto = null;
+        ObjectMapper mapper = new ObjectMapper();
+        StringReader reader = new StringReader(jsonInString);
+
+        String[] dividedJson = userService.divideJson(jsonInString);
+        Integer position_Id  = Integer.parseInt(dividedJson[0]);
+        String userReader = dividedJson[1];
+
+        try {
+            userDto = mapper.readValue(userReader, UserDto.class);
+
+            LOGGER.info(userDto.getUsername() + " " + userDto.getEmail());
+
+            User user = userService.convertToEntity(userDto);
+            user.setStatus(true);
+            Position position = positionRepo.findOne(position_Id);
+            Set<Position> positions = new HashSet<>();
+            positions.add(position);
+            user.setPositions(positions);
+//            LOGGER.info(user.getPositions().get(0).getName());
+//            UserDto usr = userService.convertToDTO(user);
+//            LOGGER.info(usr.getPositions().get(0).getName());
+            userService.updateUser(id,user,positions);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {

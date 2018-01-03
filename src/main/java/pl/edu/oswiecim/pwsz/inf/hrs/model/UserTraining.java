@@ -14,7 +14,7 @@ public class UserTraining implements Serializable{
     private User user;
     private Training training;
 
-    private String note;
+//    private String note;
 
     @Column(name = "date_of_sign")
     private Date SignDate;
@@ -44,13 +44,13 @@ public class UserTraining implements Serializable{
         this.training = training;
     }
 
-    public String getNote() {
-        return note;
-    }
+//    public String getNote() {
+//        return note;
+//    }
 
-    public void setNote(String note) {
-        this.note = note;
-    }
+//    public void setNote(String note) {
+//        this.note = note;
+//    }
 
     @Column(name = "date_of_sign")
     public Date getSignDate() {

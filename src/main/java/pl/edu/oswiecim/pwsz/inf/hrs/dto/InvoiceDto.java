@@ -22,7 +22,7 @@ import java.sql.Date;
         "buyer_address",
         "buyer_NIP",
         "payment_method",
-        "issue_date",
+//        "issue_date",
         "sale_date",
         "payment_date",
         "goods_service",
@@ -30,7 +30,7 @@ import java.sql.Date;
         "net_price",
         "TAX",
         "gross_price",
-        "document_issued"
+
         //"contractor"
 })
 public class InvoiceDto extends ResourceSupport {
@@ -54,8 +54,8 @@ public class InvoiceDto extends ResourceSupport {
     private long buyerNIP;
     @JsonProperty("payment_method")
     private String paymentMethod;
-    @JsonProperty("issue_date")
-    private Date issueDte;
+//    @JsonProperty("issue_date")
+//    private Date issueDte;
     @JsonProperty("sale_date")
     private Date saleDate;
     @JsonProperty("payment_date")
@@ -70,8 +70,8 @@ public class InvoiceDto extends ResourceSupport {
     private int tax;
     @JsonProperty("gross_price")
     private double grossPrice;
-    @JsonProperty("document_issued")
-    private String documentIssued;
+//    @JsonProperty("document_issued")
+//    private String documentIssued;
 
 
 
@@ -159,14 +159,14 @@ public class InvoiceDto extends ResourceSupport {
         this.paymentMethod = paymentMethod;
     }
 
-    @JsonProperty("issue_date")
-    public Date getIssueDte() {
-        return issueDte;
-    }
-    @JsonProperty("issue_date")
-    public void setIssueDte(Date issueDte) {
-        this.issueDte = issueDte;
-    }
+//    @JsonProperty("issue_date")
+//    public Date getIssueDte() {
+//        return issueDte;
+//    }
+//    @JsonProperty("issue_date")
+//    public void setIssueDte(Date issueDte) {
+//        this.issueDte = issueDte;
+//    }
 
     @JsonProperty("sale_date")
     public Date getSaleDate() {
@@ -231,16 +231,16 @@ public class InvoiceDto extends ResourceSupport {
         this.grossPrice = grossPrice;
     }
 
-    @JsonProperty("document_issued")
-    public String getDocumentIssued() {
-        return documentIssued;
-    }
-    @JsonProperty("document_issued")
-    public void setDocumentIssued(String documentIssued) {
-        this.documentIssued = documentIssued;
-    }
-
-
+//    @JsonProperty("document_issued")
+//    public String getDocumentIssued() {
+//        return documentIssued;
+//    }
+//    @JsonProperty("document_issued")
+//    public void setDocumentIssued(String documentIssued) {
+//        this.documentIssued = documentIssued;
+//    }
+//
+//
 
 //    @JsonProperty("contractor")
 //    public Contractor getContractor() {

@@ -3,10 +3,12 @@ package pl.edu.oswiecim.pwsz.inf.hrs.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.Position;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
     User convertToEntity(UserDto userDto) throws ParseException;
@@ -30,7 +32,9 @@ public interface UserService {
 
     Page<User> listAllByPage(Pageable pageable);
 
-    void updateUser(Integer userId, User p);
+    void updateUser(Integer userId, User p, Set<Position> positions);
 
     List<String> getRoles(User user);
+
+    String[] divideJson(String jsonInString);
 }

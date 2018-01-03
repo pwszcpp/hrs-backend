@@ -88,7 +88,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         existingIn.setBuyerNIP(invoice.getBuyerNIP());
 
         existingIn.setPaymentMethod(invoice.getPaymentMethod());
-        existingIn.setIssueDate(invoice.getIssueDate());
+//        existingIn.setIssueDate(invoice.getIssueDate());
         existingIn.setSaleDate(invoice.getSaleDate());
         existingIn.setPaymentDate(invoice.getPaymentDate());
         existingIn.setGoodsService(invoice.getGoodsService());
@@ -96,7 +96,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         existingIn.setNetPrice(invoice.getNetPrice());
         existingIn.setTax(invoice.getTax());
         existingIn.setGrossPrice(invoice.getGrossPrice());
-        existingIn.setDocumentIssued(invoice.getDocumentIssued());
+//        existingIn.setDocumentIssued(invoice.getDocumentIssued());
 
         invoiceRepo.save(existingIn);
 

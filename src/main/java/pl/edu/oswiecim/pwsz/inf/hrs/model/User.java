@@ -57,14 +57,18 @@ public class User {
     @Column(name = "employment_start_date")
     private Date employmentStartDate;
 
-//    @Column(name = "position")
-//    private String position;
 
     @Column(name = "forename")
     private String forename;
 
     @Column(name = "surname")
     private String surname;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "HRS_SCH.User_Position", joinColumns = @JoinColumn(name = "Users_Id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "Position_Id", referencedColumnName = "id"))
+    private Set<Position> positions = new HashSet<>();
+
 
     public String getAddress() {
         return address;
@@ -82,14 +86,8 @@ public class User {
         this.employmentStartDate = employmentStartDate;
     }
 
-//    public String getPosition() {
-//        return position;
-//    }
-//
-//    public void setPosition(String position) {
-//        this.position = position;
-//    }
-//
+
+
 //    public User() {
 //    }
 
@@ -179,6 +177,14 @@ public class User {
 
     public void setLoginAttemptsFailed(Integer loginAttemptsFailed) {
         this.loginAttemptsFailed = loginAttemptsFailed;
+    }
+
+    public Set<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(Set<Position> positions) {
+        this.positions = positions;
     }
 
     @JsonIgnore

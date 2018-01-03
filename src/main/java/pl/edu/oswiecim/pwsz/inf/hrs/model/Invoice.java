@@ -30,8 +30,8 @@ public class Invoice {
     private long buyerNIP;
     @Column(name = "Payment_Method")
     private String paymentMethod;
-    @Column(name = "Issue_Date")
-    private Date issueDate;
+//    @Column(name = "Issue_Date")
+//    private Date issueDate;
     @Column(name = "Sale_Date")
     private Date saleDate;
     @Column(name = "Payment_Date")
@@ -46,8 +46,8 @@ public class Invoice {
     private int tax;
     @Column(name = "Gross_Price")
     private double grossPrice;
-    @Column(name = "Document_Issued")
-    private String documentIssued;
+//    @Column(name = "Document_Issued")
+//    private String documentIssued;
 
     public Integer getId() {
         return id;
@@ -119,13 +119,13 @@ public class Invoice {
         this.paymentMethod = paymentMethod;
     }
 
-    public Date getIssueDate() {
-        return issueDate;
-    }
-
-    public void setIssueDate(Date issueDte) {
-        this.issueDate = issueDate;
-    }
+//    public Date getIssueDate() {
+//        return issueDate;
+//    }
+//
+//    public void setIssueDate(Date issueDte) {
+//        this.issueDate = issueDate;
+//    }
 
     public Date getSaleDate() {
         return saleDate;
@@ -183,14 +183,14 @@ public class Invoice {
         this.grossPrice = grossPrice;
     }
 
-    public String getDocumentIssued() {
-        return documentIssued;
-    }
-
-    public void setDocumentIssued(String documentIssued) {
-        this.documentIssued = documentIssued;
-    }
-
+//    public String getDocumentIssued() {
+//        return documentIssued;
+//    }
+//
+//    public void setDocumentIssued(String documentIssued) {
+//        this.documentIssued = documentIssued;
+//    }
+//
 
 
 

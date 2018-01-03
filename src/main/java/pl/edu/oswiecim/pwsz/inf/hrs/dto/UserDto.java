@@ -1,8 +1,10 @@
 package pl.edu.oswiecim.pwsz.inf.hrs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.Position;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
 
 import javax.annotation.Generated;
@@ -21,7 +23,7 @@ import java.util.Set;
         "password",
         "role",
         "address",
-//        "position",
+        "position",
         "passExpire",
         "passChangedDate",
         "loginLastSuccess",
@@ -50,6 +52,10 @@ public class UserDto {
 
     @JsonProperty("role")
     private Integer role;
+
+    @JsonProperty(value = "positions")
+    @JsonIgnoreProperties({ "users" })
+    private Set<Position> positions = new HashSet<>();
 
     @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     public Integer getUserId() {
@@ -101,6 +107,14 @@ public class UserDto {
         this.role = role;
     }
 
+    @JsonProperty(value = "positions")
+    public Set<Position> getPositions() {
+        return positions;
+    }
+    @JsonProperty(value = "positions")
+    public void setPositions(Set<Position> positions) {
+        this.positions = positions;
+    }
 
     @JsonProperty(value="passExpire",access = JsonProperty.Access.READ_WRITE)
    private Date passExpire = new Date(System.currentTimeMillis()+ (365*24*60*60*1000));
@@ -188,14 +202,7 @@ public class UserDto {
     public void setEmploymentStartDate(Date employmentStartDate) {
         this.employmentStartDate = employmentStartDate;
     }
-//    @JsonProperty("position")
-//    public String getPosition() {
-//        return position;
-//    }
-//    @JsonProperty("position")
-//    public void setPosition(String position) {
-//        this.position = position;
-//    }
+
 
     @JsonProperty("forename")
     public String getForename() {

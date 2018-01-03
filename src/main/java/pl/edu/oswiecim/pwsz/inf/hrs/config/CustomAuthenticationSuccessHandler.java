@@ -47,7 +47,7 @@ public class CustomAuthenticationSuccessHandler  implements AuthenticationSucces
 
       Date date = new Date(System.currentTimeMillis());
       user.setLoginLastSuccess(date);
-      userService.updateUser(user.getId(),user);
+      userService.updateUser(user.getId(),user,user.getPositions());
 
     }
 }
