@@ -90,6 +90,23 @@ public class Salary {
     public void setEmploymentStatus(String employmentStatus) {
         this.employmentStatus = employmentStatus;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Salary salary = (Salary) o;
+
+//        if (id != null ? !id.equals(salary.id) : salary.id != null) return false;
+        if (user != null ? !user.equals(salary.user) : salary.user != null) return false;
+        if (employmentArrangement != null ? !employmentArrangement.equals(salary.employmentArrangement) : salary.employmentArrangement != null)
+            return false;
+        if (baseSalary != null ? !baseSalary.equals(salary.baseSalary) : salary.baseSalary != null) return false;
+        if (seniority != null ? !seniority.equals(salary.seniority) : salary.seniority != null) return false;
+        if (salarySupplement != null ? !salarySupplement.equals(salary.salarySupplement) : salary.salarySupplement != null)
+            return false;
+        return employmentStatus != null ? employmentStatus.equals(salary.employmentStatus) : salary.employmentStatus == null;
+    }
 }
 
 //Id, User_Id, Employment_arrangement, Base_salary, Seniority, Salary_supplement, Employment_status

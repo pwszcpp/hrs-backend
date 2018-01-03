@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.SalaryDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Salary;
+import pl.edu.oswiecim.pwsz.inf.hrs.model.User;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.SalaryRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.UserRepo;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.SalaryService;
@@ -76,17 +77,22 @@ public class SalaryServiceImpl implements SalaryService{
 
     @Override
     @Transactional
-    public void updateSalary(Integer SalaryId, Salary salary, Integer userId) throws ParseException {
+    public void updateSalary(Integer SalaryId, Salary salary, Integer userId) throws Exception {
 
         Salary existingSalary = salaryRepo.findOne(SalaryId);
-        existingSalary.setBaseSalary(salary.getBaseSalary());
-        existingSalary.setEmploymentArrangement(salary.getEmploymentArrangement());
-        existingSalary.setEmploymentStatus(salary.getEmploymentStatus());
-        existingSalary.setSalarySupplement(salary.getSalarySupplement());
-        existingSalary.setSeniority(salary.getSeniority());
-        existingSalary.setUser(userRepo.findOne(userId));
 
-        salaryRepo.save(existingSalary);
+        User user = userRepo.findOne(userId);
+        if(existingSalary != null) {
+            existingSalary.setBaseSalary(salary.getBaseSalary());
+            existingSalary.setEmploymentArrangement(salary.getEmploymentArrangement());
+            existingSalary.setEmploymentStatus(salary.getEmploymentStatus());
+            existingSalary.setSalarySupplement(salary.getSalarySupplement());
+            existingSalary.setSeniority(salary.getSeniority());
+            if(user != null){
+                existingSalary.setUser(user);
+            }else throw new Exception("User with provided id does not exist");
+            salaryRepo.save(existingSalary);
+        }else throw new Exception("Salary with provided id does not exist");
     }
     @Override
     public String[] divideJson(String jsonInString) {
