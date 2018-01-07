@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.repository.PositionRepo;
+import pl.edu.oswiecim.pwsz.inf.hrs.service.RoleService;
 import pl.edu.oswiecim.pwsz.inf.hrs.service.UserService;
 
 import java.io.IOException;
@@ -43,6 +44,9 @@ public class UserController {
     @Autowired
     private PositionRepo positionRepo;
 
+    @Autowired
+    private RoleService roleService;
+
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.OK)
@@ -60,28 +64,20 @@ public class UserController {
         return userService.getRoles(user);
     }
 
+    @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody List<String> getAllRoles(){
+        return roleService.getAllRoles();
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     public @ResponseBody
     List<UserDto> getAll() {
         List<UserDto> allUsers = userService.findAllDTO();
-        //LOGGER.info("działa get");
         return allUsers;
     }
-
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping( method = RequestMethod.GET)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    Page<UserDto> getPage(Pageable pageable) {
-//        Page<UserDto> users = userService.listAllByPage(pageable)
-//                .map(new Converter<User, UserDto>() {
-//                    @Override
-//                    public UserDto convert(User user) {
-//                        return userService.convertToDTO(user);
-//                    }
-//                });
-//        return users;
-//    }
 
     @RequestMapping(method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:4200")
@@ -108,9 +104,6 @@ public class UserController {
             Set<Position> positions = new HashSet<>();
             positions.add(position);
             user.setPositions(positions);
-//            LOGGER.info(user.getPositions().get(0).getName());
-//            UserDto usr = userService.convertToDTO(user);
-//            LOGGER.info(usr.getPositions().get(0).getName());
             userService.saveUser(user);
 
         } catch (IOException e) {
@@ -148,9 +141,6 @@ public class UserController {
             Set<Position> positions = new HashSet<>();
             positions.add(position);
             user.setPositions(positions);
-//            LOGGER.info(user.getPositions().get(0).getName());
-//            UserDto usr = userService.convertToDTO(user);
-//            LOGGER.info(usr.getPositions().get(0).getName());
             userService.updateUser(id,user,positions);
         } catch (IOException e) {
             e.printStackTrace();
@@ -176,20 +166,5 @@ public class UserController {
         List<Integer> ids = userTrainings.stream().map(UserTraining::getTraining).map(Training::getId).collect(Collectors.toList());
         return ids;
     }
-
-//    @RequestMapping(value = "/getID", method = RequestMethod.GET)
-//    @ResponseStatus(value = HttpStatus.OK)
-//
-//    public Integer getID() {
-//        LOGGER.info("USER_ID: " +(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId());
-//        return (userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())).getId();
-//    }
-
-//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//    public UserDto getUserById(@PathVariable("id") Integer id) {
-//        UserDto userDto = userService.convertToDTO(userService.findById(id));
-//        //LOGGER.info("działa");
-//        return userDto;
-//    }
 }
 
