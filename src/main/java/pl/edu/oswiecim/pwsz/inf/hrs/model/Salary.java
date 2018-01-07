@@ -90,6 +90,8 @@ public class Salary {
     public void setEmploymentStatus(String employmentStatus) {
         this.employmentStatus = employmentStatus;
     }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

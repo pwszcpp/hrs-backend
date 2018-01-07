@@ -179,6 +179,7 @@ public class User {
         this.loginAttemptsFailed = loginAttemptsFailed;
     }
 
+    @JsonIgnore
     public Set<Position> getPositions() {
         return positions;
     }
