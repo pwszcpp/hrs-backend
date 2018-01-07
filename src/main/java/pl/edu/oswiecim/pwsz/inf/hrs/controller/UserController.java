@@ -70,7 +70,7 @@ public class UserController {
     @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody List<String> getAllRoles(){
+    public @ResponseBody Iterable<Role> getAllRoles(){
         return roleService.getAllRoles();
     }
 
