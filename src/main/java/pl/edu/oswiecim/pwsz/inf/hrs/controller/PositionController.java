@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.PositionDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Position;
@@ -31,6 +32,7 @@ public class PositionController {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(PositionController.class);
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     public void addPosition(@RequestBody String jsonInString){
@@ -57,6 +59,8 @@ public class PositionController {
         }
 
     }
+
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method =  RequestMethod.GET)
     public @ResponseBody
@@ -69,6 +73,7 @@ public class PositionController {
         return allPositions;
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
     public void upPosition(@PathVariable("id") Integer id, @RequestBody String jsonInString){
@@ -95,6 +100,7 @@ public class PositionController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deletePosition(@PathVariable("id") Integer id){
@@ -102,6 +108,7 @@ public class PositionController {
         LOGGER.info("Deleted position " + id);
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)

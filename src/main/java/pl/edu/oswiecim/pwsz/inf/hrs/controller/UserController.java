@@ -47,6 +47,7 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.OK)
@@ -56,6 +57,7 @@ public class UserController {
         return userDto;
     }
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping(value = "/getRole", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.OK)
@@ -64,6 +66,7 @@ public class UserController {
         return userService.getRoles(user);
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR manager','General manager','System administrator')")
     @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.OK)
@@ -71,6 +74,7 @@ public class UserController {
         return roleService.getAllRoles();
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR manager','General manager','System administrator','CRM manager','Accounting manager','Instructors')")
     @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     public @ResponseBody
@@ -82,7 +86,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.CREATED, reason="New User created")
-    @PreAuthorize("hasAuthority('System administrator')")
+    @PreAuthorize("hasAnyAuthority('HR manager','HR manager','General manager','System administrator')")
     public void addUser(@RequestBody String jsonInString) {
 
         UserDto userDto = null;
@@ -119,7 +123,7 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(value = HttpStatus.CREATED, reason="New User created")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasAuthority('System administrator')")
+    @PreAuthorize("hasAnyAuthority('HR manager','HR manager','General manager','System administrator')")
     public void upUser(@PathVariable("id") Integer id,@RequestBody String jsonInString) {
 
         UserDto userDto = null;
@@ -152,6 +156,7 @@ public class UserController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR manager','General manager','System administrator')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="User deleted")
     public void deleteUser(@PathVariable("id") Integer id) {
@@ -159,6 +164,7 @@ public class UserController {
         LOGGER.info("Delted user " + id);
     }
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping(value = "/getTrainings", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public List<Integer> getTrainings() {

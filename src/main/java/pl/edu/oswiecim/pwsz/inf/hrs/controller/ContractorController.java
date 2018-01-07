@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
@@ -38,6 +39,7 @@ public class ContractorController {
     @Autowired
     ContractorRepo contractorRepo;
 
+    @PreAuthorize("hasAnyAuthority('System administrator', 'CRM manager', 'General manager', 'Accounting manager')")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED, reason="Contractor added")
     public void addContractor(@RequestBody String jsonInString) {
@@ -72,6 +74,7 @@ public class ContractorController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('System administrator', 'CRM manager', 'General manager', 'Accounting manager')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Contractor deleted")
     public void deleteContractor(@PathVariable("id") Integer id) {
@@ -80,6 +83,7 @@ public class ContractorController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('System administrator', 'CRM manager', 'General manager', 'Accounting manager')")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK, reason="Contractor Updated")
     public void updContractor(@PathVariable("id") Integer id, @RequestBody String jsonInString) {
@@ -113,6 +117,8 @@ public class ContractorController {
 
     }
 
+
+    @PreAuthorize("hasAnyAuthority('System administrator', 'CRM manager', 'General manager', 'Accounting manager')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
@@ -126,20 +132,7 @@ public class ContractorController {
         return allContractors;
     }
 
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping( method = RequestMethod.GET)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    Page<ContractorDto> getPage(Pageable pageable) {
-//        Page<ContractorDto> contractors = contractorService.listAllByPage(pageable)
-//                .map(new Converter<Contractor, ContractorDto>() {
-//            @Override
-//            public ContractorDto convert(Contractor contractor) {
-//                return contractorService.convertToDTO(contractor);
-//            }
-//        });
-//        return contractors;
-//    }
-
+    @PreAuthorize("hasAnyAuthority('System administrator', 'CRM manager', 'General manager', 'Accounting manager')")
     @RequestMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody

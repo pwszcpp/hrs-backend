@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.SalaryDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
@@ -47,10 +48,10 @@ public class SalaryController {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(SalaryController.class);
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','Accounting manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED, reason="Salary added")
-
     public void addSalary(@RequestBody String jsonInString){
 
         SalaryDto salaryDto = null;
@@ -80,6 +81,8 @@ public class SalaryController {
             e.printStackTrace();
         }
     }
+
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','Accounting manager','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method =  RequestMethod.GET)
     public @ResponseBody
@@ -91,19 +94,8 @@ public class SalaryController {
         }
         return allSalary;
     }
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping( method = RequestMethod.GET)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    Page<SalaryDto> getPage(Pageable pageable) {
-//        Page<SalaryDto> salary = salaryService.listAllByPage(pageable).map(new Converter<Salary, SalaryDto>() {
-//            @Override
-//            public SalaryDto convert(Salary salary) {
-//                return salaryService.convertToDTO(salary);
-//            }
-//        });
-//        return salary;
-//    }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','Accounting manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK, reason="Salary updated")
@@ -137,6 +129,7 @@ public class SalaryController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','Accounting manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Salary deleted")
@@ -145,6 +138,7 @@ public class SalaryController {
         LOGGER.info("Deleted salary " + id);
     }
 
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','Accounting manager','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)

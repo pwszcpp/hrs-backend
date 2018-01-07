@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
@@ -42,16 +43,14 @@ public class LeaveController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private LeaveRepo leaveRepo;
-
     private static final Logger LOGGER =
             LoggerFactory.getLogger(LeaveController.class);
 
+
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED, reason="Leave created")
-
     public void addLeave(@RequestBody String jsonInString ){
 
         LeaveDto leaveDto = null;
@@ -81,6 +80,8 @@ public class LeaveController {
         }
 
     }
+
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','Accounting manager','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
@@ -93,6 +94,8 @@ public class LeaveController {
 
         return allLeave;
     }
+
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET, value = "/my")
     public @ResponseBody
@@ -111,19 +114,7 @@ public class LeaveController {
         return myLeave;
     }
 
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping( method = RequestMethod.GET)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    Page<LeaveDto> getPage(Pageable pageable) {
-//        Page<LeaveDto> leave = leaveService.listAllByPage(pageable).map(new Converter<Leave, LeaveDto>() {
-//            @Override
-//            public LeaveDto convert(Leave leave) {
-//                return leaveService.convertToDTO(leave);
-//            }
-//        });
-//        return leave;
-//    }
-
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK, reason="Leave updated")
@@ -155,6 +146,8 @@ public class LeaveController {
             e.printStackTrace();
         }
     }
+
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Leave deleted")
@@ -162,6 +155,8 @@ public class LeaveController {
         leaveService.deleteLeave(id);
         LOGGER.info("Delted leave " + id);
     }
+
+    @PreAuthorize("hasAnyAuthority('HR manager','HR expert','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)

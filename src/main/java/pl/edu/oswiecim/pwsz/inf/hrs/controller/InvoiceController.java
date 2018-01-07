@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.ContractorDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.InvoiceDto;
@@ -37,8 +38,6 @@ public class InvoiceController {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(InvoiceController.class);
 
-//    @Autowired
-//    ContractorService contractorService;
 
     @Autowired
     InvoiceService invoiceService;
@@ -48,10 +47,11 @@ public class InvoiceController {
 
     @Autowired
     InvoiceRepo invoiceRepo;
+
+    @PreAuthorize("hasAnyAuthority('System administrator', 'Accounting manager')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED, reason="Invoice created")
-
     public void addInvoice(@RequestBody String jsonInString) {
 
 //        ContractorDto contractorDto = null;
@@ -87,6 +87,8 @@ public class InvoiceController {
         }
 
     }
+
+    @PreAuthorize("hasAnyAuthority('System administrator', 'Accounting manager')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Invoice deleted")
@@ -94,6 +96,8 @@ public class InvoiceController {
         invoiceService.deleteInvoice(id);
         LOGGER.info("Delted invoice " + id);
     }
+
+    @PreAuthorize("hasAnyAuthority('System administrator', 'Accounting manager')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK, reason="Invoice updated")
@@ -130,6 +134,8 @@ public class InvoiceController {
         }
 
     }
+
+    @PreAuthorize("hasAnyAuthority('System administrator', 'Accounting manager', 'General manager', 'CRM manager')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
@@ -146,19 +152,7 @@ public class InvoiceController {
         return allInvoices;
     }
 
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @RequestMapping( method = RequestMethod.GET)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    Page<InvoiceDto> getPage(Pageable pageable) {
-//        Page<InvoiceDto> invoices = invoiceService.listAllByPage(pageable).map(new Converter<Invoice, InvoiceDto>() {
-//            @Override
-//            public InvoiceDto convert(Invoice invoice) {
-//                return invoiceService.convertToDTO(invoice);
-//            }
-//        });
-//        return invoices;
-//    }
-
+    @PreAuthorize("hasAnyAuthority('System administrator', 'Accounting manager', 'General manager', 'CRM manager')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)

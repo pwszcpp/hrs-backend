@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.TrainingDto;
@@ -44,6 +45,7 @@ public class TrainingController {
     @Autowired
     private UserTrainingService userTrainingService;
 
+    @PreAuthorize("hasAnyAuthority('Instructors','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED, reason="New training created")
@@ -79,6 +81,8 @@ public class TrainingController {
 
 
     }
+
+    @PreAuthorize("hasAnyAuthority('Instructors','HR manager','HR manager','General manager','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK, reason="Training updated")
@@ -116,6 +120,7 @@ public class TrainingController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
     public @ResponseBody List<TrainingDto> getAll() {
@@ -127,6 +132,7 @@ public class TrainingController {
         return allTrainings;
     }
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody TrainingDto getTraining(@PathVariable("id") Integer id) throws Exception {
@@ -137,6 +143,7 @@ public class TrainingController {
         return trainingDto;
     }
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK, reason="Enrolled in training")
         public Boolean enrollTraining(@PathVariable("trainingId") Integer trainingId) throws Exception {
@@ -167,6 +174,7 @@ public class TrainingController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping(value="/{trainingId}/enroll",method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Disenrolled from training")
     public void disenroll(@PathVariable("trainingId") Integer trainingId) throws Exception {
@@ -180,6 +188,7 @@ public class TrainingController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('Instructors','HR manager','HR manager','General manager','System administrator')")
     @RequestMapping(value = "/{id}/enroll",method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
@@ -199,6 +208,7 @@ public class TrainingController {
         return false;
     }
 
+    @PreAuthorize("hasAnyAuthority('Employee')")
     @RequestMapping(value = "/{id}/enrolled",method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
@@ -211,7 +221,7 @@ public class TrainingController {
         return userTrainings;
     }
 
-
+    @PreAuthorize("hasAnyAuthority('Instructors','System administrator')")
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK, reason="Training deleted")
