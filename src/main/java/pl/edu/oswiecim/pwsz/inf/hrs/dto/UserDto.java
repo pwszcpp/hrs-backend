@@ -87,7 +87,7 @@ public class UserDto {
         this.email = email;
     }
 
-    @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY, required = false)
     public String getPassword() {
         return password;
     }

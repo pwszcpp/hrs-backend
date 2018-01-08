@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
@@ -110,12 +111,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Integer userId, User user, Set<Position> newPositions) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
         User existingUser = userRepo.findOne(userId);
         existingUser.setUsername(user.getUsername());
         existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(user.getPassword());
+
+        if(user.getPassword()!=null){
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         existingUser.setAddress(user.getAddress());
         existingUser.setEmploymentStartDate(user.getEmploymentStartDate());
         existingUser.setRole(user.getRole());
@@ -152,17 +157,22 @@ public class UserServiceImpl implements UserService {
         JSONObject jsonUser = new JSONObject();
         try {
             Integer positionId = jsonObject.getInt("position_id");
-
-            jsonUser.put("forename", jsonObject.get("forename"));
-            jsonUser.put("surname", jsonObject.get("surname"));
-            jsonUser.put("username", jsonObject.get("username"));
-            jsonUser.put("email", jsonObject.get("email"));
-            jsonUser.put("password", jsonObject.get("password"));
-            jsonUser.put("role", jsonObject.get("role"));
-            jsonUser.put("address", jsonObject.get("address"));
-            jsonUser.put("employmentStartDate", jsonObject.get("employmentStartDate"));
-            String invoiceReader = jsonUser.toString();
-            return new String[]{positionId.toString(), invoiceReader};
+            jsonObject.remove("position_id");
+//            jsonUser = (JSONObject) jsonObject.remove("position_id");
+//            jsonUser.put("forename", jsonObject.get("forename"));
+//            jsonUser.put("surname", jsonObject.get("surname"));
+//            jsonUser.put("username", jsonObject.get("username"));
+//            jsonUser.put("email", jsonObject.get("email"));
+//
+//            if(jsonObject.get("password") != null){
+//                jsonUser.put("password", jsonObject.get("password"));
+//            }
+//
+//            jsonUser.put("role", jsonObject.get("role"));
+//            jsonUser.put("address", jsonObject.get("address"));
+//            jsonUser.put("employmentStartDate", jsonObject.get("employmentStartDate"));
+            String userReader = jsonObject.toString();
+            return new String[]{positionId.toString(), userReader};
 
         } catch (JSONException e) {
             e.printStackTrace();
