@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
@@ -111,18 +110,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Integer userId, User user, Set<Position> newPositions) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
         User existingUser = userRepo.findOne(userId);
         existingUser.setUsername(user.getUsername());
         existingUser.setEmail(user.getEmail());
 
-        if(user.getPassword()!=null){
-            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(user.getPassword()!= null){
+            existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//            existingUser.setPassword(user.getPassword());
         }
         existingUser.setAddress(user.getAddress());
         existingUser.setEmploymentStartDate(user.getEmploymentStartDate());
+        existingUser.setForename(user.getForename());
+        existingUser.setSurname(user.getSurname());
         existingUser.setRole(user.getRole());
         existingUser.setStatus(user.getStatus());
         existingUser.setPassExpire(user.getPassExpire());
@@ -158,7 +159,7 @@ public class UserServiceImpl implements UserService {
         try {
             Integer positionId = jsonObject.getInt("position_id");
             jsonObject.remove("position_id");
-//            jsonUser = (JSONObject) jsonObject.remove("position_id");
+
 //            jsonUser.put("forename", jsonObject.get("forename"));
 //            jsonUser.put("surname", jsonObject.get("surname"));
 //            jsonUser.put("username", jsonObject.get("username"));
@@ -171,6 +172,7 @@ public class UserServiceImpl implements UserService {
 //            jsonUser.put("role", jsonObject.get("role"));
 //            jsonUser.put("address", jsonObject.get("address"));
 //            jsonUser.put("employmentStartDate", jsonObject.get("employmentStartDate"));
+
             String userReader = jsonObject.toString();
             return new String[]{positionId.toString(), userReader};
 
