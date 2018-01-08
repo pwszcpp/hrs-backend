@@ -116,10 +116,10 @@ public class UserServiceImpl implements UserService {
         existingUser.setUsername(user.getUsername());
         existingUser.setEmail(user.getEmail());
 
-        if(user.getPassword()!= null){
-            existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//            existingUser.setPassword(user.getPassword());
-        }
+//        if(user.getPassword()!= null){
+//            existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+////            existingUser.setPassword(user.getPassword());
+//        }
         existingUser.setAddress(user.getAddress());
         existingUser.setEmploymentStartDate(user.getEmploymentStartDate());
         existingUser.setForename(user.getForename());
