@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,8 @@ public class CustomAuthenticationSuccessHandler  implements AuthenticationSucces
     private static final Logger LOGGER =
             LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Override
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -44,10 +47,7 @@ public class CustomAuthenticationSuccessHandler  implements AuthenticationSucces
         User user =  userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         LOGGER.info("USER_ID: " + user.getId());
 
-
       Date date = new Date(System.currentTimeMillis());
       user.setLoginLastSuccess(date);
-      userService.updateUser(user.getId(),user,user.getPositions());
-
     }
 }

@@ -3,12 +3,15 @@ package pl.edu.oswiecim.pwsz.inf.hrs.service.implementation;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.edu.oswiecim.pwsz.inf.hrs.controller.UserController;
 import pl.edu.oswiecim.pwsz.inf.hrs.dto.UserDto;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Contractor;
 import pl.edu.oswiecim.pwsz.inf.hrs.model.Role;
@@ -29,6 +32,9 @@ import java.util.Set;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserRepo userRepo;
@@ -109,17 +115,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Integer userId, User user, Set<Position> newPositions) {
-
+    @Transactional
+    public void updateUser(Integer userId, User user, Set<Position> newPositions) throws Exception {
 
         User existingUser = userRepo.findOne(userId);
+
         existingUser.setUsername(user.getUsername());
         existingUser.setEmail(user.getEmail());
 
-//        if(user.getPassword()!= null){
-//            existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-////            existingUser.setPassword(user.getPassword());
-//        }
+        if(user.getPassword()!= null && user.getPassword() != ""){
+            existingUser.setPassword(user.getPassword());
+            existingUser.setPassword(bCryptPasswordEncoder.encode(existingUser.getPassword()));
+//            existingUser.setPassword(user.getPassword());
+        } else {
+            existingUser.setPassword(existingUser.getPassword());
+        }
         existingUser.setAddress(user.getAddress());
         existingUser.setEmploymentStartDate(user.getEmploymentStartDate());
         existingUser.setForename(user.getForename());
@@ -134,6 +144,8 @@ public class UserServiceImpl implements UserService {
         existingUser.setPositions(newPositions);
 
         userRepo.save(existingUser);
+
+//        saveUser(existingUser);
     }
 
     @Override
