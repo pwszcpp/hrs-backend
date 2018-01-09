@@ -32,7 +32,7 @@ public interface UserService {
 
     Page<User> listAllByPage(Pageable pageable);
 
-    void updateUser(Integer userId, User p, Set<Position> positions);
+    void updateUser(Integer userId, User p, Set<Position> positions) throws Exception;
 
     List<String> getRoles(User user);
 
