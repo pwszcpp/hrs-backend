@@ -22,27 +22,27 @@ public class InvoiceServiceTest {
 
     @Test
     public void DeleteInvoice() throws Exception {
-        Invoice tomek = new Invoice();
-        tomek.setBuyer_name("Ktos");
-        tomek.setBuyerAddress("Gdzies");
-        tomek.setBuyerNIP(1203938);
-        tomek.setGoodsService(12123);
-        tomek.setGrossPrice(231231);
-        tomek.setNetPrice(98273);
-        tomek.setPaymentDate(new Date(2017,12,12));
-        tomek.setPaymentMethod("przelew");
-        tomek.setQuantity(9822);
-        tomek.setSaleDate(new Date(2017, 12, 23));
-        tomek.setSeller_name("Oni");
-        tomek.setSellerAccountNumber(2341);
-        tomek.setSellerAddress("gdzies2");
-        tomek.setSellerNIP(123421);
-        tomek.setTax(23);
+        Invoice invoice = new Invoice();
+        invoice.setBuyer_name("Ktos");
+        invoice.setBuyerAddress("Gdzies");
+        invoice.setBuyerNIP(1203938);
+        invoice.setGoodsService(12123);
+        invoice.setGrossPrice(231231);
+        invoice.setNetPrice(98273);
+        invoice.setPaymentDate(new Date(2017,12,12));
+        invoice.setPaymentMethod("przelew");
+        invoice.setQuantity(9822);
+        invoice.setSaleDate(new Date(2017, 12, 23));
+        invoice.setSeller_name("Oni");
+        invoice.setSellerAccountNumber(2341);
+        invoice.setSellerAddress("gdzies2");
+        invoice.setSellerNIP(123421);
+        invoice.setTax(23);
 
-        invoiceService.saveInvoice(tomek);
-        int tomekId;
-        tomekId = tomek.getId();
-        invoiceService.deleteInvoice(tomekId);
-        Assert.assertNull(invoiceService.findById(tomekId));
+        invoiceService.saveInvoice(invoice);
+        int tmpId;
+        tmpId = invoice.getId();
+        invoiceService.deleteInvoice(tmpId);
+        Assert.assertNull(invoiceService.findById(tmpId));
     }
 }
